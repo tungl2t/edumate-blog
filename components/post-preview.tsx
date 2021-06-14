@@ -10,7 +10,6 @@ const PostPreview = ({ post }: Props) => {
   const { slug, coverImage, title, excerpt } = post;
   const linkPath = `/posts/${slug}`;
   const imagePath = `https://cms.edumate.vn${coverImage.url}`;
-  console.log(imagePath);
   return (
     <div>
       <Link href={linkPath}>
