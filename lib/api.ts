@@ -3,7 +3,7 @@ type Variable = {
 };
 
 async function fetchAPI(query: string, { variables }: Variable = {}) {
-  const res = await fetch(`https://cms.edumate.vn/graphql`, {
+  const res = await fetch(`${process.env.STRAPI_URL}/graphql`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -58,22 +58,21 @@ export async function getAllPostsForHome() {
 export async function getPostBySlug(slug: string) {
   return await fetchAPI(
     `
-  query PostBySlug($where: JSON) {
-    posts(where: $where) {
-      title
-      slug
-      content
-      date
-      ogImage: coverImage{
-        url
-      }
-      coverImage {
-        url
-      }
-      author {
-        name
-        picture {
+    query PostBySlug($where: JSON){
+      posts(where: $where) {
+        title
+        slug
+        excerpt
+        date
+        coverImage {
           url
+        }
+        content
+        author {
+          name
+          picture {
+            url
+          }
         }
       }
     }

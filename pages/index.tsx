@@ -1,17 +1,18 @@
 import Post from '@/types/post';
 import { getAllPostsForHome } from '@/lib/api';
+import PostPreview from '@/components/post-preview';
 
 type Props = {
   allPosts: Post[];
 };
 
 const Index = ({ allPosts }: Props) => {
-  console.log(allPosts);
-  const firstPost = allPosts[0];
   return (
-    <>
-      <h1>{firstPost.title}</h1>
-    </>
+    <div>
+      {allPosts.map((post) => (
+        <PostPreview post={post} key={post.slug} />
+      ))}
+    </div>
   );
 };
 
