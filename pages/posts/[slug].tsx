@@ -1,16 +1,25 @@
-import { NextPage } from "next";
-interface Props {
-    post?: any;
-}
+import PostType from '@/types/post';
+import { getPostBySlug } from '@/lib/api';
 
-const Post: NextPage<Props> = ({post}) => (
-    <div>{post}</div>
-)
+type Props = {
+  post: PostType;
+};
 
-Post.getInitialProps = async ({req}) => {
-    return {
-        post: 'post 1'
-    };
-}
+const Post = ({ post }: Props) => {
+  return <div>{post.title}</div>;
+};
 
 export default Post;
+
+type Params = {
+  params: {
+    slug: string;
+  };
+};
+
+export const getServerSideProps = async ({ params }: Params) => {
+  const post = await getPostBySlug(params.slug);
+  return {
+    props: { post },
+  };
+};

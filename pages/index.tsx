@@ -1,11 +1,25 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.sass'
+import Post from '@/types/post';
+import { getAllPostsForHome } from '@/lib/api';
 
-export default function Home() {
+type Props = {
+  allPosts: Post[];
+};
+
+const Index = ({ allPosts }: Props) => {
+  console.log(allPosts);
+  const firstPost = allPosts[0];
   return (
     <>
-      <h1>Hello word!</h1>
+      <h1>{firstPost.title}</h1>
     </>
-  )
-}
+  );
+};
+
+export default Index;
+
+export const getServerSideProps = async () => {
+  const allPosts = (await getAllPostsForHome()) || [];
+  return {
+    props: { allPosts },
+  };
+};
