@@ -8,7 +8,6 @@ type Props = {
 
 const PostPreview = ({ post }: Props) => {
   const { slug, coverImage, title, excerpt } = post;
-  const imagePath = `https://cms.edumate.vn${coverImage.url}`;
   return (
     <NextLink href="/posts/[slug]" as={`/posts/${slug}`}>
       <Flex
@@ -19,7 +18,12 @@ const PostPreview = ({ post }: Props) => {
         mt="15px"
         width={{ base: '90%', lg: '1000px' }}
       >
-        <Image src={imagePath} maxW={{ base: '100%', md: '400px' }} objectFit="cover" alt={title} />
+        <Image
+          src={coverImage.url}
+          maxW={{ base: '100%', md: '400px' }}
+          objectFit="cover"
+          alt={title}
+        />
         <Box margin="auto">
           <Heading
             as="h3"

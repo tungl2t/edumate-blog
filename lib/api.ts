@@ -3,7 +3,7 @@ type Variable = {
 };
 
 async function fetchAPI(query: string, { variables }: Variable = {}) {
-  const res = await fetch(`${process.env.STRAPI_URL}/graphql`, {
+  const res = await fetch(`${process.env.CMS_URL}/graphql`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
