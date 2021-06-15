@@ -1,6 +1,6 @@
-import { ChakraProvider, ColorModeScript } from '@chakra-ui/react';
-import '../styles/globals.sass';
 import type { AppProps } from 'next/app';
+import { ChakraProvider } from '@chakra-ui/react';
+import '../styles/globals.sass';
 import theme from '../theme';
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -10,4 +10,5 @@ function MyApp({ Component, pageProps }: AppProps) {
     </ChakraProvider>
   );
 }
+
 export default MyApp;
