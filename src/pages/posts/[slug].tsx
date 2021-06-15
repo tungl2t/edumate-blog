@@ -1,9 +1,9 @@
 import { Box, Heading } from '@chakra-ui/react';
-import PostType from '@/types/post';
 import { getPostBySlug } from '@/lib/api';
 import markdownToHtml from '@/lib/markdownToHtml';
-import postStyles from './Post.module.sass';
+import PostType from '@/types/post';
 import Meta from '@/components/meta';
+import postStyles from './Post.module.sass';
 
 type Props = {
   postUrl: string;

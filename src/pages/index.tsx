@@ -1,11 +1,10 @@
 import { Flex } from '@chakra-ui/react';
-import Post from '@/types/post';
-import PostType from '@/types/post';
 import { getPostsForHome } from '@/lib/api';
 import PostPreview from '@/components/post-preview';
+import PostType from '@/types/post';
 
 type Props = {
-  posts: Post[];
+  posts: PostType[];
 };
 
 const Index = ({ posts }: Props) => {
