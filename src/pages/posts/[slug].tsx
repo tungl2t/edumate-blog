@@ -4,6 +4,7 @@ import markdownToHtml from '@/lib/markdownToHtml';
 import PostType from '@/types/post';
 import Meta from '@/components/meta';
 import postStyles from './Post.module.sass';
+import Layout from '@/components/layout';
 
 type Props = {
   postUrl: string;
@@ -12,7 +13,7 @@ type Props = {
 
 const Post = ({ post, postUrl }: Props) => {
   return (
-    <div>
+    <Layout>
       <Meta
         title={post.title}
         description={post.excerpt}
@@ -42,7 +43,7 @@ const Post = ({ post, postUrl }: Props) => {
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
       </Box>
-    </div>
+    </Layout>
   );
 };
 
@@ -57,13 +58,13 @@ type Params = {
 export const getServerSideProps = async ({ params }: Params) => {
   const data = await getPostBySlug(params.slug);
   const post = data.posts[0];
-  const content = await markdownToHtml(post.content);
+  const content = await markdownToHtml(post?.content ?? '');
   return {
     props: {
       postUrl: `${process.env.BLOG_URL}/${params.slug}`,
       post: {
         ...post,
-        coverImage: { url: `${process.env.CMS_URL}${post.coverImage.url}` },
+        coverImage: { url: `${process.env.CMS_URL}${post?.coverImage.url ?? ''}` },
         content,
       },
     },

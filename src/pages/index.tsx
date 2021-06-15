@@ -2,6 +2,8 @@ import { Flex } from '@chakra-ui/react';
 import { getPostsForHome } from '@/lib/api';
 import PostPreview from '@/components/post-preview';
 import PostType from '@/types/post';
+import Meta from '@/components/meta';
+import Layout from '@/components/layout';
 
 type Props = {
   posts: PostType[];
@@ -9,11 +11,19 @@ type Props = {
 
 const Index = ({ posts }: Props) => {
   return (
-    <Flex flexDirection="column" alignItems="center" justifyContent="center" margin="auto">
-      {posts.map((post) => (
-        <PostPreview post={post} key={post.slug} />
-      ))}
-    </Flex>
+    <Layout>
+      <Meta
+        title="Chào mừng đến với Giáo dục Phần Lan"
+        description="edumate - Đối tác tin cậy nhất của bạn"
+        url="https://news.edumate.vn"
+        imageUrl="/edumate.png"
+      />
+      <Flex flexDirection="column" alignItems="center" justifyContent="center" margin="auto">
+        {posts.map((post) => (
+          <PostPreview post={post} key={post.slug} />
+        ))}
+      </Flex>
+    </Layout>
   );
 };
 
@@ -27,7 +37,7 @@ export const getServerSideProps = async () => {
         return {
           ...post,
           coverImage: {
-            url: `${process.env.CMS_URL}${post.coverImage.url}`,
+            url: `${process.env.CMS_URL}${post?.coverImage?.url ?? ''}`,
           },
         };
       }),
