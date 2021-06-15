@@ -1,6 +1,7 @@
 import Post from '@/types/post';
-import { getAllPostsForHome } from '@/lib/api';
+import { getPostsForHome } from '@/lib/api';
 import PostPreview from '@/components/post-preview';
+import { Box, Flex } from '@chakra-ui/react';
 
 type Props = {
   allPosts: Post[];
@@ -8,18 +9,24 @@ type Props = {
 
 const Index = ({ allPosts }: Props) => {
   return (
-    <div>
+    <Flex
+      flexDirection="row"
+      flexWrap="wrap"
+      alignItems="center"
+      justifyContent="center"
+      margin="auto"
+    >
       {allPosts.map((post) => (
         <PostPreview post={post} key={post.slug} />
       ))}
-    </div>
+    </Flex>
   );
 };
 
 export default Index;
 
 export const getServerSideProps = async () => {
-  const allPosts = (await getAllPostsForHome()) || [];
+  const allPosts = (await getPostsForHome()) || [];
   return {
     props: { allPosts },
   };

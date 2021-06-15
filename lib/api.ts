@@ -23,11 +23,11 @@ async function fetchAPI(query: string, { variables }: Variable = {}) {
   return json.data;
 }
 
-export async function getAllPostsForHome() {
+export async function getPostsForHome() {
   const data = await fetchAPI(
     `
-    query Posts($where: JSON){
-      posts(sort: "date:desc", limit: 10, where: $where) {
+    query Posts($where: JSON, $limit: Int, $start: Int){
+      posts(sort: "date:desc", limit: $limit, start: $start, where: $where) {
         title
         slug
         excerpt
@@ -46,6 +46,8 @@ export async function getAllPostsForHome() {
   `,
     {
       variables: {
+        limit: 10,
+        start: 0,
         where: {
           status: 'published',
         },
