@@ -2,7 +2,7 @@ import { Box, Heading } from '@chakra-ui/react';
 import { getPostBySlug } from '@/lib/api';
 import markdownToHtml from '@/lib/markdownToHtml';
 import PostType from '@/types/post';
-import Meta from '@/components/meta';
+import MyMeta from '@/components/my-meta';
 import postStyles from './Post.module.sass';
 import Layout from '@/components/layout';
 
@@ -14,7 +14,7 @@ type Props = {
 const Post = ({ post, postUrl }: Props) => {
   return (
     <Layout>
-      <Meta
+      <MyMeta
         title={post.title}
         description={post.excerpt}
         url={postUrl}

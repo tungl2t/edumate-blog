@@ -7,7 +7,11 @@ type Props = {
 const Layout = ({ children }: Props) => {
   return (
     <>
-      <Header />
+      <Header
+        changeSearchString={(event) => {
+          console.log(event);
+        }}
+      />
       <main>{children}</main>
     </>
   );

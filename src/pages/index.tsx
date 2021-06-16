@@ -2,7 +2,7 @@ import { Flex } from '@chakra-ui/react';
 import { getPostsForHome } from '@/lib/api';
 import PostPreview from '@/components/post-preview';
 import PostType from '@/types/post';
-import Meta from '@/components/meta';
+import MyMeta from '@/components/my-meta';
 import Layout from '@/components/layout';
 
 type Props = {
@@ -12,7 +12,7 @@ type Props = {
 const Index = ({ posts }: Props) => {
   return (
     <Layout>
-      <Meta
+      <MyMeta
         title="Chào mừng đến với Giáo dục Phần Lan"
         description="edumate - Đối tác tin cậy nhất của bạn"
         url="https://news.edumate.vn"

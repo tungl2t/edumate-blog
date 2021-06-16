@@ -6,7 +6,7 @@ type Props = {
   imageUrl: string;
   url: string;
 };
-const Meta = ({ title, description, imageUrl, url }: Props) => {
+const MyMeta = ({ title, description, imageUrl, url }: Props) => {
   const titleContent = `edumate | ${title}`;
   return (
     <Head>
@@ -25,4 +25,4 @@ const Meta = ({ title, description, imageUrl, url }: Props) => {
   );
 };
 
-export default Meta;
+export default MyMeta;

@@ -1,11 +1,31 @@
-import { Box, Flex, Image } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  Image,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  InputRightElement,
+} from '@chakra-ui/react';
 import NextLink from 'next/link';
+import { CloseIcon, SearchIcon } from '@chakra-ui/icons';
+import { ChangeEvent, useState } from 'react';
 
-const Header = () => {
+type Props = {
+  changeSearchString: (value: string) => void;
+};
+
+const Header = ({ changeSearchString }: Props) => {
+  const [searchString, setSearchString] = useState('');
+
+  const handleChange = (event: ChangeEvent) => {
+    setSearchString(event.target.value);
+    changeSearchString(searchString);
+  };
   return (
     <Box
       height="60px"
-      background="gray.800"
+      background="white"
       position="fixed"
       top="0"
       left="0"
@@ -27,6 +47,16 @@ const Header = () => {
             <Image src="/edumate-logo.png" height="20px" alt="edumate" />
           </a>
         </NextLink>
+        <InputGroup ml="1em">
+          <InputLeftElement pointerEvents="none" children={<SearchIcon color="gray.300" />} />
+          <InputRightElement pointerEvents="none" children={<CloseIcon color="gray.300" />} />
+          <Input
+            type="text"
+            placeholder="Search posts"
+            value={searchString}
+            onChange={handleChange}
+          />
+        </InputGroup>
       </Flex>
     </Box>
   );
