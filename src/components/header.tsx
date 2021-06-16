@@ -17,9 +17,16 @@ type Props = {
 
 const Header = ({ changeSearchString }: Props) => {
   const [searchString, setSearchString] = useState('');
+  const [focusVariable, setFocusVariable] = useState(false);
 
   const handleChange = (event: ChangeEvent) => {
-    setSearchString(event.target.value);
+    setSearchString((event.target as any).value);
+    changeSearchString(searchString);
+  };
+
+  const resetSearchString = () => {
+    setSearchString('');
+    console.log(searchString);
     changeSearchString(searchString);
   };
   return (
@@ -36,7 +43,7 @@ const Header = ({ changeSearchString }: Props) => {
       <Flex
         direction="row"
         w="1000px"
-        maxW="95%"
+        maxW="90%"
         h="100%"
         m="auto"
         align="center"
@@ -44,12 +51,27 @@ const Header = ({ changeSearchString }: Props) => {
       >
         <NextLink href="/">
           <a>
-            <Image src="/edumate-logo.png" height="20px" alt="edumate" />
+            <Image src="/edumate-logo.png" maxH="20px" alt="edumate" />
           </a>
         </NextLink>
-        <InputGroup ml="1em">
+        <InputGroup
+          ml="1em"
+          flexBasis="80%"
+          onFocus={() => {
+            setFocusVariable(true);
+          }}
+          onBlur={() => {
+            setFocusVariable(false);
+          }}
+        >
           <InputLeftElement pointerEvents="none" children={<SearchIcon color="gray.300" />} />
-          <InputRightElement pointerEvents="none" children={<CloseIcon color="gray.300" />} />
+          {searchString && (
+            <InputRightElement
+              cursor="pointer"
+              children={<CloseIcon _hover={{ color: 'gray.800' }} color="gray.300" />}
+              onClick={resetSearchString}
+            />
+          )}
           <Input
             type="text"
             placeholder="Search posts"
