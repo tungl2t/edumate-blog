@@ -9,7 +9,8 @@ import {
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import { CloseIcon, SearchIcon } from '@chakra-ui/icons';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useContext, useState } from 'react';
+import { SearchContext } from '../context/searchContext';
 
 type Props = {
   changeSearchString: (value: string) => void;
@@ -18,16 +19,18 @@ type Props = {
 const Header = ({ changeSearchString }: Props) => {
   const [searchString, setSearchString] = useState('');
   const [focusVariable, setFocusVariable] = useState(false);
+  let { searchValue } = useContext(SearchContext);
 
   const handleChange = (event: ChangeEvent) => {
-    setSearchString((event.target as any).value);
+    const searchString = (event.target as any).value;
+    setSearchString(searchString);
     changeSearchString(searchString);
+    searchValue = searchString;
   };
 
   const resetSearchString = () => {
     setSearchString('');
-    console.log(searchString);
-    changeSearchString(searchString);
+    changeSearchString('');
   };
   return (
     <Box
@@ -42,8 +45,7 @@ const Header = ({ changeSearchString }: Props) => {
     >
       <Flex
         direction="row"
-        w="1000px"
-        maxW="90%"
+        w={{ base: '90%', lg: '1000px' }}
         h="100%"
         m="auto"
         align="center"

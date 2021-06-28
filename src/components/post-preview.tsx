@@ -36,7 +36,7 @@ const PostPreview = ({ post }: Props) => {
             as="h3"
             size="md"
             mb="5px"
-            mt={{ base: '2em', sm: '0' }}
+            mt={{ base: '2em', sm: '1em' }}
             color="blue.800"
             style={{
               display: '-webkit-box',

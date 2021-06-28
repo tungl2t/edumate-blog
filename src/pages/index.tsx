@@ -4,12 +4,18 @@ import PostPreview from '@/components/post-preview';
 import PostType from '@/types/post';
 import MyMeta from '@/components/my-meta';
 import Layout from '@/components/layout';
+import { useContext, useEffect } from 'react';
+import { SearchContext } from '../context/searchContext';
 
 type Props = {
   posts: PostType[];
 };
 
 const Index = ({ posts }: Props) => {
+  const { searchValue } = useContext(SearchContext);
+  useEffect(() => {
+    console.log(searchValue);
+  }, [searchValue]);
   return (
     <Layout>
       <MyMeta
