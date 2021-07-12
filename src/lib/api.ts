@@ -27,7 +27,7 @@ export async function getPostsForHome() {
   const data = await fetchAPI(
     `
     query Posts($where: JSON, $limit: Int, $start: Int){
-      posts(sort: "date:desc", limit: $limit, start: $start, where: $where) {
+      posts(sort: "date:desc", limit: $limit, start: $start, where: $where, locale: "all") {
         title
         slug
         excerpt
@@ -61,7 +61,7 @@ export async function getPostBySlug(slug: string) {
   return await fetchAPI(
     `
     query PostBySlug($where: JSON){
-      posts(where: $where) {
+      posts(where: $where, locale: "all") {
         title
         slug
         excerpt

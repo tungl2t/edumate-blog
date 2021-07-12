@@ -1,38 +1,15 @@
-import {
-  Box,
-  Flex,
-  Image,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  InputRightElement,
-} from '@chakra-ui/react';
+import { Box, Flex, Image } from '@chakra-ui/react';
 import NextLink from 'next/link';
-import { CloseIcon, SearchIcon } from '@chakra-ui/icons';
-import { ChangeEvent, useState } from 'react';
+import { NAV_LINKS } from '@/lib/constants';
+import { useRouter } from 'next/router';
 
-type Props = {
-  changeSearchString: (value: string) => void;
-};
-
-const Header = ({ changeSearchString }: Props) => {
-  const [searchString, setSearchString] = useState('');
-  const [focusVariable, setFocusVariable] = useState(false);
-
-  const handleChange = (event: ChangeEvent) => {
-    setSearchString((event.target as any).value);
-    changeSearchString(searchString);
-  };
-
-  const resetSearchString = () => {
-    setSearchString('');
-    console.log(searchString);
-    changeSearchString(searchString);
-  };
+const Header = () => {
+  const { asPath } = useRouter();
+  console.log(asPath);
   return (
     <Box
       height="60px"
-      background="white"
+      background="black"
       position="fixed"
       top="0"
       left="0"
@@ -54,31 +31,24 @@ const Header = ({ changeSearchString }: Props) => {
             <Image src="/edumate-logo.png" maxH="20px" alt="edumate" />
           </a>
         </NextLink>
-        <InputGroup
-          ml="1em"
-          flexBasis="80%"
-          onFocus={() => {
-            setFocusVariable(true);
-          }}
-          onBlur={() => {
-            setFocusVariable(false);
-          }}
-        >
-          <InputLeftElement pointerEvents="none" children={<SearchIcon color="gray.300" />} />
-          {searchString && (
-            <InputRightElement
-              cursor="pointer"
-              children={<CloseIcon _hover={{ color: 'gray.800' }} color="gray.300" />}
-              onClick={resetSearchString}
-            />
-          )}
-          <Input
-            type="text"
-            placeholder="Search posts"
-            value={searchString}
-            onChange={handleChange}
-          />
-        </InputGroup>
+        <Flex direction="row" ml="1em" color="white">
+          {NAV_LINKS.map((item) => (
+            <NextLink href={item.link} key={item.link}>
+              <Box
+                cursor="pointer"
+                mx="0.5em"
+                fontSize="1.15em"
+                color={asPath.indexOf(item.link) === 0 ? ' #e1782f' : ''}
+                _hover={{
+                  transition: 'all .25s ease-in-out',
+                  color: ' #e1782f',
+                }}
+              >
+                {item.label}
+              </Box>
+            </NextLink>
+          ))}
+        </Flex>
       </Flex>
     </Box>
   );
