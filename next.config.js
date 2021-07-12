@@ -3,7 +3,7 @@ module.exports = {
     domains: ['cms.edumate.vn'],
   },
   i18n: {
-    locales: ['en-US', 'vi'],
-    defaultLocale: ['en-US'],
+    locales: ['en', 'vi'],
+    defaultLocale: 'en',
   },
 };

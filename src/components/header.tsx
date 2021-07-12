@@ -2,10 +2,14 @@ import { Box, Flex, Image } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import { NAV_LINKS } from '@/lib/constants';
 import { useRouter } from 'next/router';
+import { useTranslations } from 'next-intl';
+import { GetStaticPropsContext } from 'next';
 
 const Header = () => {
-  const { asPath } = useRouter();
-  console.log(asPath);
+  const { asPath, locale, locales, route } = useRouter();
+  const t = useTranslations('Navigation');
+  console.log(t);
+  console.log(route);
   return (
     <Box
       height="60px"
@@ -44,7 +48,7 @@ const Header = () => {
                   color: ' #e1782f',
                 }}
               >
-                {item.label}
+                {t(item.translation)}
               </Box>
             </NextLink>
           ))}
@@ -55,3 +59,13 @@ const Header = () => {
 };
 
 export default Header;
+
+// export function getStaticProps({ locale }: GetStaticPropsContext) {
+//   return {
+//     props: {
+//       messages: {
+//         ...require(`../messages/navigation/${locale}.json`),
+//       },
+//     },
+//   };
+// }
