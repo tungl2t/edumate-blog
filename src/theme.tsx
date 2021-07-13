@@ -14,6 +14,10 @@ const theme = extendTheme({
     black: '#16161D',
   },
   breakpoints,
+  fonts: {
+    body: 'Gilroy-Light, sans-serif',
+    heading: 'Gilroy-Light, sans-serif',
+  },
 });
 
 export default theme;

@@ -1,10 +1,11 @@
 import { Box, Heading } from '@chakra-ui/react';
+
+import MyMeta from '@/components/my-meta';
+import Layout from '@/components/layout';
 import { getPostBySlug } from '@/lib/api';
 import markdownToHtml from '@/lib/markdownToHtml';
 import PostType from '@/types/post';
-import MyMeta from '@/components/my-meta';
 import postStyles from './Post.module.sass';
-import Layout from '@/components/layout';
 
 type Props = {
   postUrl: string;
@@ -23,7 +24,7 @@ const Post = ({ post, postUrl }: Props) => {
       <Box
         maxW="1000px"
         w="95%"
-        m="auto"
+        m="4.5em auto"
         p={{ base: '1em', md: '5em' }}
         border="1px solid"
         borderColor="gray.200"

@@ -1,9 +1,10 @@
 import type { AppContext, AppProps } from 'next/app';
+import NextApp from 'next/app';
+import { NextIntlProvider } from 'next-intl';
 import { ChakraProvider } from '@chakra-ui/react';
+
 import '../styles/globals.sass';
 import theme from '../theme';
-import { NextIntlProvider } from 'next-intl';
-import NextApp from 'next/app';
 
 interface MyProps extends AppProps {
   messages: any;

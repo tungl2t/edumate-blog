@@ -89,12 +89,13 @@ export async function getPostBySlug(slug: string) {
   );
 }
 
-export async function getServices(locale: string) {
+export async function getServices(locale: string | undefined) {
   const data = await fetchAPI(
     `
     query Services($where: JSON, $locale: String){
       services(where: $where, locale: $locale) {
         title
+        slug
         content
         coverImage {
           url

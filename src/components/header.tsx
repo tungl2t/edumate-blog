@@ -1,13 +1,14 @@
-import { Box, Flex, Image } from '@chakra-ui/react';
 import NextLink from 'next/link';
-import { NAV_LINKS } from '@/lib/constants';
 import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
+import { Box, Flex, Image } from '@chakra-ui/react';
+
+import { NAV_LINKS } from '@/lib/constants';
 
 const Header = () => {
   const { asPath, locale, locales } = useRouter();
   const otherLocale = locales?.find((cur) => cur !== locale);
-
+  const localeIcon = locale === 'vi' ? '/flags/us.svg' : '/flags/vi.svg';
   const t = useTranslations('Navigation');
   return (
     <Box
@@ -34,7 +35,7 @@ const Header = () => {
             <Image src="/edumate-logo.png" maxH="20px" alt="edumate" />
           </a>
         </NextLink>
-        <Flex direction="row" ml="1em" color="white">
+        <Flex direction="row" color="white" justifyContent="center" alignItems="center">
           {NAV_LINKS.map((item) => (
             <NextLink href={item.link} key={item.link}>
               <Box
@@ -52,7 +53,10 @@ const Header = () => {
             </NextLink>
           ))}
           <NextLink href={asPath} locale={otherLocale}>
-            <a>{otherLocale}</a>
+            <a>
+              {' '}
+              <Image src={localeIcon} ml="1em" w="35px" h="35px" alt="language" />
+            </a>
           </NextLink>
         </Flex>
       </Flex>

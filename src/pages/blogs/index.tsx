@@ -1,8 +1,9 @@
-import PostPreview from '@/components/post-preview';
 import { Flex } from '@chakra-ui/react';
+
+import Layout from '@/components/layout';
+import PostPreview from './components/post-preview';
 import { getPosts } from '@/lib/api';
 import PostType from '@/types/post';
-import Layout from '@/components/layout';
 
 type Props = {
   posts: PostType[];
