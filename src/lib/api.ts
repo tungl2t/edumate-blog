@@ -23,7 +23,7 @@ async function fetchAPI(query: string, { variables }: Variable = {}) {
   return json.data;
 }
 
-export async function getPostsForHome() {
+export async function getPosts() {
   const data = await fetchAPI(
     `
     query Posts($where: JSON, $limit: Int, $start: Int){
@@ -46,7 +46,6 @@ export async function getPostsForHome() {
   `,
     {
       variables: {
-        limit: 10,
         start: 0,
         where: {
           status: 'published',
@@ -88,4 +87,29 @@ export async function getPostBySlug(slug: string) {
       },
     },
   );
+}
+
+export async function getServices(locale: string) {
+  const data = await fetchAPI(
+    `
+    query Services($where: JSON, $locale: String){
+      services(where: $where, locale: $locale) {
+        title
+        content
+        coverImage {
+          url
+        }
+      }
+    }
+  `,
+    {
+      variables: {
+        where: {
+          status: 'published',
+        },
+        locale,
+      },
+    },
+  );
+  return data?.services;
 }

@@ -1,6 +1,6 @@
 import PostPreview from '@/components/post-preview';
 import { Flex } from '@chakra-ui/react';
-import { getPostsForHome } from '@/lib/api';
+import { getPosts } from '@/lib/api';
 import PostType from '@/types/post';
 import Layout from '@/components/layout';
 
@@ -23,7 +23,7 @@ const Index = ({ posts }: Props) => {
 export default Index;
 
 export const getServerSideProps = async () => {
-  const posts = (await getPostsForHome()) || [];
+  const posts = (await getPosts()) || [];
   return {
     props: {
       posts: posts.map((post: PostType) => {

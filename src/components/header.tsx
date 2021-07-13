@@ -3,10 +3,11 @@ import NextLink from 'next/link';
 import { NAV_LINKS } from '@/lib/constants';
 import { useRouter } from 'next/router';
 import { useTranslations } from 'next-intl';
-import { GetStaticPropsContext } from 'next';
 
 const Header = () => {
-  const { asPath, locale, locales, route } = useRouter();
+  const { asPath, locale, locales } = useRouter();
+  const otherLocale = locales?.find((cur) => cur !== locale);
+
   const t = useTranslations('Navigation');
   return (
     <Box
@@ -39,18 +40,20 @@ const Header = () => {
               <Box
                 cursor="pointer"
                 mx="0.5em"
-                fontSize="1.15em"
+                fontSize="1.125em"
                 color={asPath.indexOf(item.link) === 0 ? ' #e1782f' : ''}
                 _hover={{
                   transition: 'all .25s ease-in-out',
                   color: ' #e1782f',
                 }}
               >
-                {/*{t(item.translation)}*/}
                 {t(item.translation)}
               </Box>
             </NextLink>
           ))}
+          <NextLink href={asPath} locale={otherLocale}>
+            <a>{otherLocale}</a>
+          </NextLink>
         </Flex>
       </Flex>
     </Box>
@@ -58,13 +61,3 @@ const Header = () => {
 };
 
 export default Header;
-
-// export function getStaticProps({ locale }: GetStaticPropsContext) {
-//   return {
-//     props: {
-//       messages: {
-//         ...require(`../messages/navigation/${locale}.json`),
-//       },
-//     },
-//   };
-// }
