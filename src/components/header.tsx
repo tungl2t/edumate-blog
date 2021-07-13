@@ -8,8 +8,6 @@ import { GetStaticPropsContext } from 'next';
 const Header = () => {
   const { asPath, locale, locales, route } = useRouter();
   const t = useTranslations('Navigation');
-  console.log(t);
-  console.log(route);
   return (
     <Box
       height="60px"
@@ -48,6 +46,7 @@ const Header = () => {
                   color: ' #e1782f',
                 }}
               >
+                {/*{t(item.translation)}*/}
                 {t(item.translation)}
               </Box>
             </NextLink>
