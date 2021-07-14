@@ -11,7 +11,7 @@ type Props = {
 const PostPreview = ({ post }: Props) => {
   const { slug, coverImage, title, excerpt } = post;
   return (
-    <NextLink href="/blogs/[slug]" as={`/blog/${slug}`}>
+    <NextLink href="/blog/[slug]" as={`/blog/${slug}`}>
       <Flex
         direction={{ base: 'column', md: 'row' }}
         _hover={{

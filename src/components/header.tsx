@@ -7,9 +7,9 @@ import { NAV_LINKS } from '@/lib/constants';
 
 const Header = () => {
   const { asPath, locale, locales } = useRouter();
+  const t = useTranslations('Navigation');
   const otherLocale = locales?.find((cur) => cur !== locale);
   const localeIcon = locale === 'vi' ? '/flags/us.svg' : '/flags/vi.svg';
-  const t = useTranslations('Navigation');
   return (
     <Box
       height="60px"
@@ -35,7 +35,13 @@ const Header = () => {
             <Image src="/edumate-logo.png" maxH="20px" alt="edumate" />
           </a>
         </NextLink>
-        <Flex direction="row" color="white" justifyContent="center" alignItems="center">
+        <Flex
+          direction="row"
+          color="white"
+          justifyContent="center"
+          alignItems="center"
+          display={{ md: 'flex', base: 'none' }}
+        >
           {NAV_LINKS.map((item) => (
             <NextLink href={item.link} key={item.link}>
               <Box

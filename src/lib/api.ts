@@ -114,3 +114,28 @@ export async function getServices(locale: string | undefined) {
   );
   return data?.services;
 }
+
+export async function getHomeContent(locale: string | undefined) {
+  const data = await fetchAPI(
+    `
+    query Homes($where: JSON, $locale: String){
+      homes(where: $where, locale: $locale) {
+        title
+        content
+        coverImage {
+          url
+        }
+      }
+    }
+  `,
+    {
+      variables: {
+        where: {
+          status: 'published',
+        },
+        locale,
+      },
+    },
+  );
+  return data?.homes;
+}

@@ -20,6 +20,9 @@ const theme = extendTheme({
       p: {
         margin: '0.5em 0',
       },
+      ul: {
+        paddingLeft: '1em',
+      },
     },
   },
   colors: {
