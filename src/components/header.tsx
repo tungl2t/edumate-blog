@@ -41,7 +41,6 @@ const Header = () => {
               <Box
                 cursor="pointer"
                 mx="0.5em"
-                fontSize="1.125em"
                 color={asPath.indexOf(item.link) === 0 ? ' #e1782f' : ''}
                 _hover={{
                   transition: 'all .25s ease-in-out',

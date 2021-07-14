@@ -1,13 +1,15 @@
 import MyMeta from '@/components/my-meta';
 import Layout from '@/components/layout';
+import { useTranslations } from 'next-intl';
 
 const Index = () => {
+  const t = useTranslations('Home');
   return (
     <Layout>
       <MyMeta
-        title="Chào mừng đến với Giáo dục Phần Lan"
-        description="edumate - Đối tác tin cậy nhất của bạn"
-        url="https://news.edumate.vn"
+        title={t('title')}
+        description={t('desc')}
+        url="https://edumate.vn"
         imageUrl="/edumate.png"
       />
     </Layout>

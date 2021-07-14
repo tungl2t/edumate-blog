@@ -24,7 +24,10 @@ MyApp.getInitialProps = async function getInitialProps(context: AppContext) {
   const { locale } = context.router;
   return {
     ...(await NextApp.getInitialProps(context)),
-    messages: require(`../messages/navigation/${locale}.json`),
+    messages: {
+      ...require(`../messages/navigation/${locale}.json`),
+      ...require(`../messages/shared/${locale}.json`),
+    },
   };
 };
 

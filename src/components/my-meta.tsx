@@ -1,8 +1,8 @@
 import Head from 'next/head';
 
 type Props = {
-  title: string;
-  description: string;
+  title: string | any;
+  description: string | any;
   imageUrl: string;
   url: string;
 };

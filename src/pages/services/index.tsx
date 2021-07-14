@@ -1,19 +1,27 @@
-import { AppContext } from 'next/app';
+import { useTranslations } from 'next-intl';
 import { Flex } from '@chakra-ui/react';
 
-import Layout from '@/components/layout';
-import ServicePreview from './components/service-preview';
-import { getServices } from '@/lib/api';
 import ServiceType from '@/types/service';
+import { getServices } from '@/lib/api';
+import markdownToHtml from '@/lib/markdownToHtml';
+import Layout from '@/components/layout';
+import MyMeta from '@/components/my-meta';
+import ServicePreview from './components/service-preview';
 
 type Props = {
   services: ServiceType[];
 };
 
 const Index = ({ services }: Props) => {
-  console.log(services);
+  const t = useTranslations('Service');
   return (
     <Layout>
+      <MyMeta
+        title={t('title')}
+        description={t('desc')}
+        url="https://edumate.vn/services"
+        imageUrl="/edumate.png"
+      />
       <Flex flexDirection="column" alignItems="center" justifyContent="center" margin="auto">
         {services.map((service) => (
           <ServicePreview service={service} key={service.slug} />
@@ -29,14 +37,18 @@ export const getServerSideProps = async ({ locale }: { locale: string }) => {
   const services = (await getServices(locale)) || [];
   return {
     props: {
-      services: services.map((service: ServiceType) => {
-        return {
-          ...service,
-          coverImage: {
-            url: `${process.env.CMS_URL}${service?.coverImage?.url ?? ''}`,
-          },
-        };
-      }),
+      services: await Promise.all(
+        services.map(async (service: ServiceType) => {
+          const content = await markdownToHtml(service.content);
+          return {
+            ...service,
+            content,
+            coverImage: {
+              url: `${process.env.CMS_URL}${service?.coverImage?.url ?? ''}`,
+            },
+          };
+        }),
+      ),
     },
   };
 };

@@ -1,17 +1,26 @@
+import { useTranslations } from 'next-intl';
 import { Flex } from '@chakra-ui/react';
 
-import Layout from '@/components/layout';
-import PostPreview from './components/post-preview';
 import { getPosts } from '@/lib/api';
 import PostType from '@/types/post';
+import Layout from '@/components/layout';
+import MyMeta from '@/components/my-meta';
+import PostPreview from './components/post-preview';
 
 type Props = {
   posts: PostType[];
 };
 
 const Index = ({ posts }: Props) => {
+  const t = useTranslations('Blog');
   return (
     <Layout>
+      <MyMeta
+        title={t('title')}
+        description={t('desc')}
+        url="https://edumate.vn/blog"
+        imageUrl="/edumate.png"
+      />
       <Flex flexDirection="column" alignItems="center" justifyContent="center" margin="auto">
         {posts.map((post) => (
           <PostPreview post={post} key={post.slug} />

@@ -1,5 +1,6 @@
 import NextLink from 'next/link';
 import { Box, Flex, Heading, Image, Text } from '@chakra-ui/react';
+
 import PostType from '@/types/post';
 import DateFormatter from '@/components/date-formatter';
 
@@ -10,7 +11,7 @@ type Props = {
 const PostPreview = ({ post }: Props) => {
   const { slug, coverImage, title, excerpt } = post;
   return (
-    <NextLink href="/blogs/[slug]" as={`/blogs/${slug}`}>
+    <NextLink href="/blogs/[slug]" as={`/blog/${slug}`}>
       <Flex
         direction={{ base: 'column', md: 'row' }}
         _hover={{
@@ -24,9 +25,12 @@ const PostPreview = ({ post }: Props) => {
       >
         <Image
           src={coverImage.url}
-          maxW={{ base: '100%', md: '400px' }}
+          maxW={{ base: '100%', md: '40%' }}
           objectFit="cover"
           alt={title}
+          style={{
+            aspectRatio: '4/3',
+          }}
         />
         <Box position="relative" display="flex" flexDirection="column" justifyContent="center">
           <Text fontSize="12px" color="gray.500" padding="0 15px" position="absolute" top="0.5em">
@@ -36,7 +40,7 @@ const PostPreview = ({ post }: Props) => {
             as="h3"
             size="md"
             mb="5px"
-            mt={{ base: '2em', sm: '0' }}
+            mt={{ base: '2em', '2md': '0' }}
             color="blue.800"
             style={{
               display: '-webkit-box',
