@@ -24,22 +24,17 @@ const Post = ({ post, postUrl }: Props) => {
         maxW="1216px"
         w="95%"
         m="4.5em auto"
-        p={{ base: '1em', md: '3em 5em' }}
+        p={{ base: '1em', sm: '3em' }}
         border="1px solid"
         borderColor="gray.200"
       >
-        <Heading
-          fontSize={{ base: '1.25em', sm: '1.5em', md: '1.75em' }}
-          color="blue.800"
-          mb="1em"
-          textAlign="center"
-        >
+        <Heading fontSize="1.75em" color="blue.800" mb="1em" textAlign="center">
           {post?.title}
         </Heading>
         <Box
           className="content"
           textAlign={{ base: 'start', sm: 'justify' }}
-          fontSize={{ base: '1em', md: '1.125em' }}
+          fontSize={{ base: '1em', sm: '1.125em' }}
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
       </Box>

@@ -29,13 +29,14 @@ const theme = extendTheme({
             width: '100%',
             aspectRatio: '16/9',
             objectFit: 'contain',
+            margin: '10px 0',
           },
         },
         center: {
           fontStyle: 'italic',
         },
         h1: {
-          fontSize: '2em',
+          fontSize: '1.75em',
           fontWeight: 600,
           margin: '1em 0',
         },
@@ -52,8 +53,8 @@ const theme = extendTheme({
   },
   breakpoints,
   fonts: {
-    body: 'Gilroy-Light, sans-serif',
-    heading: 'Gilroy-Medium, sans-serif',
+    body: 'Gilroy-Regular, sans-serif',
+    heading: 'Gilroy-Regular, sans-serif',
   },
 });
 
