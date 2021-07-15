@@ -35,21 +35,12 @@ export async function getPosts() {
         coverImage {
           url
         }
-        author {
-          name
-          picture {
-            url
-          }
-        }
       }
     }
   `,
     {
       variables: {
         start: 0,
-        where: {
-          status: 'published',
-        },
       },
     },
   );
@@ -82,7 +73,6 @@ export async function getPostBySlug(slug: string) {
       variables: {
         where: {
           slug,
-          status: 'published',
         },
       },
     },
@@ -105,9 +95,6 @@ export async function getServices(locale: string | undefined) {
   `,
     {
       variables: {
-        where: {
-          status: 'published',
-        },
         locale,
       },
     },
@@ -130,12 +117,59 @@ export async function getHomeContent(locale: string | undefined) {
   `,
     {
       variables: {
-        where: {
-          status: 'published',
-        },
         locale,
       },
     },
   );
   return data?.homes;
+}
+
+export async function getCourses(locale: string | undefined) {
+  const data = await fetchAPI(
+    `
+    query Courses($where: JSON, $locale: String){
+      courses(sort: "id:asc", where: $where, locale: $locale) {
+        title
+        url
+        slug
+        detail
+        excerpt
+        coverImage {
+          url
+        }
+      }
+    }
+  `,
+    {
+      variables: {
+        locale,
+      },
+    },
+  );
+  return data?.courses;
+}
+
+export async function getCourseByURL(url: string, locale: string | undefined) {
+  return await fetchAPI(
+    `
+    query CourseByURL($where: JSON,  $locale: String){
+      courses(where: $where, locale: $locale) {
+        title
+        excerpt,
+        content,
+        coverImage {
+          url
+        }
+      }
+    }
+  `,
+    {
+      variables: {
+        locale,
+        where: {
+          url,
+        },
+      },
+    },
+  );
 }

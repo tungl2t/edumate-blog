@@ -2,23 +2,23 @@ import { Box, Heading } from '@chakra-ui/react';
 
 import MyMeta from '@/components/my-meta';
 import Layout from '@/components/layout';
-import { getPostBySlug } from '@/lib/api';
+import { getCourseByURL } from '@/lib/api';
 import markdownToHtml from '@/lib/markdownToHtml';
-import PostType from '@/types/post.type';
+import CourseType from '@/types/course.type';
 
 type Props = {
-  postUrl: string;
-  post: PostType;
+  courseUrl: string;
+  course: CourseType;
 };
 
-const Post = ({ post, postUrl }: Props) => {
+const Post = ({ course, courseUrl }: Props) => {
   return (
     <Layout>
       <MyMeta
-        title={post.title}
-        description={post.excerpt}
-        url={postUrl}
-        imageUrl={post.coverImage.url}
+        title={course.title}
+        description={course.excerpt}
+        url={courseUrl}
+        imageUrl={course.coverImage.url}
       />
       <Box
         maxW="1216px"
@@ -34,13 +34,13 @@ const Post = ({ post, postUrl }: Props) => {
           mb="1em"
           textAlign="center"
         >
-          {post?.title}
+          {course?.title}
         </Heading>
         <Box
           className="content"
           textAlign={{ base: 'start', sm: 'justify' }}
           fontSize={{ base: '1em', md: '1.125em' }}
-          dangerouslySetInnerHTML={{ __html: post.content }}
+          dangerouslySetInnerHTML={{ __html: course.content }}
         />
       </Box>
     </Layout>
@@ -50,21 +50,22 @@ const Post = ({ post, postUrl }: Props) => {
 export default Post;
 
 type Params = {
+  locale: string;
   params: {
     slug: string;
   };
 };
 
-export const getServerSideProps = async ({ params }: Params) => {
-  const data = await getPostBySlug(params.slug);
-  const post = data.posts[0];
-  const content = await markdownToHtml(post?.content ?? '');
+export const getServerSideProps = async ({ params, locale }: Params) => {
+  const data = await getCourseByURL(params.slug, locale);
+  const course = data.courses[0];
+  const content = await markdownToHtml(course?.content ?? '');
   return {
     props: {
-      postUrl: `${process.env.BLOG_URL}/${params.slug}`,
-      post: {
-        ...post,
-        coverImage: { url: `${process.env.CMS_URL}${post?.coverImage.url ?? ''}` },
+      courseUrl: `${process.env.BLOG_URL}/${params.slug}`,
+      course: {
+        ...course,
+        coverImage: { url: `${process.env.CMS_URL}${course?.coverImage.url ?? ''}` },
         content,
       },
     },

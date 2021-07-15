@@ -11,5 +11,9 @@
   "Service": {
     "title": "Dịch vụ",
     "desc": "edumate cung cấp đa dạng các giải pháp tư vấn và đào tạo liên quan tới Giáo dục Phần Lan."
+  },
+  "Courses": {
+    "title": "Khóa học",
+    "desc": "Nâng cấp các kỹ năng làm việc chuyên nghiệp của giáo viên và người làm giáo dục với các khóa học của chúng tôi."
   }
 }

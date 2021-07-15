@@ -11,5 +11,9 @@
   "Service": {
     "title": "Services",
     "desc": "edumate offers a wide range of consulting and training solutions related to Finnish Education."
+  },
+  "Courses": {
+    "title": "Courses",
+    "desc": "Upgrade the professional skills of teachers and educators with our courses."
   }
 }

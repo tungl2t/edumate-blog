@@ -14,7 +14,6 @@ const theme = extendTheme({
   styles: {
     global: {
       a: {
-        textDecoration: 'underline',
         color: 'blue.500',
       },
       p: {
@@ -23,6 +22,29 @@ const theme = extendTheme({
       ul: {
         paddingLeft: '1em',
       },
+      '.content': {
+        p: {
+          margin: '1em 0',
+          img: {
+            width: '100%',
+            aspectRatio: '16/9',
+            objectFit: 'contain',
+          },
+        },
+        center: {
+          fontStyle: 'italic',
+        },
+        h1: {
+          fontSize: '2em',
+          fontWeight: 600,
+          margin: '1em 0',
+        },
+        h2: {
+          fontSize: '1.5em',
+          fontWeight: 600,
+          margin: '1em 0',
+        },
+      },
     },
   },
   colors: {
@@ -30,7 +52,7 @@ const theme = extendTheme({
   },
   breakpoints,
   fonts: {
-    body: 'Gilroy-Regular, sans-serif',
+    body: 'Gilroy-Light, sans-serif',
     heading: 'Gilroy-Medium, sans-serif',
   },
 });

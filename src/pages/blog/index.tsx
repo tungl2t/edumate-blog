@@ -2,7 +2,7 @@ import { useTranslations } from 'next-intl';
 import { Flex } from '@chakra-ui/react';
 
 import { getPosts } from '@/lib/api';
-import PostType from '@/types/post';
+import PostType from '@/types/post.type';
 import Layout from '@/components/layout';
 import MyMeta from '@/components/my-meta';
 import PostPreview from './components/post-preview';

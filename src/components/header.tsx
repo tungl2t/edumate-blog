@@ -23,8 +23,8 @@ const Header = () => {
     >
       <Flex
         direction="row"
-        w="1000px"
-        maxW="90%"
+        w="1216px"
+        maxW="95%"
         h="100%"
         m="auto"
         align="center"
@@ -57,7 +57,7 @@ const Header = () => {
               </Box>
             </NextLink>
           ))}
-          <NextLink href={asPath} locale={otherLocale}>
+          <NextLink href={asPath} locale={otherLocale} scroll={false}>
             <a>
               {' '}
               <Image src={localeIcon} ml="1em" w="35px" h="35px" alt="language" />

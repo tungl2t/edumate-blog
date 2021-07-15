@@ -1,34 +1,38 @@
 import { Box, Flex, Heading, Image } from '@chakra-ui/react';
 import { ReactNode } from 'react';
-import HomeType from '@/types/home';
+import HomeType from '@/types/home.type';
 
 type Props = {
   home: HomeType;
+  index: number;
   children?: ReactNode;
 };
 
-const HomePreview = ({ home, children }: Props) => {
+const HomePreview = ({ home, index, children }: Props) => {
   return (
     <Flex
-      direction={{ base: 'column', md: 'row' }}
-      _hover={{
-        boxShadow: '0 2px 4px -1px #0003, 0 4px 5px 0 #00000024, 0 1px 10px 0 #0000001f',
-      }}
-      mt="1em"
+      direction={{ base: 'column', md: index % 2 === 0 ? 'row' : 'row-reverse' }}
+      my={{ base: '1em', md: '1.5em' }}
+      width={{ base: '95%', xl: '1216px' }}
       border="1px solid"
-      borderColor="gray.200"
-      width={{ base: '90%', lg: '1000px' }}
+      borderColor="gray.100"
     >
       <Image
         src={home.coverImage.url}
-        maxW={{ base: '100%', md: '40%' }}
+        maxW={{ base: '100%', md: '45%' }}
         objectFit="cover"
         alt={home.title}
         style={{
-          aspectRatio: '4/3',
+          aspectRatio: '3/4',
         }}
       />
-      <Box position="relative" display="flex" flexDirection="column" justifyContent="center">
+      <Box
+        position="relative"
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        m={{ base: 'unset', md: 'auto' }}
+      >
         <Heading
           as="h3"
           size="md"

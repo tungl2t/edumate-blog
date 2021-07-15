@@ -1,7 +1,7 @@
 import NextLink from 'next/link';
 import { Box, Flex, Heading, Image, Text } from '@chakra-ui/react';
 
-import PostType from '@/types/post';
+import PostType from '@/types/post.type';
 import DateFormatter from '@/components/date-formatter';
 
 type Props = {
@@ -21,7 +21,7 @@ const PostPreview = ({ post }: Props) => {
         border="1px solid"
         borderColor="gray.200"
         mt="15px"
-        width={{ base: '90%', lg: '1000px' }}
+        width={{ base: '95%', xl: '1216px' }}
       >
         <Image
           src={coverImage.url}
@@ -37,7 +37,6 @@ const PostPreview = ({ post }: Props) => {
             <DateFormatter dateString={post.date} />
           </Text>
           <Heading
-            as="h3"
             size="md"
             mb="5px"
             mt={{ base: '2em', '2md': '0' }}
@@ -56,8 +55,8 @@ const PostPreview = ({ post }: Props) => {
             {title}
           </Heading>
           <Text
-            fontSize="14px"
-            color="gray.500"
+            fontSize="16px"
+            color="gray.600"
             display="inline-block"
             mb="15px"
             padding="0 15px"

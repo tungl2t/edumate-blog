@@ -7,13 +7,12 @@ import Layout from '@/components/layout';
 import HomePreview from './_components/home-preview';
 import { getHomeContent } from '@/lib/api';
 import markdownToHtml from '@/lib/markdownToHtml';
-import HomeType from '@/types/home';
+import HomeType from '@/types/home.type';
 
 type Props = {
   homes: HomeType[];
 };
 const Index = ({ homes }: Props) => {
-  console.log(homes);
   const t = useTranslations('Home');
   return (
     <Layout>
@@ -58,8 +57,8 @@ const Index = ({ homes }: Props) => {
         </Flex>
       </Box>
       <Flex flexDirection="column" alignItems="center" justifyContent="center" margin="auto">
-        {homes.map((home) => (
-          <HomePreview home={home} key={home.title} />
+        {homes.map((home, index: number) => (
+          <HomePreview home={home} key={index} index={index} />
         ))}
       </Flex>
     </Layout>

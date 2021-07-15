@@ -1,7 +1,7 @@
 import { useTranslations } from 'next-intl';
 import { Flex } from '@chakra-ui/react';
 
-import ServiceType from '@/types/service';
+import ServiceType from '@/types/service.type';
 import { getServices } from '@/lib/api';
 import markdownToHtml from '@/lib/markdownToHtml';
 import Layout from '@/components/layout';
