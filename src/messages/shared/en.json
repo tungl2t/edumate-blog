@@ -14,6 +14,8 @@
   },
   "Courses": {
     "title": "Courses",
-    "desc": "Upgrade the professional skills of teachers and educators with our courses."
+    "desc": "Upgrade the professional skills of teachers and educators with our courses.",
+    "testimonials": "Testimonials",
+    "trainers": "Trainers"
   }
 }

@@ -1,19 +1,23 @@
 import { Box, Heading } from '@chakra-ui/react';
 
-import MyMeta from '@/components/my-meta';
-import Layout from '@/components/layout';
 import { getCourseByURL } from '@/lib/api';
 import markdownToHtml from '@/lib/markdownToHtml';
 import CourseType from '@/types/course.type';
 import TestimonialType from '@/types/testimonial.type';
 import TrainerType from '@/types/trainer.type';
+import MyMeta from '@/components/my-meta';
+import Layout from '@/components/layout';
+import { Testimonial } from './components/testimonial';
+import { useTranslations } from 'next-intl';
+import { Trainer } from './components/trainer';
 
 type Props = {
   courseUrl: string;
   course: CourseType;
 };
 
-const Post = ({ course, courseUrl }: Props) => {
+const Course = ({ course, courseUrl }: Props) => {
+  const t = useTranslations('Courses');
   return (
     <Layout>
       <MyMeta
@@ -30,7 +34,13 @@ const Post = ({ course, courseUrl }: Props) => {
         border="1px solid"
         borderColor="gray.200"
       >
-        <Heading fontSize="1.75em" color="blue.800" mb="1em" textAlign="center">
+        <Heading
+          fontSize="1.75em"
+          color="blue.800"
+          mb="1em"
+          textAlign="center"
+          textTransform="uppercase"
+        >
           {course?.title}
         </Heading>
         <Box
@@ -39,12 +49,37 @@ const Post = ({ course, courseUrl }: Props) => {
           fontSize={{ base: '1em', sm: '1.125em' }}
           dangerouslySetInnerHTML={{ __html: course.content }}
         />
+        <Heading
+          fontSize="1.75em"
+          color="blue.800"
+          textAlign="center"
+          textTransform="uppercase"
+          my="1.5em"
+        >
+          {t('testimonials')}
+        </Heading>
+        {course.testimonials.map((testimonial: TestimonialType, index: number) => (
+          <Testimonial testimonial={testimonial} key={index} />
+        ))}
+
+        <Heading
+          fontSize="1.75em"
+          color="blue.800"
+          textAlign="center"
+          textTransform="uppercase"
+          my="1.5em"
+        >
+          {t('trainers')}
+        </Heading>
+        {course.trainers.map((trainer: TrainerType, index: number) => (
+          <Trainer trainer={trainer} key={index} />
+        ))}
       </Box>
     </Layout>
   );
 };
 
-export default Post;
+export default Course;
 
 type Params = {
   locale: string;

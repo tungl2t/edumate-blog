@@ -14,6 +14,8 @@
   },
   "Courses": {
     "title": "Khóa học",
-    "desc": "Nâng cấp các kỹ năng làm việc chuyên nghiệp của giáo viên và người làm giáo dục với các khóa học của chúng tôi."
+    "desc": "Nâng cấp các kỹ năng làm việc chuyên nghiệp của giáo viên và người làm giáo dục với các khóa học của chúng tôi.",
+    "testimonials": "Chia sẻ từ học viên",
+    "trainers": "Giảng viên"
   }
 }
