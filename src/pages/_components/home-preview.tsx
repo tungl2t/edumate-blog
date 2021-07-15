@@ -14,16 +14,14 @@ const HomePreview = ({ home, index, children }: Props) => {
       direction={{ base: 'column', md: index % 2 === 0 ? 'row' : 'row-reverse' }}
       my={{ base: '1em', md: '1.5em' }}
       width={{ base: '95%', xl: '1216px' }}
-      border="1px solid"
-      borderColor="gray.100"
     >
       <Image
         src={home.coverImage.url}
-        maxW={{ base: '100%', md: '45%' }}
-        objectFit="cover"
+        maxW={{ base: '100%', md: '50%' }}
+        objectFit="contain"
         alt={home.title}
         style={{
-          aspectRatio: '3/4',
+          aspectRatio: '4/3',
         }}
       />
       <Box
