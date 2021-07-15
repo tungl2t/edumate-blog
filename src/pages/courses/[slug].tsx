@@ -5,6 +5,8 @@ import Layout from '@/components/layout';
 import { getCourseByURL } from '@/lib/api';
 import markdownToHtml from '@/lib/markdownToHtml';
 import CourseType from '@/types/course.type';
+import TestimonialType from '@/types/testimonial.type';
+import TrainerType from '@/types/trainer.type';
 
 type Props = {
   courseUrl: string;
@@ -53,7 +55,7 @@ type Params = {
 
 export const getServerSideProps = async ({ params, locale }: Params) => {
   const data = await getCourseByURL(params.slug, locale);
-  const course = data.courses[0];
+  const course = data.courses[0] as CourseType;
   const content = await markdownToHtml(course?.content ?? '');
   return {
     props: {
@@ -62,6 +64,30 @@ export const getServerSideProps = async ({ params, locale }: Params) => {
         ...course,
         coverImage: { url: `${process.env.CMS_URL}${course?.coverImage.url ?? ''}` },
         content,
+        testimonials: await Promise.all(
+          (course?.testimonials ?? []).map(async (testimonial: TestimonialType) => {
+            const content = await markdownToHtml(testimonial?.content ?? '');
+            return {
+              ...testimonial,
+              content,
+              picture: {
+                url: `${process.env.CMS_URL}${testimonial.picture.url}`,
+              },
+            };
+          }),
+        ),
+        trainers: await Promise.all(
+          (course?.trainers ?? []).map(async (trainer: TrainerType) => {
+            const content = await markdownToHtml(trainer?.content ?? '');
+            return {
+              ...trainer,
+              content,
+              picture: {
+                url: `${process.env.CMS_URL}${trainer.picture.url}`,
+              },
+            };
+          }),
+        ),
       },
     },
   };

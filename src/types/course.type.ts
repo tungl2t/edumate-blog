@@ -1,3 +1,6 @@
+import TestimonialType from './testimonial.type';
+import TrainerType from './trainer.type';
+
 type CourseType = {
   title: string;
   slug: string;
@@ -8,6 +11,8 @@ type CourseType = {
   coverImage: {
     url: string;
   };
+  testimonials: TestimonialType[];
+  trainers: TrainerType[];
 };
 
 export default CourseType;

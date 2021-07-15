@@ -160,6 +160,21 @@ export async function getCourseByURL(url: string, locale: string | undefined) {
         coverImage {
           url
         }
+        testimonials {
+          name
+          profession
+          picture {
+            url
+          }
+          content
+        }
+        trainers {
+          name
+          picture {
+            url
+          }
+          content
+        }
       }
     }
   `,
