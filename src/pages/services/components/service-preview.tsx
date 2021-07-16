@@ -27,9 +27,14 @@ const ServicePreview = ({ service }: Props) => {
           aspectRatio: '4/3',
         }}
       />
-      <Box position="relative" display="flex" flexDirection="column" justifyContent="center">
+      <Box
+        position="relative"
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        p="1.25em"
+      >
         <Heading
-          as="h3"
           size="md"
           mb="5px"
           mt={{ base: '1em', '2md': '0' }}
@@ -43,15 +48,12 @@ const ServicePreview = ({ service }: Props) => {
             width: '100%',
             maxWidth: '100%',
           }}
-          padding="0 15px"
         >
           {title}
         </Heading>
         <Box
-          fontSize="16px"
+          fontSize={{ base: '0.95em', sm: '1em' }}
           color="gray.600"
-          mb="15px"
-          padding="0 15px"
           dangerouslySetInnerHTML={{ __html: content }}
         />
       </Box>

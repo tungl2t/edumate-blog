@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Image, Text } from '@chakra-ui/react';
+import { Box, Flex, Heading, Image } from '@chakra-ui/react';
 
 import CourseType from '@/types/course.type';
 import { EdumateLink } from '@/components/edumate-link';
@@ -37,14 +37,14 @@ const CoursePreview = ({ course }: Props) => {
           display="flex"
           flexDirection="column"
           justifyContent="center"
-          py="1.25em"
+          p="1.25em"
         >
-          <Heading size="md" mb="5px" color="blue.800" padding="0 15px">
+          <Heading size="md" mb="5px" color="blue.800">
             {title}
           </Heading>
-          <Text fontSize="16px" color="gray.600" display="inline-block" mb="15px" padding="0 15px">
+          <Box fontSize={{ base: '0.95em', sm: '1em' }} color="gray.600">
             {excerpt}
-          </Text>
+          </Box>
         </Box>
       </Flex>
     </EdumateLink>
