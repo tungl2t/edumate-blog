@@ -13,7 +13,7 @@ const HomePreview = ({ home, index, children }: Props) => {
     <Flex
       direction={{ base: 'column', md: index % 2 === 0 ? 'row' : 'row-reverse' }}
       my={{ base: '1em', md: '1.5em' }}
-      width={{ base: '95%', xl: '1216px' }}
+      w={{ base: '95%', lg: '960px' }}
       border={{ base: '1px solid #000', md: 'none' }}
       borderColor="gray.200"
     >

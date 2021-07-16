@@ -21,7 +21,7 @@ const CoursePreview = ({ course }: Props) => {
         border="1px solid"
         borderColor="gray.200"
         mt="15px"
-        width={{ base: '95%', xl: '1216px' }}
+        w={{ base: '95%', lg: '960px' }}
       >
         <Image
           src={coverImage.url}

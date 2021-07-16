@@ -11,7 +11,6 @@ type Props = {
   event: EventType;
 };
 const Event = ({ event, eventUrl }: Props) => {
-  console.log(event);
   return (
     <Layout>
       <MyMeta
@@ -22,10 +21,9 @@ const Event = ({ event, eventUrl }: Props) => {
       />
 
       <Box
-        maxW="1216px"
-        w="95%"
+        w={{ base: '90%', sm: '95%', lg: '960px' }}
         m="4.5em auto"
-        p={{ base: '1em', sm: '3em' }}
+        p={{ base: '1em', sm: '5em' }}
         border="1px solid"
         borderColor="gray.200"
       >
@@ -60,7 +58,6 @@ type Params = {
 
 export const getServerSideProps = async ({ params, locale }: Params) => {
   const data = await getEventByURL(params.slug, locale);
-  console.log(data);
   const event = data.events[0] as EventType;
   const content = await markdownToHtml(event?.content ?? '');
   return {

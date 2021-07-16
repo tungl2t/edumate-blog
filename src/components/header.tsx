@@ -49,7 +49,7 @@ const Header = () => {
     >
       <Flex
         direction="row"
-        width={{ base: '90%', sm: '95%', xl: '1216px' }}
+        w={{ base: '90%', sm: '95%', lg: '960px' }}
         h="100%"
         m="auto"
         align="center"

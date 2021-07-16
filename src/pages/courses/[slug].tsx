@@ -27,10 +27,9 @@ const Course = ({ course, courseUrl }: Props) => {
         imageUrl={course.coverImage.url}
       />
       <Box
-        maxW="1216px"
-        w="95%"
+        w={{ base: '90%', sm: '95%', lg: '960px' }}
         m="4.5em auto"
-        p={{ base: '1em', sm: '3em' }}
+        p={{ base: '1em', sm: '5em' }}
         border="1px solid"
         borderColor="gray.200"
       >

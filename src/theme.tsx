@@ -30,8 +30,6 @@ const theme = extendTheme({
           margin: '1em 0',
           img: {
             width: '100%',
-            aspectRatio: '16/9',
-            objectFit: 'contain',
             margin: '10px 0',
           },
         },
