@@ -1,7 +1,7 @@
 import TrainerType from '@/types/trainer.type';
-import { Box, Image, Text } from '@chakra-ui/react';
+import { Box, Img, Text } from '@chakra-ui/react';
 
-export const Trainer = ({ trainer }: { trainer: TrainerType }) => {
+const Trainer = ({ trainer }: { trainer: TrainerType }) => {
   return (
     <>
       <Img
@@ -26,3 +26,5 @@ export const Trainer = ({ trainer }: { trainer: TrainerType }) => {
     </>
   );
 };
+
+export default Trainer;

@@ -1,4 +1,5 @@
 import { Box, Heading } from '@chakra-ui/react';
+import { useTranslations } from 'next-intl';
 
 import { getCourseByURL } from '@/lib/api';
 import markdownToHtml from '@/lib/markdownToHtml';
@@ -7,9 +8,8 @@ import TestimonialType from '@/types/testimonial.type';
 import TrainerType from '@/types/trainer.type';
 import MyMeta from '@/components/my-meta';
 import Layout from '@/components/layout';
-import { Testimonial } from './components/testimonial';
-import { useTranslations } from 'next-intl';
-import { Trainer } from './components/trainer';
+import Testimonial from './components/testimonial';
+import Trainer from './components/trainer';
 
 type Props = {
   courseUrl: string;

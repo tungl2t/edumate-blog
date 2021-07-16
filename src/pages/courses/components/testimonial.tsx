@@ -1,7 +1,7 @@
 import TestimonialType from '@/types/testimonial.type';
 import { Box, Img, Text } from '@chakra-ui/react';
 
-export const Testimonial = ({ testimonial }: { testimonial: TestimonialType }) => {
+const Testimonial = ({ testimonial }: { testimonial: TestimonialType }) => {
   return (
     <>
       <Img
@@ -29,3 +29,5 @@ export const Testimonial = ({ testimonial }: { testimonial: TestimonialType }) =
     </>
   );
 };
+
+export default Testimonial;
