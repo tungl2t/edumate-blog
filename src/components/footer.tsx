@@ -7,7 +7,7 @@ import {
   AiOutlineLinkedin,
   AiOutlineMail,
   AiOutlinePhone,
-} from 'react-icons/Ai';
+} from 'react-icons/ai';
 import { useTranslations } from 'next-intl';
 
 const Footer = () => {
