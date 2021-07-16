@@ -17,7 +17,7 @@ const ProductPreview = ({ product }: Props) => {
       }}
       border="1px solid"
       borderColor="gray.200"
-      mt="15px"
+      my="1em"
       w={{ base: '95%', lg: '960px' }}
     >
       <Img
