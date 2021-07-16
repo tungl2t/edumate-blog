@@ -14,11 +14,13 @@ const HomePreview = ({ home, index, children }: Props) => {
       direction={{ base: 'column', md: index % 2 === 0 ? 'row' : 'row-reverse' }}
       my={{ base: '1em', md: '1.5em' }}
       width={{ base: '95%', xl: '1216px' }}
+      border={{ base: '1px solid #000', md: 'none' }}
+      borderColor="gray.200"
     >
       <Image
         src={home.coverImage.url}
         maxW={{ base: '100%', md: '50%' }}
-        objectFit="contain"
+        objectFit={{ base: 'cover', md: 'contain' }}
         alt={home.title}
         style={{
           aspectRatio: '4/3',
@@ -30,33 +32,12 @@ const HomePreview = ({ home, index, children }: Props) => {
         flexDirection="column"
         justifyContent="center"
         m={{ base: 'unset', md: 'auto' }}
+        p="1.5em"
       >
-        <Heading
-          as="h3"
-          size="md"
-          mb="5px"
-          mt={{ base: '1em', '2md': '0' }}
-          color="blue.800"
-          style={{
-            display: '-webkit-box',
-            WebkitLineClamp: 3,
-            WebkitBoxOrient: 'vertical',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            width: '100%',
-            maxWidth: '100%',
-          }}
-          padding="0 15px"
-        >
+        <Heading size="md" color="blue.800">
           {home.title}
         </Heading>
-        <Box
-          fontSize="16px"
-          color="gray.600"
-          mb="15px"
-          padding="0 15px"
-          dangerouslySetInnerHTML={{ __html: home.content }}
-        />
+        <Box fontSize="16px" color="gray.600" dangerouslySetInnerHTML={{ __html: home.content }} />
         {children}
       </Box>
     </Flex>
