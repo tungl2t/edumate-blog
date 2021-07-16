@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start -p 4000"
+    "start": "next start -p 4000",
+    "pm2:start": "pm2 delete edumate && pm2 start yarn --name edumate -i max -- start",
+    "deploy": "yarn build && yarn pm2:start"
   },
   "dependencies": {
     "@chakra-ui/icons": "^1.0.13",
