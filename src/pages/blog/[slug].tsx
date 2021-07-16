@@ -62,7 +62,7 @@ export const getServerSideProps = async ({ params }: Params) => {
   const content = await markdownToHtml(post?.content ?? '');
   return {
     props: {
-      postUrl: `${process.env.BLOG_URL}/${params.slug}`,
+      postUrl: `${process.env.EDUMATE_URL}/${params.slug}`,
       post: {
         ...post,
         coverImage: { url: `${process.env.CMS_URL}${post?.coverImage.url ?? ''}` },

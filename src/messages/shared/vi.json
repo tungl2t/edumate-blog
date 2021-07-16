@@ -34,7 +34,8 @@
     "businessId": "Mã số doanh nghiệp",
     "address": "Địa chỉ",
     "city": "Thành phố",
-    "country": "Quốc gia"
+    "country": "Quốc gia",
+    "home": "Phòng 303, Tầng 3, Tòa nhà CTSC, Số 1 Bà Triệu, Hoàn Kiếm, Hà Nội"
   },
   "Timer": {
     "d": "Ngày",
