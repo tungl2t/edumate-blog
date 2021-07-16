@@ -188,3 +188,31 @@ export async function getCourseByURL(url: string, locale: string | undefined) {
     },
   );
 }
+
+export async function getEvents(locale: string) {
+  const data = await fetchAPI(
+    `
+    query Events($where: JSON, $locale: String){
+      events(sort: "startDate:desc", where: $where, locale: $locale) {
+        title
+        url
+        slug
+        startDate
+        endDate
+        location
+        detail
+        detailLink
+        coverImage {
+          url
+        }
+      }
+    }
+  `,
+    {
+      variables: {
+        locale,
+      },
+    },
+  );
+  return data?.events;
+}

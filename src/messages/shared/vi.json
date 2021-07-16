@@ -17,5 +17,10 @@
     "desc": "Nâng cấp các kỹ năng làm việc chuyên nghiệp của giáo viên và người làm giáo dục với các khóa học của chúng tôi.",
     "testimonials": "Chia sẻ từ học viên",
     "trainers": "Giảng viên"
+  },
+  "Events": {
+    "title": "Sự kiện",
+    "desc": "edumate tổ chức các hội thảo chuyên sâu dành cho giáo viên, nhà giáo dục và bất cứ ai yêu giáo dục với những chủ đề thú vị.",
+    "detail": "Thông tin chi tiết"
   }
 }

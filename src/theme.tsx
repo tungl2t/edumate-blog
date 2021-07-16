@@ -13,6 +13,9 @@ const breakpoints = createBreakpoints({
 const theme = extendTheme({
   styles: {
     global: {
+      time: {
+        paddingTop: '5px',
+      },
       a: {
         color: 'blue.500',
       },

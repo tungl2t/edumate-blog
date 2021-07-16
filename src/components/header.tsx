@@ -19,7 +19,7 @@ const Header = () => {
   useOutsideClick({
     ref: ref,
     handler: (e: Event | any) => {
-      const className = e.target.className;
+      const className = e?.target?.className ?? '';
       const clickedHamburgerMenu =
         className.includes('spinner') || className.includes('sidebarIconToggle');
       if (isOpenSideBar && !clickedHamburgerMenu) {
@@ -128,7 +128,7 @@ const Header = () => {
         <Flex
           direction="column"
           color="white"
-          fontSize={{ base: '1.25em', sm: '1.5em' }}
+          fontSize={{ base: '1.35em', sm: '1.5em' }}
           justifyContent="space-around"
           alignItems="center"
           h="100%"

@@ -17,5 +17,10 @@
     "desc": "Upgrade the professional skills of teachers and educators with our courses.",
     "testimonials": "Testimonials",
     "trainers": "Trainers"
+  },
+  "Events": {
+    "title": "Events",
+    "desc": "edumate organizes in-depth seminars for teachers, educators and anyone who loves education with interesting topics.",
+    "detail": "More details"
   }
 }
