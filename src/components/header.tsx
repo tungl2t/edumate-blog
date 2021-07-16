@@ -128,11 +128,11 @@ const Header = () => {
         <Flex
           direction="column"
           color="white"
-          fontSize="1.5em"
+          fontSize={{ base: '1.25em', sm: '1.5em' }}
           justifyContent="space-around"
           alignItems="center"
           h="100%"
-          py="25%"
+          py="30%"
         >
           {NAV_LINKS.map((item) => (
             <NextLink href={item.link} key={item.link}>
