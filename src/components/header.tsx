@@ -1,15 +1,41 @@
-import NextLink from 'next/link';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
+import NextLink from 'next/link';
 import { useTranslations } from 'next-intl';
-import { Box, Flex, Image } from '@chakra-ui/react';
+import { Box, Flex, Image, useMediaQuery, useOutsideClick } from '@chakra-ui/react';
 
 import { NAV_LINKS } from '@/lib/constants';
+import headerStyles from '@/styles/header.module.sass';
 
 const Header = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isOpenSideBar, setIsOpenSideBar] = useState(false);
+  const [isLargerThanMd] = useMediaQuery('(min-width: 768px)');
   const { asPath, locale, locales } = useRouter();
   const t = useTranslations('Navigation');
   const otherLocale = locales?.find((cur) => cur !== locale);
   const localeIcon = locale === 'vi' ? '/flags/us.svg' : '/flags/vi.svg';
+
+  useOutsideClick({
+    ref: ref,
+    handler: (e: Event | any) => {
+      const className = e.target.className;
+      const clickedHamburgerMenu =
+        className.includes('spinner') || className.includes('sidebarIconToggle');
+      if (isOpenSideBar && !clickedHamburgerMenu) {
+        setIsOpenSideBar(false);
+      }
+    },
+  });
+
+  useEffect(() => {}, [isOpenSideBar]);
+
+  useEffect(() => {
+    if (isLargerThanMd) {
+      setIsOpenSideBar(false);
+    }
+  }, [isLargerThanMd]);
+
   return (
     <Box
       height="60px"
@@ -23,8 +49,7 @@ const Header = () => {
     >
       <Flex
         direction="row"
-        w="1216px"
-        maxW="95%"
+        width={{ base: '90%', sm: '95%', xl: '1216px' }}
         h="100%"
         m="auto"
         align="center"
@@ -64,7 +89,84 @@ const Header = () => {
             </a>
           </NextLink>
         </Flex>
+        <Box
+          className={headerStyles.hamburgerMenu}
+          position="relative"
+          zIndex={2}
+          display={{ md: 'none', base: 'block' }}
+        >
+          <input
+            key={Math.random()}
+            type="checkbox"
+            id="openSidebarMenu"
+            defaultChecked={isOpenSideBar}
+            onChange={() => {
+              setIsOpenSideBar(!isOpenSideBar);
+            }}
+          />
+          <label className={headerStyles.sidebarIconToggle} htmlFor="openSidebarMenu">
+            <div
+              className={`${headerStyles.spinner} ${headerStyles.diagonal} ${headerStyles['part-1']}`}
+            />
+            <div className={`${headerStyles.spinner} ${headerStyles.horizontal}`} />
+            <div
+              className={`${headerStyles.spinner} ${headerStyles.diagonal} ${headerStyles['part-2']}`}
+            />
+          </label>
+        </Box>
       </Flex>
+      <Box
+        className={`${headerStyles.rightSideBar} ${isOpenSideBar ? headerStyles.expanded : ''}`}
+        position="absolute"
+        right={0}
+        top={0}
+        h="100vh"
+        background="black"
+        color="white"
+        ref={ref}
+      >
+        <Flex
+          direction="column"
+          color="white"
+          fontSize="1.5em"
+          justifyContent="space-around"
+          alignItems="center"
+          h="100%"
+          py="25%"
+        >
+          {NAV_LINKS.map((item) => (
+            <NextLink href={item.link} key={item.link}>
+              <Box
+                cursor="pointer"
+                color={asPath.indexOf(item.link) === 0 ? ' #e1782f' : ''}
+                _hover={{
+                  transition: 'all .25s ease-in-out',
+                  color: ' #e1782f',
+                }}
+                onClick={() => {
+                  setIsOpenSideBar(false);
+                }}
+              >
+                {t(item.translation)}
+              </Box>
+            </NextLink>
+          ))}
+          <NextLink href={asPath} locale={otherLocale} scroll={false}>
+            <a>
+              {' '}
+              <Image
+                src={localeIcon}
+                w="50px"
+                h="50px"
+                alt="language"
+                onClick={() => {
+                  setIsOpenSideBar(false);
+                }}
+              />
+            </a>
+          </NextLink>
+        </Flex>
+      </Box>
     </Box>
   );
 };
