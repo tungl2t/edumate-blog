@@ -216,3 +216,27 @@ export async function getEvents(locale: string) {
   );
   return data?.events;
 }
+
+export async function getEventByURL(url: string, locale: string) {
+  return await fetchAPI(
+    `
+    query EventByUrl($where: JSON,  $locale: String){
+      events(where: $where, locale: $locale) {
+        title
+        content,
+        coverImage {
+          url
+        }
+      }
+    }
+  `,
+    {
+      variables: {
+        locale,
+        where: {
+          url,
+        },
+      },
+    },
+  );
+}

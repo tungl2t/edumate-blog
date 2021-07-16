@@ -15,7 +15,7 @@ const EventPreview = ({ event }: Props) => {
   const { url, coverImage, title, startDate, location, detail, detailLink } = event;
   const t = useTranslations('Events');
   const date = parseISO(startDate);
-  const href = detail ? `/courses/${url}` : '';
+  const href = detail ? `/events/${url}` : '';
   return (
     <EdumateLink href={href}>
       <Flex
