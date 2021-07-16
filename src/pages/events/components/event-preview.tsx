@@ -5,6 +5,7 @@ import { format, parseISO } from 'date-fns';
 import { EdumateLink } from '@/components/edumate-link';
 import EventType from '@/types/event.type';
 import { useTranslations } from 'next-intl';
+import Timer from './timer';
 
 type Props = {
   event: EventType;
@@ -47,6 +48,7 @@ const EventPreview = ({ event }: Props) => {
           <Heading fontSize={{ base: '1.25em' }} color="blue.800">
             {title}
           </Heading>
+          <Timer day={startDate} />
           <Box
             fontSize={{ base: '0.95em', sm: '1em' }}
             color="gray.600"

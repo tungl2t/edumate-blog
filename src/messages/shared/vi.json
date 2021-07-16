@@ -22,5 +22,11 @@
     "title": "Sự kiện",
     "desc": "edumate tổ chức các hội thảo chuyên sâu dành cho giáo viên, nhà giáo dục và bất cứ ai yêu giáo dục với những chủ đề thú vị.",
     "detail": "Thông tin chi tiết"
+  },
+  "Timer": {
+    "d": "Ngày",
+    "h": "Giờ",
+    "m": "Phút",
+    "s": "Giây"
   }
 }
