@@ -1,5 +1,5 @@
 import TestimonialType from '@/types/testimonial.type';
-import { Box, Image, Text } from '@chakra-ui/react';
+import { Box, Img, Text } from '@chakra-ui/react';
 
 export const Testimonial = ({ testimonial }: { testimonial: TestimonialType }) => {
   return (
