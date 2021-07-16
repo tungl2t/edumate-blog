@@ -37,7 +37,7 @@ const CoursePreview = ({ course }: Props) => {
           display="flex"
           flexDirection="column"
           justifyContent="center"
-          p={{ base: '1.25em', sm: '1.25em 1.5em' }}
+          p={{ base: '1.25em', sm: '1.5em' }}
         >
           <Heading size="md" mb="5px" color="blue.800">
             {title}

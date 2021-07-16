@@ -32,7 +32,7 @@ const HomePreview = ({ home, index, children }: Props) => {
         flexDirection="column"
         justifyContent="center"
         m={{ base: 'unset', md: 'auto' }}
-        p={{ base: '1.25em', sm: '1.25em 1.5em' }}
+        p={{ base: '1.25em', sm: '1.5em' }}
       >
         <Heading size="md" color="blue.800">
           {home.title}

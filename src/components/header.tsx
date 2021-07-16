@@ -129,7 +129,7 @@ const Header = () => {
           direction="column"
           color="white"
           fontSize={{ base: '1.35em', sm: '1.5em' }}
-          justifyContent="space-around"
+          justifyContent="center"
           alignItems="center"
           h="100%"
           py="30%"
@@ -138,6 +138,7 @@ const Header = () => {
             <NextLink href={item.link} key={item.link}>
               <Box
                 cursor="pointer"
+                my="0.5em"
                 color={asPath.indexOf(item.link) === 0 ? ' #e1782f' : ''}
                 _hover={{
                   transition: 'all .25s ease-in-out',
@@ -158,6 +159,7 @@ const Header = () => {
                 src={localeIcon}
                 w="50px"
                 h="50px"
+                my="0.5em"
                 alt="language"
                 onClick={() => {
                   setIsOpenSideBar(false);

@@ -43,7 +43,7 @@ const EventPreview = ({ event }: Props) => {
           display="flex"
           flexDirection="column"
           justifyContent="center"
-          p={{ base: '1.25em', sm: '1.25em 1.5em' }}
+          p={{ base: '1.25em', sm: '1.5em' }}
         >
           <Heading fontSize={{ base: '1.25em' }} color="blue.800">
             {title}

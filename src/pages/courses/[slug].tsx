@@ -26,54 +26,56 @@ const Course = ({ course, courseUrl }: Props) => {
         url={courseUrl}
         imageUrl={course.coverImage.url}
       />
-      <Box
-        w={{ base: '90%', sm: '95%', lg: '960px' }}
-        m="4.5em auto"
-        p={{ base: '1em', sm: '5em' }}
-        border="1px solid"
-        borderColor="gray.200"
-      >
-        <Heading
-          fontSize="1.75em"
-          color="blue.800"
-          mb="1em"
-          textAlign="center"
-          textTransform="uppercase"
-        >
-          {course?.title}
-        </Heading>
+      <article>
         <Box
-          className="content"
-          textAlign={{ base: 'start', sm: 'justify' }}
-          fontSize={{ base: '1em', sm: '1.125em' }}
-          dangerouslySetInnerHTML={{ __html: course.content }}
-        />
-        <Heading
-          fontSize="1.75em"
-          color="blue.800"
-          textAlign="center"
-          textTransform="uppercase"
-          my="1.5em"
+          w={{ base: '90%', sm: '95%', lg: '960px' }}
+          m="4.5em auto"
+          p={{ base: '1em', sm: '5em' }}
+          border="1px solid"
+          borderColor="gray.200"
         >
-          {t('testimonials')}
-        </Heading>
-        {course.testimonials.map((testimonial: TestimonialType, index: number) => (
-          <Testimonial testimonial={testimonial} key={index} />
-        ))}
+          <Heading
+            fontSize="1.75em"
+            color="blue.800"
+            mb="1em"
+            textAlign="center"
+            textTransform="uppercase"
+          >
+            {course?.title}
+          </Heading>
+          <Box
+            className="content"
+            textAlign={{ base: 'start', sm: 'justify' }}
+            fontSize={{ base: '1em', sm: '1.125em' }}
+            dangerouslySetInnerHTML={{ __html: course.content }}
+          />
+          <Heading
+            fontSize="1.75em"
+            color="blue.800"
+            textAlign="center"
+            textTransform="uppercase"
+            my="1.5em"
+          >
+            {t('testimonials')}
+          </Heading>
+          {course.testimonials.map((testimonial: TestimonialType, index: number) => (
+            <Testimonial testimonial={testimonial} key={index} />
+          ))}
 
-        <Heading
-          fontSize="1.75em"
-          color="blue.800"
-          textAlign="center"
-          textTransform="uppercase"
-          my="1.5em"
-        >
-          {t('trainers')}
-        </Heading>
-        {course.trainers.map((trainer: TrainerType, index: number) => (
-          <Trainer trainer={trainer} key={index} />
-        ))}
-      </Box>
+          <Heading
+            fontSize="1.75em"
+            color="blue.800"
+            textAlign="center"
+            textTransform="uppercase"
+            my="1.5em"
+          >
+            {t('trainers')}
+          </Heading>
+          {course.trainers.map((trainer: TrainerType, index: number) => (
+            <Trainer trainer={trainer} key={index} />
+          ))}
+        </Box>
+      </article>
     </Layout>
   );
 };

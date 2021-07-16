@@ -27,6 +27,10 @@
     "title": "Products",
     "desc": "edumate academic planner is the first Vietnamese language planner for students, teachers and those working in the education industry. Do you already own a book?"
   },
+  "AboutUs": {
+    "title": "About Us",
+    "desc": "edumate devotes itself to the development of schools and teachers with educational know-how from Finland."
+  },
   "Timer": {
     "d": "Days",
     "h": "Hours",
