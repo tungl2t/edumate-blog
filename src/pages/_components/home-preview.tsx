@@ -19,7 +19,7 @@ const HomePreview = ({ home, index, children }: Props) => {
     >
       <Image
         src={home.coverImage.url}
-        maxW={{ base: '100%', md: '50%' }}
+        w={{ base: '100%', md: '50%' }}
         objectFit={{ base: 'cover', md: 'contain' }}
         alt={home.title}
         style={{
@@ -32,7 +32,7 @@ const HomePreview = ({ home, index, children }: Props) => {
         flexDirection="column"
         justifyContent="center"
         m={{ base: 'unset', md: 'auto' }}
-        p="1.5em"
+        p={{ base: '1.25em', sm: '1.25em 1.5em' }}
       >
         <Heading size="md" color="blue.800">
           {home.title}

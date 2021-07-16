@@ -23,6 +23,10 @@
     "desc": "edumate tổ chức các hội thảo chuyên sâu dành cho giáo viên, nhà giáo dục và bất cứ ai yêu giáo dục với những chủ đề thú vị.",
     "detail": "Thông tin chi tiết"
   },
+  "Products": {
+    "title": "Sản phẩm",
+    "desc": "Sổ kế hoạch năm học edumate là cuốn sổ kế hoạch đầu tiên bằng Tiếng Việt dành riêng cho học sinh, giáo viên và những người làm trong ngành giáo dục. Bạn đã sở hữu một cuốn chưa?"
+  },
   "Timer": {
     "d": "Ngày",
     "h": "Giờ",

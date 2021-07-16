@@ -240,3 +240,28 @@ export async function getEventByURL(url: string, locale: string) {
     },
   );
 }
+
+export async function getProducts(locale: string) {
+  const data = await fetchAPI(
+    `
+    query Products($where: JSON, $locale: String){
+      products(sort: "id:asc", where: $where, locale: $locale) {
+        name
+        specifications
+        productCategory {
+          name
+        }
+        coverImage {
+          url
+        }
+      }
+    }
+  `,
+    {
+      variables: {
+        locale,
+      },
+    },
+  );
+  return data?.products;
+}

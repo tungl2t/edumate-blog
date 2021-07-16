@@ -25,7 +25,7 @@ const CoursePreview = ({ course }: Props) => {
       >
         <Image
           src={coverImage.url}
-          maxW={{ base: '100%', md: '40%' }}
+          w={{ base: '100%', md: '40%' }}
           objectFit="cover"
           alt={title}
           style={{
@@ -37,7 +37,7 @@ const CoursePreview = ({ course }: Props) => {
           display="flex"
           flexDirection="column"
           justifyContent="center"
-          p="1.25em"
+          p={{ base: '1.25em', sm: '1.25em 1.5em' }}
         >
           <Heading size="md" mb="5px" color="blue.800">
             {title}

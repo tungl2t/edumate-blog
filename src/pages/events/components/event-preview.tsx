@@ -1,10 +1,10 @@
+import { useTranslations } from 'next-intl';
 import { Box, Flex, Heading, Image } from '@chakra-ui/react';
-import { AtSignIcon, CalendarIcon, LinkIcon } from '@chakra-ui/icons';
+import { AtSignIcon, CalendarIcon, ExternalLinkIcon } from '@chakra-ui/icons';
 import { format, parseISO } from 'date-fns';
 
-import { EdumateLink } from '@/components/edumate-link';
 import EventType from '@/types/event.type';
-import { useTranslations } from 'next-intl';
+import { EdumateLink } from '@/components/edumate-link';
 import Timer from './timer';
 
 type Props = {
@@ -31,7 +31,7 @@ const EventPreview = ({ event }: Props) => {
       >
         <Image
           src={coverImage.url}
-          maxW={{ base: '100%', md: '40%' }}
+          w={{ base: '100%', md: '40%' }}
           objectFit="cover"
           alt={title}
           style={{
@@ -43,7 +43,7 @@ const EventPreview = ({ event }: Props) => {
           display="flex"
           flexDirection="column"
           justifyContent="center"
-          p="1.25em"
+          p={{ base: '1.25em', sm: '1.25em 1.5em' }}
         >
           <Heading fontSize={{ base: '1.25em' }} color="blue.800">
             {title}
@@ -77,7 +77,7 @@ const EventPreview = ({ event }: Props) => {
               alignItems="center"
               my="0.25em"
             >
-              <LinkIcon mr="0.5em" color="blue.800" />
+              <ExternalLinkIcon mr="0.5em" color="blue.800" />
               <a href={detailLink} target="_blank">
                 {t('detail')}
               </a>

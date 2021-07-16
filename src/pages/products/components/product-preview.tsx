@@ -1,12 +1,14 @@
-import ServiceType from '@/types/service.type';
+import ProductType from '@/types/product.type';
 import { Box, Flex, Heading, Image } from '@chakra-ui/react';
+import { AtSignIcon, Icon } from '@chakra-ui/icons';
+import { MdLabelOutline } from 'react-icons/md';
 
 type Props = {
-  service: ServiceType;
+  product: ProductType;
 };
 
-const ServicePreview = ({ service }: Props) => {
-  const { coverImage, title, content } = service;
+const ProductPreview = ({ product }: Props) => {
+  const { name, specifications, coverImage, productCategory } = product;
   return (
     <Flex
       direction={{ base: 'column', md: 'row' }}
@@ -20,9 +22,9 @@ const ServicePreview = ({ service }: Props) => {
     >
       <Image
         src={coverImage.url}
-        w={{ base: '100%', md: '40%' }}
+        w={{ base: '100%', md: '50%' }}
         objectFit="cover"
-        alt={title}
+        alt={name}
         style={{
           aspectRatio: '4/3',
         }}
@@ -34,31 +36,21 @@ const ServicePreview = ({ service }: Props) => {
         justifyContent="center"
         p={{ base: '1.25em', sm: '1.25em 1.5em' }}
       >
-        <Heading
-          size="md"
-          mb="5px"
-          mt={{ base: '1em', '2md': '0' }}
-          color="blue.800"
-          style={{
-            display: '-webkit-box',
-            WebkitLineClamp: 3,
-            WebkitBoxOrient: 'vertical',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            width: '100%',
-            maxWidth: '100%',
-          }}
-        >
-          {title}
+        <Heading size="md" mb="5px" color="blue.800">
+          {name}
         </Heading>
+        <Box fontSize="1em" color="blue.800" display="flex" alignItems="center" my="0.25em">
+          <Icon as={MdLabelOutline} mr="0.5em" color="blue.800" />
+          {productCategory.name}
+        </Box>
         <Box
           fontSize={{ base: '0.95em', sm: '1em' }}
           color="gray.600"
-          dangerouslySetInnerHTML={{ __html: content }}
+          dangerouslySetInnerHTML={{ __html: specifications }}
         />
       </Box>
     </Flex>
   );
 };
 
-export default ServicePreview;
+export default ProductPreview;

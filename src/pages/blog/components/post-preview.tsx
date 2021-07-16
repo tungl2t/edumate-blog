@@ -25,7 +25,7 @@ const PostPreview = ({ post }: Props) => {
       >
         <Image
           src={coverImage.url}
-          maxW={{ base: '100%', md: '40%' }}
+          w={{ base: '100%', md: '40%' }}
           objectFit="cover"
           alt={title}
           style={{

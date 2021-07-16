@@ -24,6 +24,10 @@ const theme = extendTheme({
       },
       ul: {
         paddingLeft: '1em',
+        li: {
+          fontStyle: 'italic',
+          fontSize: '0.85em',
+        },
       },
       '.content': {
         p: {
