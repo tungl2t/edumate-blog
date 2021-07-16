@@ -29,7 +29,12 @@
   },
   "AboutUs": {
     "title": "Về chúng tôi",
-    "desc": "edumate cống hiến hết mình vì sự phát triển của trường học, của giáo viên với bí kíp giáo dục từ Phần Lan."
+    "desc": "edumate cống hiến hết mình vì sự phát triển của trường học, của giáo viên với bí kíp giáo dục từ Phần Lan.",
+    "companyName": "Tên công ty",
+    "businessId": "Mã số doanh nghiệp",
+    "address": "Địa chỉ",
+    "city": "Thành phố",
+    "country": "Quốc gia"
   },
   "Timer": {
     "d": "Ngày",

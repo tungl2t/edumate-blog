@@ -13,6 +13,12 @@ const breakpoints = createBreakpoints({
 const theme = extendTheme({
   styles: {
     global: {
+      main: {
+        marginTop: '60px',
+        minHeight: 'calc(100vh - 120px)',
+        display: 'flex',
+        flexDirection: 'column',
+      },
       time: {
         paddingTop: '5px',
       },

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import NextLink from 'next/link';
 import { useTranslations } from 'next-intl';
-import { Box, Flex, Image, useMediaQuery, useOutsideClick } from '@chakra-ui/react';
+import { Box, Flex, Img, useMediaQuery, useOutsideClick } from '@chakra-ui/react';
 
 import { NAV_LINKS } from '@/lib/constants';
 import headerStyles from '@/styles/header.module.sass';
@@ -57,7 +57,7 @@ const Header = () => {
       >
         <NextLink href="/">
           <a>
-            <Image src="/edumate-logo.png" maxH="20px" alt="edumate" />
+            <Img src="/edumate-logo.png" maxH="20px" alt="edumate" />
           </a>
         </NextLink>
         <Flex
@@ -85,7 +85,7 @@ const Header = () => {
           <NextLink href={asPath} locale={otherLocale} scroll={false}>
             <a>
               {' '}
-              <Image src={localeIcon} ml="1em" w="35px" h="35px" alt="language" />
+              <Img src={localeIcon} ml="1em" w="35px" h="35px" alt="language" />
             </a>
           </NextLink>
         </Flex>
@@ -155,7 +155,7 @@ const Header = () => {
           <NextLink href={asPath} locale={otherLocale} scroll={false}>
             <a>
               {' '}
-              <Image
+              <Img
                 src={localeIcon}
                 w="50px"
                 h="50px"

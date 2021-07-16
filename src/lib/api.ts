@@ -265,3 +265,28 @@ export async function getProducts(locale: string) {
   );
   return data?.products;
 }
+
+export async function getCompanies(locale: string) {
+  const data = await fetchAPI(
+    `
+    query Companies($where: JSON, $locale: String){
+      companies(sort: "id:asc", where: $where, locale: $locale) {
+        name
+        businessId
+        address
+        city
+        country
+        coverImage {
+          url
+        }
+      }
+    }
+  `,
+    {
+      variables: {
+        locale,
+      },
+    },
+  );
+  return data?.companies;
+}

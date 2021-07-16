@@ -1,5 +1,5 @@
 import { useTranslations } from 'next-intl';
-import { Box, Flex, Heading, Image } from '@chakra-ui/react';
+import { Box, Flex, Heading, Img } from '@chakra-ui/react';
 import { AtSignIcon, CalendarIcon, ExternalLinkIcon } from '@chakra-ui/icons';
 import { format, parseISO } from 'date-fns';
 
@@ -29,7 +29,7 @@ const EventPreview = ({ event }: Props) => {
         mt="15px"
         w={{ base: '95%', lg: '960px' }}
       >
-        <Image
+        <Img
           src={coverImage.url}
           w={{ base: '100%', md: '40%' }}
           objectFit="cover"

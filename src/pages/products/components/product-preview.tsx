@@ -1,6 +1,6 @@
 import ProductType from '@/types/product.type';
-import { Box, Flex, Heading, Image } from '@chakra-ui/react';
-import { AtSignIcon, Icon } from '@chakra-ui/icons';
+import { Box, Flex, Heading, Img } from '@chakra-ui/react';
+import { Icon } from '@chakra-ui/icons';
 import { MdLabelOutline } from 'react-icons/md';
 
 type Props = {
@@ -20,7 +20,7 @@ const ProductPreview = ({ product }: Props) => {
       mt="15px"
       w={{ base: '95%', lg: '960px' }}
     >
-      <Image
+      <Img
         src={coverImage.url}
         w={{ base: '100%', md: '50%' }}
         objectFit="cover"

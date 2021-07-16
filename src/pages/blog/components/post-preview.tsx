@@ -1,5 +1,5 @@
 import NextLink from 'next/link';
-import { Box, Flex, Heading, Image, Text } from '@chakra-ui/react';
+import { Box, Flex, Heading, Img, Text } from '@chakra-ui/react';
 
 import PostType from '@/types/post.type';
 import DateFormatter from '@/components/date-formatter';
@@ -23,7 +23,7 @@ const PostPreview = ({ post }: Props) => {
         mt="15px"
         w={{ base: '95%', lg: '960px' }}
       >
-        <Image
+        <Img
           src={coverImage.url}
           w={{ base: '100%', md: '40%' }}
           objectFit="cover"

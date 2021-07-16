@@ -1,5 +1,5 @@
 import ServiceType from '@/types/service.type';
-import { Box, Flex, Heading, Image } from '@chakra-ui/react';
+import { Box, Flex, Heading, Img } from '@chakra-ui/react';
 
 type Props = {
   service: ServiceType;
@@ -18,7 +18,7 @@ const ServicePreview = ({ service }: Props) => {
       mt="15px"
       w={{ base: '95%', lg: '960px' }}
     >
-      <Image
+      <Img
         src={coverImage.url}
         w={{ base: '100%', md: '40%' }}
         objectFit="cover"

@@ -4,7 +4,7 @@ import { Box, Image, Text } from '@chakra-ui/react';
 export const Testimonial = ({ testimonial }: { testimonial: TestimonialType }) => {
   return (
     <>
-      <Image
+      <Img
         src={testimonial.picture.url}
         borderRadius="full"
         objectFit="cover"

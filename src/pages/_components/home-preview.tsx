@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Image } from '@chakra-ui/react';
+import { Box, Flex, Heading, Img } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 import HomeType from '@/types/home.type';
 
@@ -17,7 +17,7 @@ const HomePreview = ({ home, index, children }: Props) => {
       border={{ base: '1px solid #000', md: 'none' }}
       borderColor="gray.200"
     >
-      <Image
+      <Img
         src={home.coverImage.url}
         w={{ base: '100%', md: '50%' }}
         objectFit={{ base: 'cover', md: 'contain' }}

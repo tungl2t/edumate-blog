@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Image } from '@chakra-ui/react';
+import { Box, Flex, Heading, Img } from '@chakra-ui/react';
 
 import CourseType from '@/types/course.type';
 import { EdumateLink } from '@/components/edumate-link';
@@ -23,7 +23,7 @@ const CoursePreview = ({ course }: Props) => {
         mt="15px"
         w={{ base: '95%', lg: '960px' }}
       >
-        <Image
+        <Img
           src={coverImage.url}
           w={{ base: '100%', md: '40%' }}
           objectFit="cover"

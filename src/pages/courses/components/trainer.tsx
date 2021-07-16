@@ -4,7 +4,7 @@ import { Box, Image, Text } from '@chakra-ui/react';
 export const Trainer = ({ trainer }: { trainer: TrainerType }) => {
   return (
     <>
-      <Image
+      <Img
         src={trainer.picture.url}
         borderRadius="full"
         objectFit="cover"

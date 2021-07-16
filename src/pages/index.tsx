@@ -1,6 +1,6 @@
 import NextLink from 'next/link';
 import { useTranslations } from 'next-intl';
-import { Box, Button, Flex, Image, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Img, Text } from '@chakra-ui/react';
 
 import MyMeta from '@/components/my-meta';
 import Layout from '@/components/layout';
@@ -23,7 +23,7 @@ const Index = ({ homes }: Props) => {
         imageUrl="/edumate.png"
       />
       <Box position="relative" w="100%" h="calc(100vh - 60px)">
-        <Image
+        <Img
           src="/images/home.jpeg"
           w="100%"
           h="100%"

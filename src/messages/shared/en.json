@@ -29,7 +29,12 @@
   },
   "AboutUs": {
     "title": "About Us",
-    "desc": "edumate devotes itself to the development of schools and teachers with educational know-how from Finland."
+    "desc": "edumate devotes itself to the development of schools and teachers with educational know-how from Finland.",
+    "companyName": "Company Name",
+    "businessId": "Business ID",
+    "address": "Address",
+    "city": "City",
+    "country": "Country"
   },
   "Timer": {
     "d": "Days",
