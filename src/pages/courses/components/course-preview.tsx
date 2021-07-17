@@ -1,4 +1,6 @@
+import { Icon } from '@chakra-ui/icons';
 import { Box, Flex, Heading, Img } from '@chakra-ui/react';
+import { BsBoxArrowInRight } from 'react-icons/bs';
 
 import CourseType from '@/types/course.type';
 import { EdumateLink } from '@/components/edumate-link';
@@ -39,12 +41,28 @@ const CoursePreview = ({ course }: Props) => {
           justifyContent="center"
           p={{ base: '1.25em', sm: '1.5em' }}
         >
-          <Heading size="md" mb="5px" color="blue.800">
-            {title}
-          </Heading>
+          <Flex direction="row" justifyContent="start" alignItems="center" mb="5px">
+            <Heading size="md" color="blue.800">
+              {title}
+            </Heading>
+            {detail ? (
+              <Box
+                fontSize={{ base: '0.95em', sm: '1em' }}
+                color="gray.600"
+                display="flex"
+                alignItems="center"
+                ml="0.5em"
+              >
+                <Icon as={BsBoxArrowInRight} color="blue.800" />
+              </Box>
+            ) : (
+              ''
+            )}
+          </Flex>
           <Box fontSize={{ base: '0.95em', sm: '1em' }} color="gray.600">
             {excerpt}
           </Box>
+
         </Box>
       </Flex>
     </EdumateLink>

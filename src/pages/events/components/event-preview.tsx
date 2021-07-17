@@ -1,8 +1,9 @@
 import { useTranslations } from 'next-intl';
 import { Box, Flex, Heading, Img } from '@chakra-ui/react';
-import { AtSignIcon, CalendarIcon, ExternalLinkIcon } from '@chakra-ui/icons';
-import { format, parseISO } from 'date-fns';
+import { AtSignIcon, CalendarIcon, ExternalLinkIcon, Icon } from '@chakra-ui/icons';
+import { BsBoxArrowInRight } from 'react-icons/bs';
 
+import { format, parseISO } from 'date-fns';
 import EventType from '@/types/event.type';
 import { EdumateLink } from '@/components/edumate-link';
 import Timer from './timer';
@@ -85,6 +86,21 @@ const EventPreview = ({ event }: Props) => {
           ) : (
             ''
           )}
+          {detail ? (
+            <Box
+              fontSize={{ base: '0.95em', sm: '1em' }}
+              color="gray.600"
+              display="flex"
+              alignItems="center"
+              my="0.25em"
+            >
+              <Icon as={BsBoxArrowInRight} mr="0.5em" color="blue.800" />
+                {t('detail')}
+            </Box>
+          ) : (
+            ''
+          )}
+
         </Box>
       </Flex>
     </EdumateLink>
