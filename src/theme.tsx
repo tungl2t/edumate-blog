@@ -60,8 +60,9 @@ const theme = extendTheme({
           background: '#fff',
           borderLeft: '5px solid',
           borderColor: '#2a43652e',
-          margin: '1.5em 0.5em',
+          margin: '1.5em 0',
           padding: '0.5em',
+          fontSize: '0.9em',
           '&:before': {
             content: '"\\201C"',
             color: 'blue.800',
@@ -69,6 +70,12 @@ const theme = extendTheme({
             lineHeight: '0.1em',
             marginRight: '0.25em',
             verticalAlign: '-0.4em',
+          },
+          ul: {
+            margin: '5px 0',
+            li: {
+              fontSize: '1em',
+            },
           },
           p: {
             display: 'inline',

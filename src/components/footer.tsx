@@ -23,7 +23,7 @@ const Footer = () => {
       >
         <Flex
           direction="row"
-          w={{ base: '90%', sm: '95%', lg: '960px' }}
+          w={{ base: '95%', lg: '960px' }}
           h="100%"
           m="auto"
           align="center"
