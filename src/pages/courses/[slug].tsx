@@ -11,7 +11,6 @@ import Testimonial from './components/testimonial';
 import Trainer from './components/trainer';
 import WrapperArticle from '@/components/wrapper-article';
 import HeadingArticle from '@/components/heading-article';
-import { Box } from '@chakra-ui/react';
 
 type Props = {
   courseUrl: string;
