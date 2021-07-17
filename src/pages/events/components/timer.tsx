@@ -47,7 +47,7 @@ const Timer = ({ day }: Props) => {
       clearInterval(interval);
     };
   });
-  return secondsToDay > 0 ? (
+  return secondsToDay > -1 ? (
     <Box fontSize={{ base: '1em', sm: '1.25em' }} color="gray.600" my="0.5em">
       <span>
         {daysToDay} {t('d')}
