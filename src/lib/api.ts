@@ -130,9 +130,8 @@ export async function getCourses(locale: string | undefined) {
     query Courses($where: JSON, $locale: String){
       courses(sort: "id:asc", where: $where, locale: $locale) {
         title
-        url
+        coursePath
         slug
-        detail
         excerpt
         coverImage {
           url
@@ -149,10 +148,10 @@ export async function getCourses(locale: string | undefined) {
   return data?.courses;
 }
 
-export async function getCourseByURL(url: string, locale: string | undefined) {
+export async function getCourseByPath(coursePath: string, locale: string | undefined) {
   return await fetchAPI(
     `
-    query CourseByURL($where: JSON,  $locale: String){
+    query CourseByPath($where: JSON,  $locale: String){
       courses(where: $where, locale: $locale) {
         title
         excerpt,
@@ -182,7 +181,7 @@ export async function getCourseByURL(url: string, locale: string | undefined) {
       variables: {
         locale,
         where: {
-          url,
+          coursePath,
         },
       },
     },
@@ -195,12 +194,11 @@ export async function getEvents(locale: string) {
     query Events($where: JSON, $locale: String){
       events(sort: "startDate:desc", where: $where, locale: $locale) {
         title
-        url
+        eventPath
         slug
         startDate
         endDate
         location
-        detail
         detailLink
         coverImage {
           url
@@ -217,10 +215,10 @@ export async function getEvents(locale: string) {
   return data?.events;
 }
 
-export async function getEventByURL(url: string, locale: string) {
+export async function getEventByPath(eventPath: string, locale: string) {
   return await fetchAPI(
     `
-    query EventByUrl($where: JSON,  $locale: String){
+    query EventByPath($where: JSON,  $locale: String){
       events(where: $where, locale: $locale) {
         title
         content,
@@ -234,7 +232,7 @@ export async function getEventByURL(url: string, locale: string) {
       variables: {
         locale,
         where: {
-          url,
+          eventPath,
         },
       },
     },

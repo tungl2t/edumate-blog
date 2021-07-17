@@ -1,9 +1,8 @@
 type EventType = {
   title: string;
   slug: string;
-  url: string;
+  eventPath: string;
   location: string;
-  detail: boolean;
   startDate: string;
   endDate: string;
   detailLink: string;

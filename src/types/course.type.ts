@@ -4,8 +4,7 @@ import TrainerType from './trainer.type';
 type CourseType = {
   title: string;
   slug: string;
-  url: string;
-  detail: boolean;
+  coursePath: string;
   excerpt: string;
   content: string;
   coverImage: {

@@ -1,7 +1,5 @@
-import { Box, Heading } from '@chakra-ui/react';
-
 import EventType from '@/types/event.type';
-import { getEventByURL } from '@/lib/api';
+import { getEventByPath } from '@/lib/api';
 import markdownToHtml from '@/lib/markdownToHtml';
 import MyMeta from '@/components/my-meta';
 import Layout from '@/components/layout';
@@ -35,7 +33,7 @@ type Params = {
 };
 
 export const getServerSideProps = async ({ params, locale }: Params) => {
-  const data = await getEventByURL(params.slug, locale);
+  const data = await getEventByPath(params.slug, locale);
   const event = data.events[0] as EventType;
   const content = await markdownToHtml(event?.content ?? '');
   return {

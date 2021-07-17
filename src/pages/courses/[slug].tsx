@@ -1,7 +1,6 @@
-import { Box, Heading } from '@chakra-ui/react';
 import { useTranslations } from 'next-intl';
 
-import { getCourseByURL } from '@/lib/api';
+import { getCourseByPath } from '@/lib/api';
 import markdownToHtml from '@/lib/markdownToHtml';
 import CourseType from '@/types/course.type';
 import TestimonialType from '@/types/testimonial.type';
@@ -12,6 +11,7 @@ import Testimonial from './components/testimonial';
 import Trainer from './components/trainer';
 import WrapperArticle from '@/components/wrapper-article';
 import HeadingArticle from '@/components/heading-article';
+import { Box } from '@chakra-ui/react';
 
 type Props = {
   courseUrl: string;
@@ -52,7 +52,7 @@ type Params = {
 };
 
 export const getServerSideProps = async ({ params, locale }: Params) => {
-  const data = await getCourseByURL(params.slug, locale);
+  const data = await getCourseByPath(params.slug, locale);
   const course = data.courses[0] as CourseType;
   const content = await markdownToHtml(course?.content ?? '');
   return {
