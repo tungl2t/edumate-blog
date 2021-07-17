@@ -43,7 +43,7 @@ const Preview = ({ title, href, imageUrl, children }: Props) => {
         >
           <Flex direction="row" justifyContent="start" alignItems="center" mb="5px">
             <Heading fontSize={{ base: '1.25em' }} color="blue.800" mt={{ base: '1em', '2md': 0 }}>
-              {title} {href ? <Icon as={BsBoxArrowInRight} color="gray.500" ml="5px" /> : null}
+              {title} {href && <Icon as={BsBoxArrowInRight} color="gray.500" ml="5px" />}
             </Heading>
           </Flex>
           {children}

@@ -39,7 +39,7 @@ const EventPreview = ({ event }: Props) => {
         <AtSignIcon mr="0.5em" color="blue.800" />
         {location}
       </Box>
-      {detailLink ? (
+      {detailLink && (
         <Box
           fontSize={{ base: '0.95em', sm: '1em' }}
           color="gray.600"
@@ -52,7 +52,7 @@ const EventPreview = ({ event }: Props) => {
             {t('detail')}
           </a>
         </Box>
-      ) : null}
+      )}
     </Preview>
   );
 };

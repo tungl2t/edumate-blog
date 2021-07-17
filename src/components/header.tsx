@@ -19,11 +19,14 @@ const Header = () => {
   useOutsideClick({
     ref: ref,
     handler: (e: Event | any) => {
-      const className = e?.target?.className ?? '';
-      const clickedHamburgerMenu =
-        className.includes('spinner') || className.includes('sidebarIconToggle');
-      if (isOpenSideBar && !clickedHamburgerMenu) {
-        setIsOpenSideBar(false);
+      if (!isLargerThanMd) {
+        const className = e?.target?.className ?? '';
+        const clickedHamburgerMenu =
+          typeof className === 'string' &&
+          (className.includes('spinner') || className.includes('sidebarIconToggle'));
+        if (isOpenSideBar && !clickedHamburgerMenu) {
+          setIsOpenSideBar(false);
+        }
       }
     },
   });
