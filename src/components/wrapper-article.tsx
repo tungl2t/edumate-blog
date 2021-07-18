@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { Box } from '@chakra-ui/react';
 import HeadingArticle from '@/components/heading-article';
+import Error from 'next/error';
 
 type Props = {
   title: string;
@@ -9,6 +10,9 @@ type Props = {
 };
 
 const WrapperArticle = ({ title, htmlContent, children }: Props) => {
+  if (!htmlContent) {
+    return <Error statusCode={404}/>;
+  }
   return (
     <Box
       w={{ base: '95%', lg: '960px' }}
