@@ -1,8 +1,9 @@
 import { ReactNode } from 'react';
-import { Box, Flex, Heading, Img } from '@chakra-ui/react';
-import { EdumateLink } from '@/components/edumate-link';
+import { AspectRatio, Box, Flex, Heading, Img } from '@chakra-ui/react';
 import { Icon } from '@chakra-ui/icons';
 import { BsBoxArrowInRight } from 'react-icons/bs';
+
+import { EdumateLink } from '@/components/edumate-link';
 
 type Props = {
   title: string;
@@ -25,16 +26,9 @@ const Preview = ({ title, href, imageUrl, children }: Props) => {
         my="1em"
         w={{ base: '95%', lg: '960px' }}
       >
-        <Img
-          src={imageUrl}
-          w={{ base: '100%', md: '40%' }}
-          flex={{ base: '100%', md: '40%' }}
-          objectFit="cover"
-          alt={title}
-          style={{
-            aspectRatio: '4/3',
-          }}
-        />
+        <AspectRatio ratio={4 / 3} flex={{ base: '100%', md: '40%' }}>
+          <Img src={imageUrl} alt={title} />
+        </AspectRatio>
         <Box
           position="relative"
           display="flex"

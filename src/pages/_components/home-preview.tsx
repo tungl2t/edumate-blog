@@ -1,5 +1,6 @@
-import { Box, Flex, Heading, Img } from '@chakra-ui/react';
+import { AspectRatio, Box, Flex, Heading, Img } from '@chakra-ui/react';
 import { ReactNode } from 'react';
+
 import HomeType from '@/types/home.type';
 
 type Props = {
@@ -17,20 +18,13 @@ const HomePreview = ({ home, index, children }: Props) => {
       border={{ base: '1px solid #000', md: 'none' }}
       borderColor="gray.200"
     >
-      <Img
-        src={home.coverImage.url}
-        w={{ base: '100%', md: '50%' }}
-        flex={{ base: '100%', md: '50%' }}
-        objectFit={{ base: 'cover', md: 'contain' }}
-        alt={home.title}
-        style={{
-          aspectRatio: '4/3',
-        }}
-      />
+      <AspectRatio ratio={{ base: 4 / 3, md: 3 / 4 }} flex={{ base: '100%', md: '30%' }}>
+        <Img src={home.coverImage.url} alt={home.title} />
+      </AspectRatio>
       <Box
         position="relative"
         display="flex"
-        flex={{ base: '100%', md: '50%' }}
+        flex={{ base: '100%', md: '70%' }}
         flexDirection="column"
         justifyContent="center"
         alignItems={{ base: 'start', md: 'center' }}

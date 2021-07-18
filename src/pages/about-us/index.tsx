@@ -1,9 +1,11 @@
-import Layout from '@/components/layout';
+import { AspectRatio, Box, Flex, Heading, Img } from '@chakra-ui/react';
+import { useTranslations } from 'next-intl';
+
 import { getCompanies } from '@/lib/api';
 import CompanyType from '@/types/company.type';
-import { useTranslations } from 'next-intl';
 import MyMeta from '@/components/my-meta';
-import { Box, Flex, Heading, Img } from '@chakra-ui/react';
+import Layout from '@/components/layout';
+
 type Props = {
   companies: CompanyType[];
 };
@@ -25,20 +27,14 @@ const Index = ({ companies }: Props) => {
         border={{ base: '1px solid #000', md: 'none' }}
         borderColor="gray.200"
       >
-        <Img
-          src={coverImage.url}
-          w={{ base: '100%', md: '50%' }}
-          flex={{ base: '100%', md: '50%' }}
-          objectFit={{ base: 'cover', md: 'contain' }}
-          alt={name}
-          style={{
-            aspectRatio: '3/4',
-          }}
-        />
+        <AspectRatio ratio={{ base: 4 / 3, md: 3 / 4 }} flex={{ base: '100%', md: '40%' }}>
+          <Img src={coverImage.url} alt={name} />
+        </AspectRatio>
+
         <Box
           position="relative"
           display="flex"
-          flex={{ base: '100%', md: '50%' }}
+          flex={{ base: '100%', md: '60%' }}
           flexDirection="column"
           justifyContent="center"
           m={{ base: 'unset', md: 'auto' }}
