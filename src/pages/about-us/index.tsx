@@ -22,7 +22,7 @@ const Index = ({ companies }: Props) => {
       />
       <Flex
         direction={{ base: 'column', md: 'row-reverse' }}
-        m={{ base: '5px auto', sm: 'auto' }}
+        m="auto"
         w={{ base: '95%', lg: '960px' }}
         border={{ base: '1px solid #000', md: 'none' }}
         borderColor="gray.200"
