@@ -28,6 +28,7 @@ const Preview = ({ title, href, imageUrl, children }: Props) => {
         <Img
           src={imageUrl}
           w={{ base: '100%', md: '40%' }}
+          flex={{ base: '100%', md: '40%' }}
           objectFit="cover"
           alt={title}
           style={{
@@ -37,6 +38,7 @@ const Preview = ({ title, href, imageUrl, children }: Props) => {
         <Box
           position="relative"
           display="flex"
+          flex={{ base: '100%', md: '60%' }}
           flexDirection="column"
           justifyContent="center"
           p={{ base: '1.25em', sm: '1.5em' }}

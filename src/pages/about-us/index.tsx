@@ -20,7 +20,7 @@ const Index = ({ companies }: Props) => {
       />
       <Flex
         direction={{ base: 'column', md: 'row-reverse' }}
-        m="auto"
+        m={{ base: '5px auto', sm: 'auto' }}
         w={{ base: '95%', lg: '960px' }}
         border={{ base: '1px solid #000', md: 'none' }}
         borderColor="gray.200"
@@ -28,6 +28,7 @@ const Index = ({ companies }: Props) => {
         <Img
           src={coverImage.url}
           w={{ base: '100%', md: '50%' }}
+          flex={{ base: '100%', md: '50%' }}
           objectFit={{ base: 'cover', md: 'contain' }}
           alt={name}
           style={{
@@ -37,6 +38,7 @@ const Index = ({ companies }: Props) => {
         <Box
           position="relative"
           display="flex"
+          flex={{ base: '100%', md: '50%' }}
           flexDirection="column"
           justifyContent="center"
           m={{ base: 'unset', md: 'auto' }}

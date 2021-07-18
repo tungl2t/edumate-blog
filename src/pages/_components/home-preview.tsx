@@ -20,6 +20,7 @@ const HomePreview = ({ home, index, children }: Props) => {
       <Img
         src={home.coverImage.url}
         w={{ base: '100%', md: '50%' }}
+        flex={{ base: '100%', md: '50%' }}
         objectFit={{ base: 'cover', md: 'contain' }}
         alt={home.title}
         style={{
@@ -29,16 +30,23 @@ const HomePreview = ({ home, index, children }: Props) => {
       <Box
         position="relative"
         display="flex"
+        flex={{ base: '100%', md: '50%' }}
         flexDirection="column"
         justifyContent="center"
-        m={{ base: 'unset', md: 'auto' }}
+        alignItems={{ base: 'start', md: 'center' }}
         p={{ base: '1.25em', sm: '1.5em' }}
       >
-        <Heading size="md" color="blue.800">
-          {home.title}
-        </Heading>
-        <Box fontSize="16px" color="gray.600" dangerouslySetInnerHTML={{ __html: home.content }} />
-        {children}
+        <div>
+          <Heading size="md" color="blue.800">
+            {home.title}
+          </Heading>
+          <Box
+            fontSize="16px"
+            color="gray.600"
+            dangerouslySetInnerHTML={{ __html: home.content }}
+          />
+          {children}
+        </div>
       </Box>
     </Flex>
   );
