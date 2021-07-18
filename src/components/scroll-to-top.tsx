@@ -30,14 +30,13 @@ const ScrollToTop = () => {
       as={IoIosArrowUp}
       cursor="pointer"
       onClick={scrollToTop}
-      color="gray.600"
+      color="black"
       position="fixed"
-      bottom="45px"
-      right="5px"
-      w={{ base: 6, sm: 7, lg: 8 }}
-      h={{ base: 6, sm: 7, lg: 8 }}
-      borderRadius="full"
-      boxShadow="0 2px 4px -1px #0003, 0 4px 5px 0 #00000024, 0 1px 10px 0 #0000001f"
+      bottom="70px"
+      right="30px"
+      background="blackAlpha.50"
+      w={{ base: 7, lg: 8 }}
+      h={{ base: 7, lg: 8 }}
     />
   ) : null;
 };
