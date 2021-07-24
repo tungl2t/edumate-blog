@@ -56,7 +56,7 @@ export const getServerSideProps = async ({ params, locale }: Params) => {
   const content = await markdownToHtml(course?.content ?? '');
   return {
     props: {
-      courseUrl: `${process.env.EDUMATE_URL}/${params.slug}`,
+      courseUrl: `${process.env.NEXT_PUBLIC_EDUMATE_URL}/${params.slug}`,
       course: {
         ...course,
         coverImage: { url: `${process.env.CMS_URL}${course?.coverImage.url ?? ''}` },

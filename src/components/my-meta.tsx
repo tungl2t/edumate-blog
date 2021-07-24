@@ -8,7 +8,7 @@ type Props = {
 };
 const MyMeta = ({ title, description, imageUrl, url }: Props) => {
   const titleContent = `edumate | ${title}`;
-  const imgUrl = imageUrl.startsWith('http') ? imageUrl : `https://edumate.vn${imageUrl}`;
+  const imgUrl = imageUrl.startsWith('http') ? imageUrl : `${process.env.NEXT_PUBLIC_EDUMATE_URL}/${imageUrl}`;
   return (
     <Head>
       <title>{titleContent}</title>
