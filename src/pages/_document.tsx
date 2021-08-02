@@ -7,6 +7,7 @@ export default class Document extends NextDocument {
       <Html>
         <Head>
           <link rel="icon" type="image/x-icon" href="favicon.ico" />
+          <link rel="manifest" href="/manifest.json" />
         </Head>
         <body>
           {/* Make Color mode to persists when you refresh the page. */}
