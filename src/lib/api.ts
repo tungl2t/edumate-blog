@@ -128,7 +128,7 @@ export async function getCourses(locale: string | undefined) {
   const data = await fetchAPI(
     `
     query Courses($where: JSON, $locale: String){
-      courses(sort: "id:asc", where: $where, locale: $locale) {
+      courses(sort: "created_at:desc", where: $where, locale: $locale) {
         title
         coursePath
         slug
@@ -152,7 +152,7 @@ export async function getCourseByPath(coursePath: string, locale: string | undef
   return await fetchAPI(
     `
     query CourseByPath($where: JSON,  $locale: String){
-      courses(where: $where, locale: $locale) {
+      courses(sort: "id:desc", where: $where, locale: $locale) {
         title
         excerpt,
         content,

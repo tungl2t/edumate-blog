@@ -28,11 +28,11 @@ const Course = ({ course, courseUrl }: Props) => {
         imageUrl={course.coverImage.url}
       />
       <WrapperArticle title={course.title} htmlContent={course.content}>
-        <HeadingArticle heading={t('testimonials')} />
+        {course.testimonials.length > 0 && <HeadingArticle heading={t('testimonials')} />}
         {course.testimonials.map((testimonial: TestimonialType, index: number) => (
           <Testimonial testimonial={testimonial} key={index} />
         ))}
-        <HeadingArticle heading={t('trainers')} />
+        {course.trainers.length > 0 && <HeadingArticle heading={t('trainers')} />}
         {course.trainers.map((trainer: TrainerType, index: number) => (
           <Trainer trainer={trainer} key={index} />
         ))}
