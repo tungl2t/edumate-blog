@@ -1,6 +1,6 @@
 type EvaluationQuestionAnswerType = {
   name: string;
-  value: string;
+  value: number;
 };
 
 export default EvaluationQuestionAnswerType;

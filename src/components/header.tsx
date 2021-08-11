@@ -74,10 +74,10 @@ const Header = () => {
                 <Box
                   cursor="pointer"
                   mx="10px"
-                  color={asPath.indexOf(item.link) === 0 ? '#f5a843' : ''}
+                  color={asPath.indexOf(item.link) === 0 ? 'yellow.600' : ''}
                   _hover={{
                     transition: 'all .25s ease-in-out',
-                    color: '#f5a843',
+                    color: 'yellow.600',
                   }}
                 >
                   {t(item.translation)}
@@ -143,10 +143,10 @@ const Header = () => {
                 <Box
                   cursor="pointer"
                   my="0.5em"
-                  color={asPath.indexOf(item.link) === 0 ? '#f5a843' : ''}
+                  color={asPath.indexOf(item.link) === 0 ? 'yellow.600' : ''}
                   _hover={{
                     transition: 'all .25s ease-in-out',
-                    color: '#f5a843',
+                    color: 'yellow.600',
                   }}
                   onClick={() => {
                     setIsOpenSideBar(false);

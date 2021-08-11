@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react';
+import { Box, Text } from '@chakra-ui/react';
 import Preview from '@/components/preview';
 import EvaluationType from '@/types/evaluation.type';
 
