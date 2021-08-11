@@ -37,6 +37,10 @@
     "country": "Country",
     "home": "Room 303, Floor 3, CTSC Building, 1 Ba Trieu, Hoan Kiem, Hanoi"
   },
+  "EvaluationTool": {
+    "title": "Evaluation Tool",
+    "desc": ""
+  },
   "Timer": {
     "d": "Days",
     "h": "Hours",

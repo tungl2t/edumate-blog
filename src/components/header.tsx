@@ -10,7 +10,7 @@ import headerStyles from '@/styles/header.module.sass';
 const Header = () => {
   const ref = useRef<HTMLDivElement>(null);
   const [isOpenSideBar, setIsOpenSideBar] = useState(false);
-  const [isLargerThanMd] = useMediaQuery('(min-width: 768px)');
+  const [isLargerThan2Md] = useMediaQuery('(min-width: 896px)');
   const { asPath, locale, locales } = useRouter();
   const t = useTranslations('Navigation');
   const otherLocale = locales?.find((cur) => cur !== locale);
@@ -19,7 +19,7 @@ const Header = () => {
   useOutsideClick({
     ref: ref,
     handler: (e: Event | any) => {
-      if (!isLargerThanMd) {
+      if (!isLargerThan2Md) {
         const className = e?.target?.className ?? '';
         const clickedHamburgerMenu =
           typeof className === 'string' &&
@@ -32,10 +32,10 @@ const Header = () => {
   });
 
   useEffect(() => {
-    if (isLargerThanMd) {
+    if (isLargerThan2Md) {
       setIsOpenSideBar(false);
     }
-  }, [isLargerThanMd]);
+  }, [isLargerThan2Md]);
 
   return (
     <header>
@@ -67,13 +67,13 @@ const Header = () => {
             color="white"
             justifyContent="center"
             alignItems="center"
-            display={{ md: 'flex', base: 'none' }}
+            display={{ '2md': 'flex', base: 'none' }}
           >
             {NAV_LINKS.map((item) => (
               <NextLink href={item.link} key={item.link}>
                 <Box
                   cursor="pointer"
-                  mx="0.5em"
+                  mx="10px"
                   color={asPath.indexOf(item.link) === 0 ? '#f5a843' : ''}
                   _hover={{
                     transition: 'all .25s ease-in-out',
@@ -84,18 +84,20 @@ const Header = () => {
                 </Box>
               </NextLink>
             ))}
-            <NextLink href={asPath} locale={otherLocale} scroll={false}>
-              <a>
-                {' '}
-                <Img src={localeIcon} ml="1em" w="35px" h="35px" alt="language" />
-              </a>
-            </NextLink>
+            {asPath !== '/blog' && (
+              <NextLink href={asPath} locale={otherLocale} scroll={false}>
+                <a>
+                  {' '}
+                  <Img src={localeIcon} ml="1em" w="35px" h="35px" alt="language" />
+                </a>
+              </NextLink>
+            )}
           </Flex>
           <Box
             className={headerStyles.hamburgerMenu}
             position="relative"
             zIndex={2}
-            display={{ md: 'none', base: 'block' }}
+            display={{ '2md': 'none', base: 'block' }}
           >
             <input
               key={Math.random()}
@@ -154,21 +156,23 @@ const Header = () => {
                 </Box>
               </NextLink>
             ))}
-            <NextLink href={asPath} locale={otherLocale} scroll={false}>
-              <a>
-                {' '}
-                <Img
-                  src={localeIcon}
-                  w="50px"
-                  h="50px"
-                  my="0.5em"
-                  alt="language"
-                  onClick={() => {
-                    setIsOpenSideBar(false);
-                  }}
-                />
-              </a>
-            </NextLink>
+            {asPath !== '/blog' && (
+              <NextLink href={asPath} locale={otherLocale} scroll={false}>
+                <a>
+                  {' '}
+                  <Img
+                    src={localeIcon}
+                    w="50px"
+                    h="50px"
+                    my="0.5em"
+                    alt="language"
+                    onClick={() => {
+                      setIsOpenSideBar(false);
+                    }}
+                  />
+                </a>
+              </NextLink>
+            )}
           </Flex>
         </Box>
       </Box>
