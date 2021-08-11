@@ -288,3 +288,58 @@ export async function getCompanies(locale: string) {
   );
   return data?.companies;
 }
+
+export async function getEvaluations(locale: string | undefined) {
+  const data = await fetchAPI(
+    `
+    query Evaluations($where: JSON, $locale: String){
+      evaluations(sort: "created_at:desc", where: $where, locale: $locale) {
+        name
+        evaluationPath
+        slug
+        description
+        coverImage {
+          url
+        }
+      }
+    }
+  `,
+    {
+      variables: {
+        locale,
+      },
+    },
+  );
+  return data?.evaluations;
+}
+
+export async function getEvaluationByPath(evaluationPath: string, locale: string | undefined) {
+  return await fetchAPI(
+    `
+    query EvaluationByPath($where: JSON,  $locale: String){
+      evaluations(where: $where, locale: $locale) {
+        name
+        chartType,
+        coverImage {
+          url
+        }
+        evaluationQuestions {
+          name
+          evaluationQuestionAnswers {
+            name
+            value
+          }
+        }
+      }
+    }
+  `,
+    {
+      variables: {
+        locale,
+        where: {
+          evaluationPath,
+        },
+      },
+    },
+  );
+}
