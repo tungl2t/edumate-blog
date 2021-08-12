@@ -39,7 +39,11 @@
   },
   "EvaluationTool": {
     "title": "Evaluation Tool",
-    "desc": ""
+    "desc": "",
+    "teacher": "Teacher",
+    "class": "Class",
+    "subject": "ILM Name",
+    "submit": "Submit"
   },
   "Timer": {
     "d": "Days",

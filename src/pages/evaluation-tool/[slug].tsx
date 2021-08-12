@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import {
   Accordion,
@@ -7,9 +7,15 @@ import {
   AccordionItem,
   AccordionPanel,
   Box,
+  Button,
   Circle,
   Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalOverlay,
   Text,
+  useDisclosure,
 } from '@chakra-ui/react';
 
 import { getEvaluationByPath } from '@/lib/api';
@@ -18,6 +24,9 @@ import Layout from '@/components/layout';
 import HeadingArticle from '@/components/heading-article';
 import EvaluationType from '@/types/evaluation.type';
 import EvaluationQuestionType from '@/types/evaluation-question.type';
+import EvaluationPolarChart from './components/evaluation-polar-chart';
+import markdownToHtml from '@/lib/markdownToHtml';
+import EvaluationBarChart from './components/evaluation-bar-chart';
 
 type Props = {
   evaluationUrl: string;
@@ -26,16 +35,38 @@ type Props = {
 
 const Evaluation = ({ evaluation, evaluationUrl }: Props) => {
   const t = useTranslations('EvaluationTool');
-  const [answers, setAnswers] = useState<Array<number>>([]);
+  const [teacher, setTeacher] = useState<string>('');
+  const [clazz, setClazz] = useState<string>('');
+  const [subject, setSubject] = useState<string>('');
   const [accordionItemIndex, setAccordionItemIndex] = useState<number>(-1);
+  const [answers, setAnswers] = useState<Array<number>>([]);
+  const [questions, setQuestions] = useState<Array<string>>([]);
+  const [info, setInfo] = useState<Array<string>>([]);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  // const questions = evaluation?.evaluationQuestions?.map((q) => q.name) ?? [];
 
   const handleAnswerValues = (questionIndex: number, value: number) => {
     let answersTemp = [...answers];
     answersTemp[questionIndex] = value;
     setAnswers(answersTemp);
-    if (questionIndex < evaluation.evaluationQuestions.length - 1) {
-      setAccordionItemIndex(questionIndex + 1);
-    }
+    // if (questionIndex < evaluation.evaluationQuestions.length - 1) {
+    //   setAccordionItemIndex(questionIndex + 1);
+    // }
+    setAccordionItemIndex(questionIndex + 1);
+  };
+
+  useEffect(() => {
+    setQuestions(evaluation.evaluationQuestions.map((q) => q.name));
+    return () => {};
+  }, [evaluation]);
+
+  const handleChartModal = () => {
+    setInfo([
+      `${t('teacher')}: ${teacher}`,
+      `${t('class')}: ${clazz}`,
+      `${t('subject')}: ${subject}`,
+    ]);
+    onOpen();
   };
   return (
     <Layout>
@@ -54,12 +85,27 @@ const Evaluation = ({ evaluation, evaluationUrl }: Props) => {
       >
         <HeadingArticle heading={evaluation.name} />
 
-        <Input variant="flushed" placeholder="Name" />
-        <Input variant="flushed" placeholder="Class" />
-        <Input variant="flushed" placeholder="Subject" />
+        <Input
+          variant="flushed"
+          placeholder={t('teacher') as string}
+          value={teacher}
+          onChange={(event) => setTeacher(event.target.value)}
+        />
+        <Input
+          variant="flushed"
+          placeholder={t('class') as string}
+          value={clazz}
+          onChange={(event) => setClazz(event.target.value)}
+        />
+        <Input
+          variant="flushed"
+          placeholder={t('subject') as string}
+          value={subject}
+          onChange={(event) => setSubject(event.target.value)}
+        />
 
         <Accordion allowToggle mt="2rem" index={accordionItemIndex}>
-          {evaluation.evaluationQuestions.map(
+          {evaluation?.evaluationQuestions?.map(
             (question: EvaluationQuestionType, questionIndex: number) => (
               <AccordionItem key={questionIndex} isDisabled={questionIndex > answers.length}>
                 <AccordionButton
@@ -84,7 +130,7 @@ const Evaluation = ({ evaluation, evaluationUrl }: Props) => {
                   <AccordionIcon />
                 </AccordionButton>
                 <AccordionPanel pb={4} display="flex" flexDirection="column">
-                  {question.evaluationQuestionAnswers.map((answer, index) => (
+                  {question?.evaluationQuestionAnswers?.map((answer, index) => (
                     <Box
                       w="100%"
                       p={4}
@@ -102,16 +148,41 @@ const Evaluation = ({ evaluation, evaluationUrl }: Props) => {
                       color={answers[questionIndex] === answer.value ? 'white' : 'black'}
                       bg={answers[questionIndex] === answer.value ? 'yellow.600' : 'white'}
                       onClick={() => handleAnswerValues(questionIndex, answer.value)}
-                    >
-                      {answer.name}
-                    </Box>
+                      dangerouslySetInnerHTML={{ __html: answer.name }}
+                    />
                   ))}
                 </AccordionPanel>
               </AccordionItem>
             ),
           )}
         </Accordion>
+
+        <Button
+          mt="20px"
+          colorScheme="white"
+          fontSize="0.95em"
+          onClick={handleChartModal}
+          w="100%"
+          bg="yellow.600"
+          variant="solid"
+          disabled={answers.length < questions.length}
+        >
+          {t('submit')}
+        </Button>
       </Box>
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+        <ModalOverlay />
+        <ModalContent w={{ base: '95%', lg: '960px' }} maxH="90vh">
+          <ModalBody>
+            <EvaluationBarChart
+              evaluationTitle={evaluation.name}
+              data={answers}
+              questionNames={questions}
+              info={info}
+            />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </Layout>
   );
 };
@@ -128,11 +199,26 @@ type Params = {
 export const getServerSideProps = async ({ params, locale }: Params) => {
   const data = await getEvaluationByPath(params.slug, locale);
   const evaluation = data.evaluations[0] as EvaluationType;
+  let evaluationQuestions: EvaluationQuestionType[] = [];
+  if (evaluation?.evaluationQuestions?.length) {
+    evaluationQuestions = await Promise.all(
+      evaluation.evaluationQuestions.map(async (q) => {
+        const evaluationQuestionAnswers = await Promise.all(
+          q.evaluationQuestionAnswers.map(async (a) => {
+            const name = await markdownToHtml(a.name);
+            return { ...a, name };
+          }),
+        );
+        return { ...q, evaluationQuestionAnswers };
+      }),
+    );
+  }
   return {
     props: {
       evaluationUrl: `${process.env.NEXT_PUBLIC_EDUMATE_URL}/${params.slug}`,
       evaluation: {
         ...evaluation,
+        evaluationQuestions,
         coverImage: { url: `${process.env.CMS_URL}${evaluation?.coverImage.url ?? ''}` },
       },
     },

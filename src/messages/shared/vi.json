@@ -39,7 +39,11 @@
   },
   "EvaluationTool": {
     "title": "Công cụ đánh giá",
-    "desc": ""
+    "desc": "",
+    "teacher": "Giáo viên",
+    "class": "Lớp",
+    "subject": "Tên dự án ILM",
+    "submit": "Đánh giá"
   },
   "Timer": {
     "d": "Ngày",
