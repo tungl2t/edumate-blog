@@ -19,7 +19,7 @@ const Index = ({ evaluations }: Props) => {
       <MyMeta
         title={t('title')}
         description={t('desc')}
-        url="https://edumate.vn/evaluation-tool"
+        url="https://edumate.vn/evaluation-tools"
         imageUrl="/edumate.png"
       />
       <Flex flexDirection="column" alignItems="center" justifyContent="center" margin="auto">

@@ -19,8 +19,18 @@ const EvaluationBarChart = ({ info, data, questionNames }: Props) => {
     html2canvas(input).then((canvas) => {
       const orientation = window.innerWidth > window.innerHeight ? 'l' : 'p';
       const img = canvas.toDataURL('image/png');
-      const pdf = new PdfConverter(orientation, 'px');
-      pdf.addImage(img, 'png', 20, 20, 0, 0);
+      const pdf = new PdfConverter(orientation, 'px', 'a4');
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      const widthRatio = pageWidth / canvas.width;
+      const heightRatio = pageHeight / canvas.height;
+      const ratio = widthRatio > heightRatio ? heightRatio : widthRatio;
+      const canvasWidth = canvas.width * ratio;
+      const canvasHeight = canvas.height * ratio;
+      const marginX = (pageWidth - canvasWidth) / 2;
+      const marginY = (pageHeight - canvasHeight) / 2;
+
+      pdf.addImage(img, 'png', marginX, marginY, canvasWidth, canvasHeight);
       pdf.save('evaluation.pdf');
     });
   };
@@ -54,6 +64,9 @@ const EvaluationBarChart = ({ info, data, questionNames }: Props) => {
             indexAxis: 'y',
             responsive: true,
             maintainAspectRatio: false,
+            layout: {
+              padding: 20,
+            },
             plugins: {
               title: {
                 display: true,
