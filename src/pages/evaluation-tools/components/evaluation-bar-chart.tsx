@@ -65,7 +65,7 @@ const EvaluationBarChart = ({ info, data, questionNames }: Props) => {
             responsive: true,
             maintainAspectRatio: false,
             layout: {
-              padding: 20,
+              padding: 25,
             },
             plugins: {
               title: {
