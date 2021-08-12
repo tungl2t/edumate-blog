@@ -8,7 +8,7 @@ type Props = {
 
 const EvaluationPreview = ({ evaluation }: Props) => {
   const { evaluationPath, coverImage, name, description } = evaluation;
-  const href = evaluationPath ? `/evaluation-tool/${evaluationPath}` : '';
+  const href = evaluationPath ? `/evaluation-tools/${evaluationPath}` : '';
   return (
     <Preview title={name} href={href} imageUrl={coverImage.url}>
       <Box

@@ -4,7 +4,7 @@ export const NAV_LINKS = [
   { translation: 'events', link: '/events' },
   { translation: 'products', link: '/products' },
   { translation: 'blog', link: '/blog' },
-  { translation: 'evaluation', link: '/evaluation-tool' },
+  { translation: 'evaluation', link: '/evaluation-tools' },
   { translation: 'about', link: '/about-us' },
 ];
 
