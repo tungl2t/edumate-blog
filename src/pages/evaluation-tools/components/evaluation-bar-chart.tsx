@@ -85,7 +85,9 @@ const EvaluationBarChart = ({ info, data, questionNames }: Props) => {
             },
             scales: {
               x: {
+                max: 3,
                 ticks: {
+                  stepSize: 0.5,
                   callback: function (val: number, index: number) {
                     switch (val) {
                       case 0:
@@ -102,9 +104,6 @@ const EvaluationBarChart = ({ info, data, questionNames }: Props) => {
                   },
                 },
               },
-            },
-            scale: {
-              stepSize: 0.5,
             },
           }}
         />
