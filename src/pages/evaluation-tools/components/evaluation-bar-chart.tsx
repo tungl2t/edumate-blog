@@ -65,7 +65,7 @@ const EvaluationBarChart = ({ info, data, questionNames }: Props) => {
             responsive: true,
             maintainAspectRatio: false,
             layout: {
-              padding: 20,
+              padding: 25,
             },
             plugins: {
               title: {
@@ -85,18 +85,24 @@ const EvaluationBarChart = ({ info, data, questionNames }: Props) => {
             },
             scales: {
               x: {
+                grid: {
+                  // display: false,
+                  drawBorder: false,
+                  drawOnChartArea: false,
+                  // drawTicks: false,
+                },
                 max: 3,
                 ticks: {
-                  stepSize: 0.5,
+                  stepSize: 1,
                   callback: function (val: number, index: number) {
                     switch (val) {
                       case 0:
                         return '';
-                      case 0.5:
+                      case 1:
                         return 'Low-quality';
-                      case 1.5:
+                      case 2:
                         return 'Moderate';
-                      case 2.5:
+                      case 3:
                         return 'Accomplished';
                       default:
                         return '';
