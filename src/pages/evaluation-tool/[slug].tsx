@@ -12,6 +12,7 @@ import {
   Input,
   Modal,
   ModalBody,
+  ModalCloseButton,
   ModalContent,
   ModalOverlay,
   Text,
@@ -27,6 +28,7 @@ import EvaluationQuestionType from '@/types/evaluation-question.type';
 import EvaluationPolarChart from './components/evaluation-polar-chart';
 import markdownToHtml from '@/lib/markdownToHtml';
 import EvaluationBarChart from './components/evaluation-bar-chart';
+import { format } from 'date-fns';
 
 type Props = {
   evaluationUrl: string;
@@ -61,10 +63,12 @@ const Evaluation = ({ evaluation, evaluationUrl }: Props) => {
   }, [evaluation]);
 
   const handleChartModal = () => {
+    const currentTime = format(Date.now(), 'dd/MM/yyyy - hh:mm a');
     setInfo([
       `${t('teacher')}: ${teacher}`,
       `${t('class')}: ${clazz}`,
       `${t('subject')}: ${subject}`,
+      `${t('time')}: ${currentTime}`,
     ]);
     onOpen();
   };
@@ -170,9 +174,10 @@ const Evaluation = ({ evaluation, evaluationUrl }: Props) => {
           {t('submit')}
         </Button>
       </Box>
-      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+      <Modal isOpen={isOpen} onClose={onClose} isCentered size="5xl">
         <ModalOverlay />
-        <ModalContent w={{ base: '95%', lg: '960px' }} maxH="90vh">
+        <ModalContent w="95%">
+          <ModalCloseButton />
           <ModalBody>
             <EvaluationBarChart
               evaluationTitle={evaluation.name}

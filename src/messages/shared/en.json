@@ -43,6 +43,7 @@
     "teacher": "Teacher",
     "class": "Class",
     "subject": "ILM Name",
+    "time": "Time",
     "submit": "Submit"
   },
   "Timer": {
