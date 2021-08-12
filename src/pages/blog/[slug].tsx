@@ -1,10 +1,11 @@
 import { Box, Heading } from '@chakra-ui/react';
+
+import MyMeta from '@/components/my-meta';
+import Layout from '@/components/layout';
 import { getPostBySlug } from '@/lib/api';
 import markdownToHtml from '@/lib/markdownToHtml';
-import PostType from '@/types/post';
-import Meta from '@/components/meta';
-import postStyles from './Post.module.sass';
-import Layout from '@/components/layout';
+import PostType from '@/types/post.type';
+import WrapperArticle from '@/components/wrapper-article';
 
 type Props = {
   postUrl: string;
@@ -14,35 +15,13 @@ type Props = {
 const Post = ({ post, postUrl }: Props) => {
   return (
     <Layout>
-      <Meta
+      <MyMeta
         title={post.title}
         description={post.excerpt}
         url={postUrl}
         imageUrl={post.coverImage.url}
       />
-      <Box
-        maxW="1000px"
-        w="95%"
-        m="auto"
-        p={{ base: '1em', md: '5em' }}
-        border="1px solid"
-        borderColor="gray.200"
-      >
-        <Heading
-          as="h1"
-          fontSize={{ base: '1.5em', sm: '2em', md: '2.5em' }}
-          color="blue.800"
-          mb="1em"
-        >
-          {post?.title}
-        </Heading>
-        <Box
-          className={postStyles.content}
-          textAlign={{ base: 'start', sm: 'justify' }}
-          fontSize={{ base: '1em', md: '1.125em' }}
-          dangerouslySetInnerHTML={{ __html: post.content }}
-        />
-      </Box>
+      <WrapperArticle title={post.title} htmlContent={post.content} />
     </Layout>
   );
 };
@@ -61,7 +40,7 @@ export const getServerSideProps = async ({ params }: Params) => {
   const content = await markdownToHtml(post?.content ?? '');
   return {
     props: {
-      postUrl: `${process.env.BLOG_URL}/${params.slug}`,
+      postUrl: `${process.env.NEXT_PUBLIC_EDUMATE_URL}/${params.slug}`,
       post: {
         ...post,
         coverImage: { url: `${process.env.CMS_URL}${post?.coverImage.url ?? ''}` },

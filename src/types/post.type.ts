@@ -1,4 +1,4 @@
-import Author from './author';
+import AuthorType from './author.type';
 
 type PostType = {
   slug: string;
@@ -7,7 +7,7 @@ type PostType = {
   coverImage: {
     url: string;
   };
-  author: Author;
+  author: AuthorType;
   excerpt: string;
   content: string;
 };

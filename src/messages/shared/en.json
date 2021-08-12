@@ -1,0 +1,55 @@
+{
+  "Home": {
+    "title": "Welcome to The World Of Finnish Education",
+    "desc": "edumate - Your most trusted partner ",
+    "explore": "Explore Services"
+  },
+  "Blog": {
+    "title": "Blog",
+    "desc": ""
+  },
+  "Service": {
+    "title": "Services",
+    "desc": "edumate offers a wide range of consulting and training solutions related to Finnish Education."
+  },
+  "Courses": {
+    "title": "Courses",
+    "desc": "Upgrade the professional skills of teachers and educators with our courses.",
+    "testimonials": "Testimonials",
+    "trainers": "Trainers"
+  },
+  "Events": {
+    "title": "Events",
+    "desc": "edumate organizes in-depth seminars for teachers, educators and anyone who loves education with interesting topics.",
+    "detail": "More details"
+  },
+  "Products": {
+    "title": "Products",
+    "desc": "edumate academic planner is the first Vietnamese language planner for students, teachers and those working in the education industry. Do you already own a book?"
+  },
+  "AboutUs": {
+    "title": "About Us",
+    "desc": "edumate devotes itself to the development of schools and teachers with educational know-how from Finland.",
+    "companyName": "Company Name",
+    "businessId": "Business ID",
+    "address": "Address",
+    "city": "City",
+    "country": "Country",
+    "home": "Room 303, Floor 3, CTSC Building, 1 Ba Trieu, Hoan Kiem, Hanoi"
+  },
+  "EvaluationTool": {
+    "title": "Evaluation Tool",
+    "desc": "",
+    "teacher": "Teacher",
+    "class": "Class",
+    "subject": "ILM Name",
+    "time": "Time",
+    "submit": "Submit"
+  },
+  "Timer": {
+    "d": "Days",
+    "h": "Hours",
+    "m": "Minutes",
+    "s": "Seconds"
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "Home": {
+    "title": "Chào mừng đến với Giáo dục Phần Lan",
+    "desc": "edumate - Đối tác tin cậy nhất của bạn",
+    "explore": "Dịch vụ của chúng tôi"
+  },
+  "Blog": {
+    "title": "Blog",
+    "desc": ""
+  },
+  "Service": {
+    "title": "Dịch vụ",
+    "desc": "edumate cung cấp đa dạng các giải pháp tư vấn và đào tạo liên quan tới Giáo dục Phần Lan."
+  },
+  "Courses": {
+    "title": "Khóa học",
+    "desc": "Nâng cấp các kỹ năng làm việc chuyên nghiệp của giáo viên và người làm giáo dục với các khóa học của chúng tôi.",
+    "testimonials": "Chia sẻ từ học viên",
+    "trainers": "Giảng viên"
+  },
+  "Events": {
+    "title": "Sự kiện",
+    "desc": "edumate tổ chức các hội thảo chuyên sâu dành cho giáo viên, nhà giáo dục và bất cứ ai yêu giáo dục với những chủ đề thú vị.",
+    "detail": "Thông tin chi tiết"
+  },
+  "Products": {
+    "title": "Sản phẩm",
+    "desc": "Sổ kế hoạch năm học edumate là cuốn sổ kế hoạch đầu tiên bằng Tiếng Việt dành riêng cho học sinh, giáo viên và những người làm trong ngành giáo dục. Bạn đã sở hữu một cuốn chưa?"
+  },
+  "AboutUs": {
+    "title": "Về chúng tôi",
+    "desc": "edumate cống hiến hết mình vì sự phát triển của trường học, của giáo viên với bí kíp giáo dục từ Phần Lan.",
+    "companyName": "Tên công ty",
+    "businessId": "Mã số doanh nghiệp",
+    "address": "Địa chỉ",
+    "city": "Thành phố",
+    "country": "Quốc gia",
+    "home": "Phòng 303, Tầng 3, Tòa nhà CTSC, Số 1 Bà Triệu, Hoàn Kiếm, Hà Nội"
+  },
+  "EvaluationTool": {
+    "title": "Công cụ đánh giá",
+    "desc": "",
+    "teacher": "Giáo viên",
+    "class": "Lớp",
+    "subject": "Tên dự án ILM",
+    "time": "Thời gian",
+    "submit": "Đánh giá"
+  },
+  "Timer": {
+    "d": "Ngày",
+    "h": "Giờ",
+    "m": "Phút",
+    "s": "Giây"
+  }
+}
