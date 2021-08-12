@@ -16,7 +16,7 @@ const Footer = () => {
   return (
     <footer className={footerStyles.footer}>
       <Box
-        height="40px"
+        height="60px"
         background="black"
         width="100%"
         boxShadow="0 2px 4px -1px #0003, 0 4px 5px 0 #00000024, 0 1px 10px 0 #0000001f"

@@ -37,6 +37,15 @@
     "country": "Country",
     "home": "Room 303, Floor 3, CTSC Building, 1 Ba Trieu, Hoan Kiem, Hanoi"
   },
+  "EvaluationTool": {
+    "title": "Evaluation Tool",
+    "desc": "",
+    "teacher": "Teacher",
+    "class": "Class",
+    "subject": "ILM Name",
+    "time": "Time",
+    "submit": "Submit"
+  },
   "Timer": {
     "d": "Days",
     "h": "Hours",

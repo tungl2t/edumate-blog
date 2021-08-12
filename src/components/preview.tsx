@@ -24,7 +24,7 @@ const Preview = ({ title, href, imageUrl, children }: Props) => {
         border="1px solid"
         borderColor="gray.200"
         my="1em"
-        w={{ base: '95%', lg: '960px' }}
+        w={{ base: '95vw', lg: '960px' }}
       >
         <AspectRatio ratio={4 / 3} flex={{ base: '100%', md: '40%' }}>
           <Img src={imageUrl} alt={title} />
