@@ -319,7 +319,7 @@ export async function getEvaluationByPath(evaluationPath: string, locale: string
     query EvaluationByPath($where: JSON,  $locale: String){
       evaluations(where: $where, locale: $locale) {
         name
-        chartType,
+        type,
         coverImage {
           url
         }
@@ -329,6 +329,18 @@ export async function getEvaluationByPath(evaluationPath: string, locale: string
             name
             value
           }
+        }
+        evaluationDomains {
+            name
+            dimensions {
+                name
+                sign
+                subDimensions {
+                    name
+                    minValue
+                    maxValue
+                }
+            }
         }
       }
     }
