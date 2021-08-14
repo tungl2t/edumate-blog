@@ -30,6 +30,8 @@ import {
   Tr,
   useDisclosure,
 } from '@chakra-ui/react';
+import { cloneDeep, compact, flattenDeep, flattenDepth, mean, multiply, sum, zip } from 'lodash-es';
+import { format } from 'date-fns';
 
 import { getEvaluationByPath } from '@/lib/api';
 import MyMeta from '@/components/my-meta';
@@ -39,9 +41,9 @@ import EvaluationType, { EType } from '@/types/evaluation.type';
 import EvaluationQuestionType from '@/types/evaluation-question.type';
 import markdownToHtml from '@/lib/markdownToHtml';
 import EvaluationBarChart from './components/evaluation-bar-chart';
-import { format } from 'date-fns';
 import EvaluationDomainType from '@/types/evaluation-domain.type';
-import { instanceOf } from 'prop-types';
+import { chunkArray } from '@/lib/helper';
+import EvaluationLineChart from './components/evaluation-line-chart';
 
 type Props = {
   evaluationUrl: string;
@@ -57,14 +59,48 @@ const Evaluation = ({ evaluation, evaluationUrl }: Props) => {
   const [teacher, setTeacher] = useState<string>('');
   const [clazz, setClazz] = useState<string>('');
   const [subject, setSubject] = useState<string>('');
+  const [observer, setObserver] = useState<string>('');
+  const [noOfAdults, setNoOfAdults] = useState<string>('');
+  const [noOfChildren, setNoOfChildren] = useState<string>('');
   const [accordionItemIndex, setAccordionItemIndex] = useState<number>(-1);
   const [answers, setAnswers] = useState<Array<number>>([]);
   const [questions, setQuestions] = useState<Array<string>>([]);
   const [info, setInfo] = useState<Array<string>>([]);
+  const [firstCycle, setFirstCycle] = useState<number[][][]>([[[]]]);
+  const [secondCycle, setSecondCycle] = useState<number[][][]>([[[]]]);
+  const [finalDimensionsAverage, setFinalDimensionsAverage] = useState<number[]>([]);
+  const [dimensionNames, setDimensionNames] = useState<string[]>([]);
+  const [dimensionSigns, setDimensionSigns] = useState<number[]>([]);
+  const [domainLengths, setDomainLengths] = useState<number[]>([]);
+  const [domainNames, setDomainNames] = useState<string[]>([]);
+  const [finalDomainAverage, setFinalDomainAverage] = useState<number[]>([]);
+  const [isValidForm, setIsValidForm] = useState<boolean>(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [firstCycle, setFirstCycle] = useState<DomainMap>(new Map());
-  const [secondCycle, setSecondCycle] = useState<DomainMap>(new Map());
+  useEffect(() => {
+    const initValue = evaluation.evaluationDomains.map((domain) => [
+      ...domain.dimensions.map((dimension) => [
+        ...dimension.subDimensions.map((subDimension) => 0),
+      ]),
+    ]);
+    const signs = evaluation.evaluationDomains.map((domain) =>
+      domain.dimensions.map((dimension) => (dimension.sign ? 1 : -1)),
+    );
+
+    setDimensionNames(
+      flattenDeep(
+        evaluation.evaluationDomains.map((domain) =>
+          domain.dimensions.map((dimension) => dimension.name),
+        ),
+      ),
+    );
+    setDomainLengths(evaluation.evaluationDomains.map((domain) => domain.dimensions.length));
+    setQuestions(evaluation?.evaluationQuestions?.map((q) => q.name));
+    setDomainNames(evaluation.evaluationDomains.map((domain) => domain.name));
+    setDimensionSigns(flattenDeep(signs));
+    setFirstCycle(initValue);
+    setSecondCycle(initValue);
+  }, []);
 
   const handleValueOfEachCycle = (
     domainIndex: number,
@@ -73,23 +109,12 @@ const Evaluation = ({ evaluation, evaluationUrl }: Props) => {
     value: number,
     isFirstCycle = true,
   ) => {
-    const tmpMap: DomainMap = isFirstCycle ? firstCycle : secondCycle;
-    const tmpDimensionMap = tmpMap.get(domainIndex);
-    if (tmpDimensionMap) {
-      const tmpSubDimensionMap = tmpDimensionMap.get(dimensionIndex);
-      if (tmpSubDimensionMap instanceof Map) {
-        tmpSubDimensionMap.set(subDimensionIndex, value);
-      } else {
-        tmpDimensionMap.set(dimensionIndex, new Map().set(subDimensionIndex, value));
-      }
-    } else {
-      tmpMap.set(
-        domainIndex,
-        new Map().set(dimensionIndex, new Map().set(subDimensionIndex, value)),
-      );
-    }
-    isFirstCycle ? setFirstCycle(tmpMap) : setSecondCycle(tmpMap);
-    console.log(firstCycle);
+    const tmpArray = isFirstCycle ? cloneDeep(firstCycle) : cloneDeep(secondCycle);
+    tmpArray[domainIndex][dimensionIndex][subDimensionIndex] = value;
+    isFirstCycle ? setFirstCycle(tmpArray) : setSecondCycle(tmpArray);
+    const tmp = flattenDeep(firstCycle.concat(secondCycle));
+    const isInValid = tmp.some((v) => v === 0);
+    setIsValidForm(!isInValid);
   };
 
   const handleAnswerValues = (questionIndex: number, value: number) => {
@@ -99,19 +124,37 @@ const Evaluation = ({ evaluation, evaluationUrl }: Props) => {
     setAccordionItemIndex(questionIndex + 1);
   };
 
-  useEffect(() => {
-    setQuestions(evaluation.evaluationQuestions.map((q) => q.name));
-    return () => {};
-  }, [evaluation]);
-
   const handleChartModal = () => {
     const currentTime = format(Date.now(), 'dd/MM/yyyy - hh:mm a');
-    setInfo([
-      `${t('teacher')}: ${teacher}`,
-      `${t('class')}: ${clazz}`,
-      `${t('subject')}: ${subject}`,
+    const info = [
+      teacher ? `${t('teacher')}: ${teacher}` : '',
+      noOfAdults ? `${t('noOfAdults')}: ${noOfAdults}` : '',
+      clazz ? `${t('class')}: ${clazz}` : '',
+      subject ? `${t('subject')}: ${subject}` : '',
+      observer ? `${t('observer')}: ${observer}` : '',
+      noOfChildren ? `${t('noOfChildren')}: ${noOfChildren}` : '',
       `${t('time')}: ${currentTime}`,
-    ]);
+    ];
+    setInfo(compact(info));
+
+    const firstCycleDimensionsAverage = flattenDepth(firstCycle, 1).map((dimension) =>
+      mean(dimension),
+    );
+    const secondCycleDimensionsAverage = flattenDepth(secondCycle, 1).map((dimension) =>
+      mean(dimension),
+    );
+    const finalCycleDimensionAverage = zip(
+      firstCycleDimensionsAverage,
+      secondCycleDimensionsAverage,
+    ).map((dimension) => mean(dimension));
+    setFinalDimensionsAverage(finalCycleDimensionAverage);
+    const finalDimensionAverageWithSign = finalCycleDimensionAverage.map(
+      (value, index) => value * dimensionSigns[index],
+    );
+    const domainAverage = chunkArray(finalDimensionAverageWithSign, domainLengths).map((d) =>
+      mean(d),
+    );
+    setFinalDomainAverage(domainAverage);
     onOpen();
   };
   return (
@@ -233,6 +276,39 @@ const Evaluation = ({ evaluation, evaluationUrl }: Props) => {
         )}
         {evaluation.type === EType.DYNAMIC && (
           <Box>
+            <Input
+              variant="flushed"
+              placeholder={t('teachers') as string}
+              value={teacher}
+              onChange={(event) => setTeacher(event.target.value)}
+            />
+            <Input
+              variant="flushed"
+              placeholder={t('noOfAdults') as string}
+              value={noOfAdults}
+              type="number"
+              onChange={(event) => setNoOfAdults(event.target.value)}
+            />
+            <Input
+              variant="flushed"
+              placeholder={t('subject') as string}
+              value={subject}
+              onChange={(event) => setSubject(event.target.value)}
+            />
+            <Input
+              variant="flushed"
+              placeholder={t('observer') as string}
+              value={observer}
+              onChange={(event) => setObserver(event.target.value)}
+            />
+            <Input
+              variant="flushed"
+              placeholder={t('noOfChildren') as string}
+              value={noOfChildren}
+              type="noOfChildren"
+              onChange={(event) => setNoOfChildren(event.target.value)}
+            />
+
             {evaluation?.evaluationDomains?.map(
               (domain: EvaluationDomainType, domainIndex: number) => (
                 <Box key={domainIndex}>
@@ -259,25 +335,31 @@ const Evaluation = ({ evaluation, evaluationUrl }: Props) => {
                           <Table variant="simple">
                             <Thead>
                               <Tr>
-                                <Th>Sub Dimensions</Th>
+                                <Th pr={0}>{t('subDimensions')}</Th>
                                 <Th p={0} pr={2} textAlign="center">
-                                  Cycle 1
+                                  {t('cycle1')}
                                 </Th>
-                                <Th p={0} pr={2} textAlign="center">
-                                  Cycle 2
+                                <Th p={0} textAlign="center">
+                                  {t('cycle2')}
                                 </Th>
                               </Tr>
                             </Thead>
                             <Tbody>
                               {dimension?.subDimensions?.map((subDimension, subDimensionIndex) => (
                                 <Tr key={subDimensionIndex}>
-                                  <Td fontSize="0.85em">{subDimension.name}</Td>
+                                  <Td pr={0} fontSize="0.85em">
+                                    {subDimension.name}
+                                  </Td>
                                   <Td p={0} pr={2}>
                                     <NumberInput
                                       m="auto"
                                       minW={20}
                                       maxW={25}
-                                      defaultValue={0}
+                                      value={
+                                        firstCycle?.[domainIndex]?.[dimensionIndex]?.[
+                                          subDimensionIndex
+                                        ]
+                                      }
                                       min={subDimension.minValue}
                                       max={subDimension.maxValue}
                                       step={1}
@@ -298,12 +380,16 @@ const Evaluation = ({ evaluation, evaluationUrl }: Props) => {
                                       </NumberInputStepper>
                                     </NumberInput>
                                   </Td>
-                                  <Td p={0} pr={2}>
+                                  <Td p={0}>
                                     <NumberInput
                                       m="auto"
                                       minW={20}
                                       maxW={25}
-                                      defaultValue={0}
+                                      value={
+                                        secondCycle?.[domainIndex]?.[dimensionIndex]?.[
+                                          subDimensionIndex
+                                        ] ?? 0
+                                      }
                                       min={subDimension.minValue}
                                       max={subDimension.maxValue}
                                       step={1}
@@ -336,6 +422,32 @@ const Evaluation = ({ evaluation, evaluationUrl }: Props) => {
                 </Box>
               ),
             )}
+            <Button
+              mt="20px"
+              colorScheme="white"
+              fontSize="0.95em"
+              w="100%"
+              bg="yellow.600"
+              variant="solid"
+              onClick={handleChartModal}
+              // disabled={!isValidForm}
+            >
+              {t('submit')}
+            </Button>
+            <Modal isOpen={isOpen} onClose={onClose} isCentered size="5xl">
+              <ModalOverlay />
+              <ModalContent w="95%">
+                <ModalCloseButton />
+                <ModalBody>
+                  <EvaluationLineChart
+                    evaluationTitle={evaluation.name}
+                    data={finalDimensionsAverage}
+                    dataName={dimensionNames}
+                    info={info}
+                  />
+                </ModalBody>
+              </ModalContent>
+            </Modal>
           </Box>
         )}
       </Box>

@@ -1,4 +1,4 @@
-import { Bar } from 'react-chartjs-2';
+import { Bar, Line } from 'react-chartjs-2';
 import { Box, Button, ButtonGroup, IconButton } from '@chakra-ui/react';
 import html2canvas from 'html2canvas';
 import PdfConverter from 'jspdf';
@@ -8,10 +8,10 @@ type Props = {
   evaluationTitle: string;
   info: string[];
   data: number[];
-  questionNames: string[];
+  dataName: string[];
 };
 
-const EvaluationBarChart = ({ info, data, questionNames }: Props) => {
+const EvaluationLineChart = ({ info, data, dataName }: Props) => {
   const barWidth = window.innerWidth * 0.95;
   const usedBarWidth = barWidth > 960 ? 960 : barWidth;
   const div2Pdf = () => {
@@ -45,14 +45,14 @@ const EvaluationBarChart = ({ info, data, questionNames }: Props) => {
       m="auto"
     >
       <Box id="chart-pdf" mb="10px">
-        <Bar
+        <Line
           data={{
-            labels: questionNames,
+            labels: dataName,
             datasets: [
               {
                 label: 'Evaluation Result',
                 data: data,
-                backgroundColor: ['#B7791F'],
+                backgroundColor: ['#b7791f61'],
                 borderColor: ['#B7791F'],
                 borderWidth: 1,
                 fill: true,
@@ -62,13 +62,18 @@ const EvaluationBarChart = ({ info, data, questionNames }: Props) => {
           height={600}
           width={usedBarWidth}
           options={{
-            indexAxis: 'y',
             responsive: true,
             maintainAspectRatio: false,
             layout: {
               padding: 25,
             },
             plugins: {
+              // chartAreaBorder: {
+              //   borderColor: 'red',
+              //   borderWidth: 2,
+              //   borderDash: [5, 5],
+              //   borderDashOffset: 2,
+              // },
               title: {
                 display: true,
                 text: info,
@@ -78,37 +83,25 @@ const EvaluationBarChart = ({ info, data, questionNames }: Props) => {
                   bottom: 20,
                 },
               },
-              legend: {
-                labels: {
-                  usePointStyle: true,
-                },
-              },
             },
             scales: {
-              x: {
+              y: {
+                max: 7,
+                ticks: {
+                  stepSize: 0.5,
+                  callback: function (val: number, index: number) {
+                    if ((val / 0.5) % 2 === 1) {
+                      return '';
+                    }
+                    return val;
+                  },
+                },
+
                 grid: {
                   // display: false,
                   drawBorder: false,
                   drawOnChartArea: false,
                   // drawTicks: false,
-                },
-                max: 3,
-                ticks: {
-                  stepSize: 1,
-                  callback: function (val: number, index: number) {
-                    switch (val) {
-                      case 0:
-                        return '';
-                      case 1:
-                        return 'Low-quality';
-                      case 2:
-                        return 'Moderate';
-                      case 3:
-                        return 'Accomplished';
-                      default:
-                        return '';
-                    }
-                  },
                 },
               },
             },
@@ -123,4 +116,4 @@ const EvaluationBarChart = ({ info, data, questionNames }: Props) => {
   );
 };
 
-export default EvaluationBarChart;
+export default EvaluationLineChart;
