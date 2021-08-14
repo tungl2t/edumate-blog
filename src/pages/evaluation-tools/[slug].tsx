@@ -439,25 +439,18 @@ const Evaluation = ({ evaluation, evaluationUrl }: Props) => {
               <ModalOverlay />
               <ModalContent w="95%">
                 <ModalCloseButton />
-                <ModalBody>
-                  <Box
-                    maxH="80vh"
-                    overflowY="auto"
-                    overflowX="hidden"
-                    p={{ base: '0', sm: '10px' }}
-                  >
-                    <EvaluationLineChart
-                      evaluationTitle={evaluation.name}
-                      data={finalDimensionsAverage}
-                      dataName={dimensionNames}
-                      info={info}
-                    />
-                    <EvaluationRadarChart
-                      info={info}
-                      data={finalDomainAverage}
-                      dataName={domainNames}
-                    />
-                  </Box>
+                <ModalBody maxH="80vh" overflowY="auto">
+                  <EvaluationLineChart
+                    evaluationTitle={evaluation.name}
+                    data={finalDimensionsAverage}
+                    dataName={dimensionNames}
+                    info={info}
+                  />
+                  <EvaluationRadarChart
+                    info={info}
+                    data={finalDomainAverage}
+                    dataName={domainNames}
+                  />
                 </ModalBody>
               </ModalContent>
             </Modal>
