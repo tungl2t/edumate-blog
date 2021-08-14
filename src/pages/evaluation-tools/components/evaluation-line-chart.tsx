@@ -3,6 +3,8 @@ import { Box, Button, ButtonGroup, IconButton } from '@chakra-ui/react';
 import html2canvas from 'html2canvas';
 import PdfConverter from 'jspdf';
 import { DownloadIcon } from '@chakra-ui/icons';
+import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 type Props = {
   evaluationTitle: string;
@@ -12,26 +14,34 @@ type Props = {
 };
 
 const EvaluationLineChart = ({ info, data, dataName }: Props) => {
+  const t = useTranslations('EvaluationTool');
   const barWidth = window.innerWidth * 0.95;
   const usedBarWidth = barWidth > 960 ? 960 : barWidth;
-  const div2Pdf = () => {
+  const div2Pdf = (isPDF = true) => {
     let input = document.getElementById('chart-line-pdf') as HTMLDivElement;
     html2canvas(input).then((canvas) => {
       const orientation = window.innerWidth > window.innerHeight ? 'l' : 'p';
       const img = canvas.toDataURL('image/png');
-      const pdf = new PdfConverter(orientation, 'px', 'a4');
-      const pageWidth = pdf.internal.pageSize.getWidth();
-      const pageHeight = pdf.internal.pageSize.getHeight();
-      const widthRatio = pageWidth / canvas.width;
-      const heightRatio = pageHeight / canvas.height;
-      const ratio = widthRatio > heightRatio ? heightRatio : widthRatio;
-      const canvasWidth = canvas.width * ratio;
-      const canvasHeight = canvas.height * ratio;
-      const marginX = (pageWidth - canvasWidth) / 2;
-      const marginY = (pageHeight - canvasHeight) / 2;
+      if (isPDF) {
+        const pdf = new PdfConverter(orientation, 'px', 'a4');
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const pageHeight = pdf.internal.pageSize.getHeight();
+        const widthRatio = pageWidth / canvas.width;
+        const heightRatio = pageHeight / canvas.height;
+        const ratio = widthRatio > heightRatio ? heightRatio : widthRatio;
+        const canvasWidth = canvas.width * ratio;
+        const canvasHeight = canvas.height * ratio;
+        const marginX = (pageWidth - canvasWidth) / 2;
+        const marginY = (pageHeight - canvasHeight) / 2;
 
-      pdf.addImage(img, 'png', marginX, marginY, canvasWidth, canvasHeight);
-      pdf.save('evaluation.pdf');
+        pdf.addImage(img, 'png', marginX, marginY, canvasWidth, canvasHeight);
+        pdf.save('evaluation.pdf');
+      } else {
+        const a = document.createElement('a');
+        a.href = img;
+        a.download = 'evalutation.png';
+        a.click();
+      }
     });
   };
   return (
@@ -109,10 +119,16 @@ const EvaluationLineChart = ({ info, data, dataName }: Props) => {
           }}
         />
       </Box>
-      <ButtonGroup size="sm" isAttached variant="outline" onClick={div2Pdf}>
-        <Button>Save Result</Button>
-        <IconButton aria-label="Save Result" icon={<DownloadIcon />} />
-      </ButtonGroup>
+      <Box>
+        <ButtonGroup size="sm" isAttached variant="outline" onClick={() => div2Pdf()} mx={1}>
+          <Button>{t('save')} (PDF) </Button>
+          <IconButton aria-label="Save Result PNG" icon={<DownloadIcon />} />
+        </ButtonGroup>
+        <ButtonGroup size="sm" isAttached variant="outline" onClick={() => div2Pdf(false)} mx={1}>
+          <Button>{t('save')} (PNG) </Button>
+          <IconButton aria-label="Save Result PNG" icon={<DownloadIcon />} />
+        </ButtonGroup>
+      </Box>
     </Box>
   );
 };

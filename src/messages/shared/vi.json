@@ -41,7 +41,7 @@
     "title": "Công cụ đánh giá",
     "desc": "",
     "teacher": "Giáo viên",
-    "teachers": "Tên giáo viên chínhk",
+    "teachers": "Tên giáo viên chính",
     "noOfAdults": "Số lượng giáo viên",
     "observer": "Quan sát viên",
     "noOfChildren": "Số lượng học sinh",
@@ -51,7 +51,8 @@
     "submit": "Đánh giá",
     "subDimensions": "Tiêu chí",
     "cycle1": "Quan sát 1",
-    "cycle2": "Quan sát 2"
+    "cycle2": "Quan sát 2",
+    "save": "Tải về"
   },
   "Timer": {
     "d": "Ngày",

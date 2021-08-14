@@ -51,7 +51,8 @@
     "submit": "Submit",
     "subDimensions": "Sub Dimensions",
     "cycle1": "Cycle 1",
-    "cycle2": "Cycle 2"
+    "cycle2": "Cycle 2",
+    "save": "Save Result"
   },
   "Timer": {
     "d": "Days",

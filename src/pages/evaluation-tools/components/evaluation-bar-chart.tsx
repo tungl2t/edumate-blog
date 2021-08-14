@@ -115,10 +115,16 @@ const EvaluationBarChart = ({ info, data, questionNames }: Props) => {
           }}
         />
       </Box>
-      <ButtonGroup size="sm" isAttached variant="outline" onClick={div2Pdf}>
-        <Button>Save Result</Button>
-        <IconButton aria-label="Save Result" icon={<DownloadIcon />} />
-      </ButtonGroup>
+      <Box>
+        <ButtonGroup size="sm" isAttached variant="outline" onClick={div2Pdf}>
+          <Button>Save Result (PDF) </Button>
+          <IconButton aria-label="Save Result" icon={<DownloadIcon />} />
+        </ButtonGroup>
+        <ButtonGroup size="sm" isAttached variant="outline" onClick={div2Pdf}>
+          <Button>Save Result (JPG)</Button>
+          <IconButton aria-label="Save Result" icon={<DownloadIcon />} />
+        </ButtonGroup>
+      </Box>
     </Box>
   );
 };
