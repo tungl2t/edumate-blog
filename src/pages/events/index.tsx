@@ -20,7 +20,7 @@ const Index = ({ events }: Props) => {
         title={t('title')}
         description={t('desc')}
         url="https://edumate.vn/events"
-        imageUrl="/edumate.png"
+        imageUrl="https://edumate.vn/edumate.png"
       />
       <Flex flexDirection="column" alignItems="center" justifyContent="center" margin="auto">
         {events.map((event, index) => (

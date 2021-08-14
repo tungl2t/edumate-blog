@@ -18,7 +18,7 @@ const Index = ({ companies }: Props) => {
         title={t('title')}
         description={t('desc')}
         url="https://edumate.vn/about-us"
-        imageUrl="/edumate.png"
+        imageUrl="https://edumate.vn/edumate.png"
       />
       <Flex
         direction={{ base: 'column', md: 'row-reverse' }}

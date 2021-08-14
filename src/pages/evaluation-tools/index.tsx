@@ -20,7 +20,7 @@ const Index = ({ evaluations }: Props) => {
         title={t('title')}
         description={t('desc')}
         url="https://edumate.vn/evaluation-tools"
-        imageUrl="/edumate.png"
+        imageUrl="https://edumate.vn/edumate.png"
       />
       <Flex flexDirection="column" alignItems="center" justifyContent="center" margin="auto">
         {evaluations.map((evaluation, index) => (

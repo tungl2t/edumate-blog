@@ -19,7 +19,7 @@ const Index = ({ posts }: Props) => {
         title={t('title')}
         description={t('desc')}
         url="https://edumate.vn/blog"
-        imageUrl="/edumate.png"
+        imageUrl="https://edumate.vn/edumate.png"
       />
       <Flex flexDirection="column" alignItems="center" justifyContent="center" margin="auto">
         {posts.map((post) => (

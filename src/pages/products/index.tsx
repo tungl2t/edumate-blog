@@ -18,7 +18,7 @@ const Index = ({ products }: Props) => {
         title={t('title')}
         description={t('desc')}
         url="https://edumate.vn/products"
-        imageUrl="/edumate.png"
+        imageUrl="https://edumate.vn/edumate.png"
       />
       <Flex flexDirection="column" alignItems="center" justifyContent="center" margin="auto">
         {products.map((product, index) => (
