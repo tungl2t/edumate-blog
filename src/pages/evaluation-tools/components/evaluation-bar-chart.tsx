@@ -116,7 +116,7 @@ const EvaluationBarChart = ({ info, data, questionNames }: Props) => {
         />
       </Box>
       <ButtonGroup size="sm" isAttached variant="outline" onClick={div2Pdf}>
-        <Button mr="-px">Save Result</Button>
+        <Button>Save Result</Button>
         <IconButton aria-label="Save Result" icon={<DownloadIcon />} />
       </ButtonGroup>
     </Box>

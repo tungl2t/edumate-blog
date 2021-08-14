@@ -44,6 +44,7 @@ import EvaluationBarChart from './components/evaluation-bar-chart';
 import EvaluationDomainType from '@/types/evaluation-domain.type';
 import { chunkArray } from '@/lib/helper';
 import EvaluationLineChart from './components/evaluation-line-chart';
+import EvaluationRadarChart from './components/evaluation-radar-chart';
 
 type Props = {
   evaluationUrl: string;
@@ -430,7 +431,7 @@ const Evaluation = ({ evaluation, evaluationUrl }: Props) => {
               bg="yellow.600"
               variant="solid"
               onClick={handleChartModal}
-              // disabled={!isValidForm}
+              disabled={!isValidForm}
             >
               {t('submit')}
             </Button>
@@ -439,12 +440,24 @@ const Evaluation = ({ evaluation, evaluationUrl }: Props) => {
               <ModalContent w="95%">
                 <ModalCloseButton />
                 <ModalBody>
-                  <EvaluationLineChart
-                    evaluationTitle={evaluation.name}
-                    data={finalDimensionsAverage}
-                    dataName={dimensionNames}
-                    info={info}
-                  />
+                  <Box
+                    maxH="80vh"
+                    overflowY="auto"
+                    overflowX="hidden"
+                    p={{ base: '0', sm: '10px' }}
+                  >
+                    <EvaluationLineChart
+                      evaluationTitle={evaluation.name}
+                      data={finalDimensionsAverage}
+                      dataName={dimensionNames}
+                      info={info}
+                    />
+                    <EvaluationRadarChart
+                      info={info}
+                      data={finalDomainAverage}
+                      dataName={domainNames}
+                    />
+                  </Box>
                 </ModalBody>
               </ModalContent>
             </Modal>

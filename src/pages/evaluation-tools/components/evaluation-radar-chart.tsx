@@ -1,115 +1,102 @@
-import { Box } from '@chakra-ui/react';
+import { Bar, Line, Radar } from 'react-chartjs-2';
+import { Box, Button, ButtonGroup, IconButton } from '@chakra-ui/react';
+import html2canvas from 'html2canvas';
+import PdfConverter from 'jspdf';
+import { DownloadIcon } from '@chakra-ui/icons';
 
-const colors = [
-  '#08802f',
-  '#096669',
-  '#06c416',
-  '#0d7265',
-  '#0a1906',
-  '#0ae53a',
-  '#012bee',
-  '#0dc16a',
-  '#054b50',
-  '#011ed3',
-  '#038ec6',
-  '#0af937',
-  '#08dd05',
-  '#09e2bd',
-  '#0a7386',
-  '#05b62c',
-  '#00cf87',
-  '#0476f9',
-  '#0ebba9',
-  '#00e848',
-  '#07f7cb',
-  '#080039',
-  '#0aed8c',
-  '#08c7d7',
-  '#03ee9f',
-  '#02f9cc',
-  '#05e7b4',
-  '#0dbe6b',
-  '#030261',
-  '#0c009e',
-  '#0d5dfe',
-  '#06585a',
-  '#043ba4',
-  '#02ac04',
-  '#03fba5',
-  '#063b03',
-  '#0b18e1',
-  '#0d4ec1',
-  '#0910e5',
-  '#0a9cc6',
-  '#0c05c2',
-  '#08b141',
-  '#04d348',
-  '#00eba0',
-  '#01324b',
-  '#06093f',
-  '#0d4411',
-  '#03a065',
-  '#0c8a4b',
-  '#07ce23',
-  '#016d18',
-  '#062460',
-  '#0e4aae',
-  '#065a51',
-  '#09460b',
-  '#016cd1',
-  '#021381',
-  '#0b4bdd',
-  '#01edbd',
-  '#0cd921',
-  '#0c619f',
-  '#08d7bc',
-  '#01778b',
-  '#06b794',
-  '#0c7c1c',
-  '#0e7b4f',
-  '#0651dd',
-  '#0b2431',
-  '#05a311',
-  '#048515',
-  '#0e1446',
-  '#0b5688',
-  '#0a225f',
-  '#06db14',
-  '#08f1c7',
-  '#018933',
-  '#0729f6',
-  '#0b00b0',
-  '#0e5611',
-  '#05927a',
-  '#035560',
-  '#08693f',
-  '#0ed67c',
-  '#028235',
-  '#07f9cf',
-  '#062607',
-  '#008033',
-  '#008937',
-  '#071dd9',
-  '#0a92e8',
-  '#0e03b6',
-  '#0e59b4',
-  '#095607',
-  '#0ccd06',
-  '#05a071',
-  '#04fabf',
-  '#03e507',
-  '#006f86',
-  '#05dfbd',
-  '#066224',
-];
+type Props = {
+  info: string[];
+  data: number[];
+  dataName: string[];
+};
 
-const EvaluationRadarChart = () => {
+const EvaluationRadarChart = ({ info, data, dataName }: Props) => {
+  const width = window.innerWidth * 0.95;
+  const usableWith = width > 960 ? 960 : width;
+  const div2Pdf = () => {
+    let input = document.getElementById('chart-radar-pdf') as HTMLDivElement;
+    html2canvas(input).then((canvas) => {
+      const orientation = window.innerWidth > window.innerHeight ? 'l' : 'p';
+      const img = canvas.toDataURL('image/png');
+      const pdf = new PdfConverter(orientation, 'px', 'a4');
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      const widthRatio = pageWidth / canvas.width;
+      const heightRatio = pageHeight / canvas.height;
+      const ratio = widthRatio > heightRatio ? heightRatio : widthRatio;
+      const canvasWidth = canvas.width * ratio;
+      const canvasHeight = canvas.height * ratio;
+      const marginX = (pageWidth - canvasWidth) / 2;
+      const marginY = (pageHeight - canvasHeight) / 2;
+
+      pdf.addImage(img, 'png', marginX, marginY, canvasWidth, canvasHeight);
+      pdf.save('evaluation.pdf');
+    });
+  };
   return (
-    <div>
-      {colors.map((c) => {
-        return <Box bg={c} key={c} w="100%" h="50px" />;
-      })}
-    </div>
+    <Box
+      w={{ base: '95%', lg: '960px' }}
+      d="flex"
+      flexDirection="column"
+      justifyContent="center"
+      alignItems="center"
+      height="100%"
+      m="auto"
+    >
+      <Box id="chart-radar-pdf">
+        <Radar
+          data={{
+            labels: dataName,
+            datasets: [
+              {
+                label: 'Evaluation Result',
+                data: data,
+                backgroundColor: ['#b7791f61'],
+                borderColor: ['#B7791F'],
+                borderWidth: 1,
+                fill: true,
+              },
+            ],
+          }}
+          height={500}
+          width={usableWith}
+          options={{
+            responsive: true,
+            maintainAspectRatio: false,
+            layout: {
+              padding: 15,
+            },
+            plugins: {
+              title: {
+                display: true,
+                text: info,
+                align: 'start',
+                padding: {
+                  top: 20,
+                  bottom: 20,
+                },
+              },
+            },
+            elements: {
+              line: {
+                borderWidth: 3,
+              },
+            },
+            scale: {
+              max: 7,
+              min: 0,
+              ticks: {
+                stepSize: 1,
+              },
+            },
+          }}
+        />
+      </Box>
+      <ButtonGroup size="sm" isAttached variant="outline" onClick={div2Pdf}>
+        <Button>Save Result</Button>
+        <IconButton aria-label="Save Result" icon={<DownloadIcon />} />
+      </ButtonGroup>
+    </Box>
   );
 };
 

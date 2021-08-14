@@ -15,7 +15,7 @@ const EvaluationLineChart = ({ info, data, dataName }: Props) => {
   const barWidth = window.innerWidth * 0.95;
   const usedBarWidth = barWidth > 960 ? 960 : barWidth;
   const div2Pdf = () => {
-    let input = document.getElementById('chart-pdf') as HTMLDivElement;
+    let input = document.getElementById('chart-line-pdf') as HTMLDivElement;
     html2canvas(input).then((canvas) => {
       const orientation = window.innerWidth > window.innerHeight ? 'l' : 'p';
       const img = canvas.toDataURL('image/png');
@@ -44,7 +44,7 @@ const EvaluationLineChart = ({ info, data, dataName }: Props) => {
       height="100%"
       m="auto"
     >
-      <Box id="chart-pdf" mb="10px">
+      <Box id="chart-line-pdf" mb="10px">
         <Line
           data={{
             labels: dataName,
@@ -87,6 +87,7 @@ const EvaluationLineChart = ({ info, data, dataName }: Props) => {
             scales: {
               y: {
                 max: 7,
+                min: 0,
                 ticks: {
                   stepSize: 0.5,
                   callback: function (val: number, index: number) {
@@ -109,7 +110,7 @@ const EvaluationLineChart = ({ info, data, dataName }: Props) => {
         />
       </Box>
       <ButtonGroup size="sm" isAttached variant="outline" onClick={div2Pdf}>
-        <Button mr="-px">Save Result</Button>
+        <Button>Save Result</Button>
         <IconButton aria-label="Save Result" icon={<DownloadIcon />} />
       </ButtonGroup>
     </Box>
