@@ -330,12 +330,12 @@ export async function getEvaluationByPath(evaluationPath: string, locale: string
             value
           }
         }
-        evaluationDomains {
+        evaluationDomains(sort: "order:asc") {
             name
-            dimensions {
+            dimensions(sort: "order:asc") {
                 name
                 sign
-                subDimensions {
+                subDimensions(sort: "order:asc") {
                     name
                     minValue
                     maxValue

@@ -487,6 +487,7 @@ export const getServerSideProps = async ({ params, locale }: Params) => {
       }),
     );
   }
+
   return {
     props: {
       evaluationUrl: `${process.env.NEXT_PUBLIC_EDUMATE_URL}/${params.slug}`,
