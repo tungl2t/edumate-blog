@@ -1,20 +1,21 @@
-import { Bar, Line, Radar } from 'react-chartjs-2';
+import { Bar, Line } from 'react-chartjs-2';
 import { Box, Button, ButtonGroup, IconButton } from '@chakra-ui/react';
 import html2canvas from 'html2canvas';
 import PdfConverter from 'jspdf';
 import { DownloadIcon } from '@chakra-ui/icons';
 
 type Props = {
+  evaluationTitle: string;
   info: string[];
   data: number[];
   dataName: string[];
 };
 
-const EvaluationRadarChart = ({ info, data, dataName }: Props) => {
-  const width = window.innerWidth * 0.95;
-  const usableWith = width > 960 ? 960 : width;
+const EvaluationLineChart = ({ info, data, dataName }: Props) => {
+  const barWidth = window.innerWidth * 0.95;
+  const usedBarWidth = barWidth > 960 ? 960 : barWidth;
   const div2Pdf = () => {
-    let input = document.getElementById('chart-radar-pdf') as HTMLDivElement;
+    let input = document.getElementById('chart-line-pdf') as HTMLDivElement;
     html2canvas(input).then((canvas) => {
       const orientation = window.innerWidth > window.innerHeight ? 'l' : 'p';
       const img = canvas.toDataURL('image/png');
@@ -43,8 +44,8 @@ const EvaluationRadarChart = ({ info, data, dataName }: Props) => {
       height="100%"
       m="auto"
     >
-      <Box id="chart-radar-pdf">
-        <Radar
+      <Box id="chart-line-pdf" mb="10px">
+        <Line
           data={{
             labels: dataName,
             datasets: [
@@ -58,15 +59,21 @@ const EvaluationRadarChart = ({ info, data, dataName }: Props) => {
               },
             ],
           }}
-          height={500}
-          width={usableWith}
+          height={600}
+          width={usedBarWidth}
           options={{
             responsive: true,
             maintainAspectRatio: false,
             layout: {
-              padding: 15,
+              padding: 25,
             },
             plugins: {
+              // chartAreaBorder: {
+              //   borderColor: 'red',
+              //   borderWidth: 2,
+              //   borderDash: [5, 5],
+              //   borderDashOffset: 2,
+              // },
               title: {
                 display: true,
                 text: info,
@@ -77,16 +84,26 @@ const EvaluationRadarChart = ({ info, data, dataName }: Props) => {
                 },
               },
             },
-            elements: {
-              line: {
-                borderWidth: 3,
-              },
-            },
-            scale: {
-              max: 7,
-              min: 0,
-              ticks: {
-                stepSize: 1,
+            scales: {
+              y: {
+                max: 7,
+                min: 0,
+                ticks: {
+                  stepSize: 0.5,
+                  callback: function (val: number, index: number) {
+                    if ((val / 0.5) % 2 === 1) {
+                      return '';
+                    }
+                    return val;
+                  },
+                },
+
+                grid: {
+                  // display: false,
+                  drawBorder: false,
+                  drawOnChartArea: false,
+                  // drawTicks: false,
+                },
               },
             },
           }}
@@ -100,4 +117,4 @@ const EvaluationRadarChart = ({ info, data, dataName }: Props) => {
   );
 };
 
-export default EvaluationRadarChart;
+export default EvaluationLineChart;

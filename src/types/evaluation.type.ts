@@ -1,4 +1,5 @@
 import EvaluationQuestionType from '@/types/evaluation-question.type';
+import EvaluationDomainType from '@/types/evaluation-domain.type';
 
 type EvaluationType = {
   name: string;
@@ -10,6 +11,8 @@ type EvaluationType = {
   chartType: ChartTypes;
   evaluationPath: string;
   evaluationQuestions: EvaluationQuestionType[];
+  evaluationDomains: EvaluationDomainType[];
+  type: ETypes;
 };
 
 export default EvaluationType;
@@ -20,3 +23,10 @@ export enum ChartType {
 }
 
 export type ChartTypes = ChartType.POLAR | ChartType.RADAR;
+
+export enum EType {
+  DYNAMIC = 'Dynamic',
+  FIXED = 'Fixed',
+}
+
+export type ETypes = EType.DYNAMIC | EType.FIXED;

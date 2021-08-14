@@ -41,10 +41,17 @@
     "title": "Evaluation Tool",
     "desc": "",
     "teacher": "Teacher",
+    "teachers": "Teacher(s)",
+    "noOfAdults": "No. of adults",
+    "observer": "Observer",
+    "noOfChildren": "No. of children",
     "class": "Class",
-    "subject": "ILM Project Name",
+    "subject": "Subject",
     "time": "Time",
-    "submit": "Submit"
+    "submit": "Submit",
+    "subDimensions": "Sub Dimensions",
+    "cycle1": "Cycle 1",
+    "cycle2": "Cycle 2"
   },
   "Timer": {
     "d": "Days",

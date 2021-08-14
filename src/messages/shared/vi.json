@@ -41,8 +41,12 @@
     "title": "Công cụ đánh giá",
     "desc": "",
     "teacher": "Giáo viên",
+    "teachers": "Tên (các) giáo viên",
+    "noOfAdults": "Số lượng giáo viên",
+    "observer": "Quan sát viên",
+    "noOfChildren": "Số lượng học sinh",
     "class": "Lớp",
-    "subject": "Tên dự án ILM",
+    "subject": "Môn học",
     "time": "Thời gian",
     "submit": "Đánh giá"
   },
