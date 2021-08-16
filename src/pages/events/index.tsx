@@ -15,7 +15,6 @@ type Props = {
 };
 
 const Index = ({ events, page }: Props) => {
-  console.log(page);
   const t = useTranslations('Events');
   return (
     <Layout>
