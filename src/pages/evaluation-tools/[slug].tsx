@@ -51,10 +51,6 @@ type Props = {
   evaluation: EvaluationType;
 };
 
-type SubDimensionMap = Map<number, number>;
-type DimensionMap = Map<number, SubDimensionMap>;
-type DomainMap = Map<number, DimensionMap>;
-
 const Evaluation = ({ evaluation, evaluationUrl }: Props) => {
   const t = useTranslations('EvaluationTool');
   const [teacher, setTeacher] = useState<string>('');

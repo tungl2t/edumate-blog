@@ -1,10 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import NextLink from 'next/link';
-import { useTranslations } from 'next-intl';
 import { Box, Flex, Img, useMediaQuery, useOutsideClick } from '@chakra-ui/react';
 
-import { NAV_LINKS } from '@/lib/constants';
 import headerStyles from '@/styles/header.module.sass';
 import { getPages } from '@/lib/api';
 import PageType from '@/types/page.type';
@@ -15,12 +13,11 @@ const Header = () => {
   const [isOpenSideBar, setIsOpenSideBar] = useState(false);
   const [isLargerThan2Md] = useMediaQuery('(min-width: 896px)');
   const { asPath, locale, locales } = useRouter();
-  const t = useTranslations('Navigation');
   const otherLocale = locales?.find((cur) => cur !== locale);
-  const localeIcon = locale === 'vi' ? '/flags/us.svg' : '/flags/vi.svg';
+  const localeIcon = locale === 'en' ? '/flags/vi.svg' : '/flags/us.svg';
 
   useEffect(() => {
-    const currentLocale = locale === 'vi' ? 'vi' : 'en';
+    const currentLocale = locale === 'en' ? 'en' : 'vi';
     const fetchData = async (locale: string) => {
       let response = (await getPages(locale)) as PageType[];
       setNavigations(response);

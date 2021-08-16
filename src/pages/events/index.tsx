@@ -1,6 +1,5 @@
 import { GetStaticPropsContext } from 'next';
 import { Flex } from '@chakra-ui/react';
-import { useTranslations } from 'next-intl';
 
 import { getEvents, getPageByPath } from '@/lib/api';
 import EventType from '@/types/event.type';
@@ -15,7 +14,6 @@ type Props = {
 };
 
 const Index = ({ events, page }: Props) => {
-  const t = useTranslations('Events');
   return (
     <Layout>
       {' '}

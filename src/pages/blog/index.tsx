@@ -1,5 +1,4 @@
 import { GetStaticPropsContext } from 'next';
-import { useTranslations } from 'next-intl';
 import { Flex } from '@chakra-ui/react';
 
 import { getPageByPath, getPosts } from '@/lib/api';
@@ -15,7 +14,6 @@ type Props = {
 };
 
 const Index = ({ posts, page }: Props) => {
-  const t = useTranslations('Blog');
   return (
     <Layout>
       <MyMeta
