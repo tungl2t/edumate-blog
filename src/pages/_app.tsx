@@ -59,7 +59,6 @@ EdumateApp.getInitialProps = async (context: AppContext) => {
   return {
     ...(await NextApp.getInitialProps(context)),
     messages: {
-      ...require(`../messages/navigation/${locale}.json`),
       ...require(`../messages/shared/${locale}.json`),
     },
   };

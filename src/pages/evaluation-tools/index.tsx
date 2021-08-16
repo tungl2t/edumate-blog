@@ -1,5 +1,4 @@
 import { GetStaticPropsContext } from 'next';
-import { useTranslations } from 'next-intl';
 import { Flex } from '@chakra-ui/react';
 
 import { getEvaluations, getPageByPath } from '@/lib/api';
@@ -16,7 +15,6 @@ type Props = {
 };
 
 const Index = ({ evaluations, page }: Props) => {
-  const t = useTranslations('EvaluationTool');
   return (
     <Layout>
       <MyMeta

@@ -1,5 +1,4 @@
 import { GetStaticPropsContext } from 'next';
-import { useTranslations } from 'next-intl';
 import { Flex } from '@chakra-ui/react';
 
 import { getCourses, getPageByPath } from '@/lib/api';
@@ -15,7 +14,6 @@ type Props = {
 };
 
 const Index = ({ courses, page }: Props) => {
-  const t = useTranslations('Courses');
   return (
     <Layout>
       <MyMeta
