@@ -494,7 +494,9 @@ export const getServerSideProps = async ({ params, locale }: Params) => {
       evaluation: {
         ...evaluation,
         evaluationQuestions,
-        coverImage: { url: `${process.env.CMS_URL}${evaluation?.coverImage.url ?? ''}` },
+        coverImage: {
+          url: `${process.env.NEXT_PUBLIC_CMS_URL}${evaluation?.coverImage.url ?? ''}`,
+        },
       },
     },
   };

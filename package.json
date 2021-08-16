@@ -21,10 +21,9 @@
     "html2canvas": "^1.2.2",
     "jspdf": "^2.3.1",
     "lodash-es": "^4.17.21",
-    "next": "10.2.3",
-    "next-intl": "^1.4.4",
+    "next": "^11.1.0",
+    "next-intl": "^1.5.1",
     "next-pwa": "^5.2.24",
-    "next-transpile-modules": "^7.0.0",
     "react": "17.0.2",
     "react-chartjs-2": "^3.0.4",
     "react-dom": "17.0.2",
@@ -33,7 +32,8 @@
     "remark-external-links": "^8.0.0",
     "remark-html": "^13.0.1",
     "sass": "^1.34.1",
-    "smoothscroll-polyfill": "^0.4.4"
+    "smoothscroll-polyfill": "^0.4.4",
+    "swr": "^0.5.6"
   },
   "devDependencies": {
     "@types/lodash-es": "^4.17.4",

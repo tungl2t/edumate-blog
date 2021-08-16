@@ -6,8 +6,11 @@ import { Box, Flex, Img, useMediaQuery, useOutsideClick } from '@chakra-ui/react
 
 import { NAV_LINKS } from '@/lib/constants';
 import headerStyles from '@/styles/header.module.sass';
+import { getPages } from '@/lib/api';
+import PageType from '@/types/page.type';
 
 const Header = () => {
+  const [navigations, setNavigations] = useState<PageType[]>();
   const ref = useRef<HTMLDivElement>(null);
   const [isOpenSideBar, setIsOpenSideBar] = useState(false);
   const [isLargerThan2Md] = useMediaQuery('(min-width: 896px)');
@@ -15,6 +18,21 @@ const Header = () => {
   const t = useTranslations('Navigation');
   const otherLocale = locales?.find((cur) => cur !== locale);
   const localeIcon = locale === 'vi' ? '/flags/us.svg' : '/flags/vi.svg';
+
+  useEffect(() => {
+    const currentLocale = locale === 'vi' ? 'vi' : 'en';
+    const fetchData = async (locale: string) => {
+      let response = (await getPages(locale)) as PageType[];
+      setNavigations(response);
+    };
+    fetchData(currentLocale);
+  }, [locale]);
+
+  useEffect(() => {
+    if (isLargerThan2Md) {
+      setIsOpenSideBar(false);
+    }
+  }, [isLargerThan2Md]);
 
   useOutsideClick({
     ref: ref,
@@ -30,12 +48,6 @@ const Header = () => {
       }
     },
   });
-
-  useEffect(() => {
-    if (isLargerThan2Md) {
-      setIsOpenSideBar(false);
-    }
-  }, [isLargerThan2Md]);
 
   return (
     <header>
@@ -69,21 +81,22 @@ const Header = () => {
             alignItems="center"
             display={{ '2md': 'flex', base: 'none' }}
           >
-            {NAV_LINKS.map((item) => (
-              <NextLink href={item.link} key={item.link}>
-                <Box
-                  cursor="pointer"
-                  mx="10px"
-                  color={asPath.indexOf(item.link) === 0 ? 'yellow.600' : ''}
-                  _hover={{
-                    transition: 'all .25s ease-in-out',
-                    color: 'yellow.600',
-                  }}
-                >
-                  {t(item.translation)}
-                </Box>
-              </NextLink>
-            ))}
+            {navigations?.length &&
+              navigations.map((nav) => (
+                <NextLink href={nav.path} key={nav.path}>
+                  <Box
+                    cursor="pointer"
+                    mx="10px"
+                    color={asPath.indexOf(nav.path) === 0 ? 'yellow.600' : ''}
+                    _hover={{
+                      transition: 'all .25s ease-in-out',
+                      color: 'yellow.600',
+                    }}
+                  >
+                    {nav.name}
+                  </Box>
+                </NextLink>
+              ))}
             {asPath !== '/blog' && (
               <NextLink href={asPath} locale={otherLocale} scroll={false}>
                 <a>
@@ -138,24 +151,25 @@ const Header = () => {
             h="100%"
             py="30%"
           >
-            {NAV_LINKS.map((item) => (
-              <NextLink href={item.link} key={item.link}>
-                <Box
-                  cursor="pointer"
-                  my="0.5em"
-                  color={asPath.indexOf(item.link) === 0 ? 'yellow.600' : ''}
-                  _hover={{
-                    transition: 'all .25s ease-in-out',
-                    color: 'yellow.600',
-                  }}
-                  onClick={() => {
-                    setIsOpenSideBar(false);
-                  }}
-                >
-                  {t(item.translation)}
-                </Box>
-              </NextLink>
-            ))}
+            {navigations?.length &&
+              navigations.map((nav) => (
+                <NextLink href={nav.path} key={nav.path}>
+                  <Box
+                    cursor="pointer"
+                    my="0.5em"
+                    color={asPath.indexOf(nav.path) === 0 ? 'yellow.600' : ''}
+                    _hover={{
+                      transition: 'all .25s ease-in-out',
+                      color: 'yellow.600',
+                    }}
+                    onClick={() => {
+                      setIsOpenSideBar(false);
+                    }}
+                  >
+                    {nav.name}
+                  </Box>
+                </NextLink>
+              ))}
             {asPath !== '/blog' && (
               <NextLink href={asPath} locale={otherLocale} scroll={false}>
                 <a>

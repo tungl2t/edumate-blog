@@ -1,24 +1,28 @@
-import Layout from '@/components/layout';
-import ProductType from '@/types/product.type';
-import { getProducts } from '@/lib/api';
+import { GetStaticPropsContext } from 'next';
 import { useTranslations } from 'next-intl';
-import MyMeta from '@/components/my-meta';
 import { Flex } from '@chakra-ui/react';
-import ProductPreview from './components/product-preview';
+
+import { getPageByPath, getProducts } from '@/lib/api';
 import markdownToHtml from '@/lib/markdownToHtml';
+import ProductType from '@/types/product.type';
+import PageType from '@/types/page.type';
+import Layout from '@/components/layout';
+import MyMeta from '@/components/my-meta';
+import ProductPreview from './components/product-preview';
 
 type Props = {
   products: ProductType[];
+  page: PageType;
 };
-const Index = ({ products }: Props) => {
+const Index = ({ products, page }: Props) => {
   const t = useTranslations('Products');
   return (
     <Layout>
       <MyMeta
-        title={t('title')}
-        description={t('desc')}
-        url="https://edumate.vn/products"
-        imageUrl="https://edumate.vn/edumate.png"
+        title={page.name}
+        description={page.description}
+        url="/products"
+        imageUrl={page.coverImage.url}
       />
       <Flex flexDirection="column" alignItems="center" justifyContent="center" margin="auto">
         {products.map((product, index) => (
@@ -31,8 +35,9 @@ const Index = ({ products }: Props) => {
 
 export default Index;
 
-export const getServerSideProps = async ({ locale }: { locale: string }) => {
+export const getServerSideProps = async ({ locale }: GetStaticPropsContext) => {
   const products = (await getProducts(locale)) || [];
+  const data = await getPageByPath('/products', locale);
   return {
     props: {
       products: await Promise.all(
@@ -42,11 +47,17 @@ export const getServerSideProps = async ({ locale }: { locale: string }) => {
             ...product,
             specifications,
             coverImage: {
-              url: `${process.env.CMS_URL}${product?.coverImage?.url ?? ''}`,
+              url: `${process.env.NEXT_PUBLIC_CMS_URL}${product?.coverImage?.url ?? ''}`,
             },
           };
         }),
       ),
+      page: {
+        ...data.pages[0],
+        coverImage: {
+          url: `${process.env.NEXT_PUBLIC_CMS_URL}${data.pages[0]?.coverImage?.url ?? ''}`,
+        },
+      },
     },
   };
 };

@@ -59,7 +59,7 @@ export const getServerSideProps = async ({ params, locale }: Params) => {
       courseUrl: `${process.env.NEXT_PUBLIC_EDUMATE_URL}/${params.slug}`,
       course: {
         ...course,
-        coverImage: { url: `${process.env.CMS_URL}${course?.coverImage.url ?? ''}` },
+        coverImage: { url: `${process.env.NEXT_PUBLIC_CMS_URL}${course?.coverImage.url ?? ''}` },
         content,
         testimonials: await Promise.all(
           (course?.testimonials ?? []).map(async (testimonial: TestimonialType) => {
@@ -68,7 +68,7 @@ export const getServerSideProps = async ({ params, locale }: Params) => {
               ...testimonial,
               content,
               picture: {
-                url: `${process.env.CMS_URL}${testimonial.picture.url}`,
+                url: `${process.env.NEXT_PUBLIC_CMS_URL}${testimonial.picture.url}`,
               },
             };
           }),
@@ -80,7 +80,7 @@ export const getServerSideProps = async ({ params, locale }: Params) => {
               ...trainer,
               content,
               picture: {
-                url: `${process.env.CMS_URL}${trainer.picture.url}`,
+                url: `${process.env.NEXT_PUBLIC_CMS_URL}${trainer.picture.url}`,
               },
             };
           }),
