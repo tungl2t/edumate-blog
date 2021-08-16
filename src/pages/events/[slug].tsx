@@ -4,6 +4,7 @@ import markdownToHtml from '@/lib/markdownToHtml';
 import MyMeta from '@/components/my-meta';
 import Layout from '@/components/layout';
 import WrapperArticle from '@/components/wrapper-article';
+import { GetStaticPropsContext } from 'next';
 
 type Props = {
   eventUrl: string;
@@ -32,16 +33,17 @@ type Params = {
   };
 };
 
-export const getServerSideProps = async ({ params, locale }: Params) => {
-  const data = await getEventByPath(params.slug, locale);
+export const getServerSideProps = async ({ params, locale }: GetStaticPropsContext) => {
+  const path = params?.slug as string;
+  const data = await getEventByPath(path, locale);
   const event = data.events[0] as EventType;
   const content = await markdownToHtml(event?.content ?? '');
   return {
     props: {
-      eventUrl: `${process.env.NEXT_PUBLIC_EDUMATE_URL}/${params.slug}`,
+      eventUrl: `${process.env.NEXT_PUBLIC_EDUMATE_URL}/${path}`,
       event: {
         ...event,
-        coverImage: { url: `${process.env.CMS_URL}${event?.coverImage.url ?? ''}` },
+        coverImage: { url: `${process.env.NEXT_PUBLIC_CMS_URL}${event?.coverImage.url ?? ''}` },
         content,
       },
     },

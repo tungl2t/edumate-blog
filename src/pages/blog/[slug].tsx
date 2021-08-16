@@ -43,7 +43,7 @@ export const getServerSideProps = async ({ params }: Params) => {
       postUrl: `${process.env.NEXT_PUBLIC_EDUMATE_URL}/${params.slug}`,
       post: {
         ...post,
-        coverImage: { url: `${process.env.CMS_URL}${post?.coverImage.url ?? ''}` },
+        coverImage: { url: `${process.env.NEXT_PUBLIC_CMS_URL}${post?.coverImage.url ?? ''}` },
         content,
       },
     },

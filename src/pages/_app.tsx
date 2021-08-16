@@ -9,6 +9,7 @@ import smoothScroll from 'smoothscroll-polyfill';
 import Header from '@/components/header';
 import '../styles/globals.sass';
 import theme from '../theme';
+import Footer from '@/components/footer';
 
 interface MyProps extends AppProps {
   messages: any;
@@ -47,6 +48,7 @@ const EdumateApp = ({ Component, pageProps, messages }: MyProps) => {
           />
         )}
         <Component {...pageProps} />
+        <Footer />
       </ChakraProvider>
     </NextIntlProvider>
   );

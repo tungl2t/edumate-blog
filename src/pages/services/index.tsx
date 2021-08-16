@@ -1,26 +1,29 @@
+import { GetStaticPropsContext } from 'next';
 import { useTranslations } from 'next-intl';
 import { Flex } from '@chakra-ui/react';
 
-import ServiceType from '@/types/service.type';
-import { getServices } from '@/lib/api';
+import { getPageByPath, getServices } from '@/lib/api';
 import markdownToHtml from '@/lib/markdownToHtml';
+import ServiceType from '@/types/service.type';
+import PageType from '@/types/page.type';
 import Layout from '@/components/layout';
 import MyMeta from '@/components/my-meta';
 import ServicePreview from './components/service-preview';
 
 type Props = {
   services: ServiceType[];
+  page: PageType;
 };
 
-const Index = ({ services }: Props) => {
+const Index = ({ services, page }: Props) => {
   const t = useTranslations('Service');
   return (
     <Layout>
       <MyMeta
-        title={t('title')}
-        description={t('desc')}
-        url="https://edumate.vn/services"
-        imageUrl="https://edumate.vn/edumate.png"
+        title={page.name}
+        description={page.description}
+        url="/services"
+        imageUrl={page.coverImage.url}
       />
       <Flex flexDirection="column" alignItems="center" justifyContent="center" margin="auto">
         {services.map((service) => (
@@ -33,8 +36,9 @@ const Index = ({ services }: Props) => {
 
 export default Index;
 
-export const getServerSideProps = async ({ locale }: { locale: string }) => {
+export const getServerSideProps = async ({ locale }: GetStaticPropsContext) => {
   const services = (await getServices(locale)) || [];
+  const data = await getPageByPath('/services', locale);
   return {
     props: {
       services: await Promise.all(
@@ -44,11 +48,17 @@ export const getServerSideProps = async ({ locale }: { locale: string }) => {
             ...service,
             content,
             coverImage: {
-              url: `${process.env.CMS_URL}${service?.coverImage?.url ?? ''}`,
+              url: `${process.env.NEXT_PUBLIC_CMS_URL}${service?.coverImage?.url ?? ''}`,
             },
           };
         }),
       ),
+      page: {
+        ...data.pages[0],
+        coverImage: {
+          url: `${process.env.NEXT_PUBLIC_CMS_URL}${data.pages[0]?.coverImage?.url ?? ''}`,
+        },
+      },
     },
   };
 };

@@ -3,11 +3,11 @@ import NextLink from 'next/link';
 import { useTranslations } from 'next-intl';
 import { Box, Button, Flex, Img, Text } from '@chakra-ui/react';
 
-import MyMeta from '@/components/my-meta';
-import Layout from '@/components/layout';
 import { getHomeContent } from '@/lib/api';
 import markdownToHtml from '@/lib/markdownToHtml';
 import HomeType from '@/types/home.type';
+import MyMeta from '@/components/my-meta';
+import Layout from '@/components/layout';
 import HomePreview from './_components/home-preview';
 
 type Props = {
@@ -79,7 +79,7 @@ export const getServerSideProps = async ({ locale }: GetStaticPropsContext) => {
             ...home,
             content,
             coverImage: {
-              url: `${process.env.CMS_URL}${home?.coverImage?.url ?? ''}`,
+              url: `${process.env.NEXT_PUBLIC_CMS_URL}${home?.coverImage?.url ?? ''}`,
             },
           };
         }),
