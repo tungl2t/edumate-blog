@@ -5,7 +5,6 @@ import PdfConverter from 'jspdf';
 import { DownloadIcon } from '@chakra-ui/icons';
 
 type Props = {
-  evaluationTitle: string;
   info: string[];
   data: number[];
   questionNames: string[];

@@ -28,9 +28,8 @@ import {
   Th,
   Thead,
   Tr,
-  useDisclosure,
 } from '@chakra-ui/react';
-import { cloneDeep, compact, flattenDeep, flattenDepth, mean, multiply, sum, zip } from 'lodash-es';
+import { cloneDeep, compact, flattenDeep, flattenDepth, mean, zip } from 'lodash-es';
 import { format } from 'date-fns';
 
 import { getEvaluationByPath } from '@/lib/api';
@@ -40,11 +39,11 @@ import HeadingArticle from '@/components/heading-article';
 import EvaluationType, { EType } from '@/types/evaluation.type';
 import EvaluationQuestionType from '@/types/evaluation-question.type';
 import markdownToHtml from '@/lib/markdownToHtml';
-import EvaluationBarChart from './components/evaluation-bar-chart';
 import EvaluationDomainType from '@/types/evaluation-domain.type';
 import { chunkArray } from '@/lib/helper';
 import EvaluationLineChart from './components/evaluation-line-chart';
 import EvaluationRadarChart from './components/evaluation-radar-chart';
+import EvaluationFixedData from './components/evaluation-fixed-data';
 
 type Props = {
   evaluationUrl: string;
@@ -53,15 +52,10 @@ type Props = {
 
 const Evaluation = ({ evaluation, evaluationUrl }: Props) => {
   const t = useTranslations('EvaluationTool');
-  const [teacher, setTeacher] = useState<string>('');
-  const [clazz, setClazz] = useState<string>('');
-  const [subject, setSubject] = useState<string>('');
   const [observer, setObserver] = useState<string>('');
   const [noOfAdults, setNoOfAdults] = useState<string>('');
   const [noOfChildren, setNoOfChildren] = useState<string>('');
-  const [accordionItemIndex, setAccordionItemIndex] = useState<number>(-1);
-  const [answers, setAnswers] = useState<Array<number>>([]);
-  const [questions, setQuestions] = useState<Array<string>>([]);
+
   const [info, setInfo] = useState<Array<string>>([]);
   const [firstCycle, setFirstCycle] = useState<number[][][]>([[[]]]);
   const [secondCycle, setSecondCycle] = useState<number[][][]>([[[]]]);
@@ -72,7 +66,6 @@ const Evaluation = ({ evaluation, evaluationUrl }: Props) => {
   const [domainNames, setDomainNames] = useState<string[]>([]);
   const [finalDomainAverage, setFinalDomainAverage] = useState<number[]>([]);
   const [isValidForm, setIsValidForm] = useState<boolean>(false);
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     const initValue = evaluation.evaluationDomains.map((domain) => [
@@ -92,7 +85,6 @@ const Evaluation = ({ evaluation, evaluationUrl }: Props) => {
       ),
     );
     setDomainLengths(evaluation.evaluationDomains.map((domain) => domain.dimensions.length));
-    setQuestions(evaluation?.evaluationQuestions?.map((q) => q.name));
     setDomainNames(evaluation.evaluationDomains.map((domain) => domain.name));
     setDimensionSigns(flattenDeep(signs));
     setFirstCycle(initValue);
@@ -112,13 +104,6 @@ const Evaluation = ({ evaluation, evaluationUrl }: Props) => {
     const tmp = flattenDeep(firstCycle.concat(secondCycle));
     const isInValid = tmp.some((v) => v === 0);
     setIsValidForm(!isInValid);
-  };
-
-  const handleAnswerValues = (questionIndex: number, value: number) => {
-    let answersTemp = [...answers];
-    answersTemp[questionIndex] = value;
-    setAnswers(answersTemp);
-    setAccordionItemIndex(questionIndex + 1);
   };
 
   const handleChartModal = () => {
@@ -170,107 +155,7 @@ const Evaluation = ({ evaluation, evaluationUrl }: Props) => {
         borderColor="gray.200"
       >
         <HeadingArticle heading={evaluation.name} />
-        {evaluation.type === EType.FIXED && (
-          <Box>
-            <Input
-              variant="flushed"
-              placeholder={t('teacher') as string}
-              value={teacher}
-              onChange={(event) => setTeacher(event.target.value)}
-            />
-            <Input
-              variant="flushed"
-              placeholder={t('class') as string}
-              value={clazz}
-              onChange={(event) => setClazz(event.target.value)}
-            />
-            <Input
-              mb="15px"
-              variant="flushed"
-              placeholder={t('subject') as string}
-              value={subject}
-              onChange={(event) => setSubject(event.target.value)}
-            />
-            <Accordion allowToggle index={accordionItemIndex}>
-              {evaluation?.evaluationQuestions?.map(
-                (question: EvaluationQuestionType, questionIndex: number) => (
-                  <AccordionItem key={question.name} isDisabled={questionIndex > answers.length}>
-                    <AccordionButton
-                      onClick={() => {
-                        setAccordionItemIndex(
-                          questionIndex === accordionItemIndex ? -1 : questionIndex,
-                        );
-                      }}
-                      display="flex"
-                      justifyContent="space-between"
-                    >
-                      <Box display="flex">
-                        <Circle size="40px" bg="yellow.600">
-                          <Text fontWeight="bold" color="#fff" fontSize="0.75rem">
-                            {questionIndex + 1}
-                          </Text>
-                        </Circle>
-                        <Text ml="1rem" fontWeight="600">
-                          {question.name}
-                        </Text>
-                      </Box>
-                      <AccordionIcon />
-                    </AccordionButton>
-                    <AccordionPanel pb={4} display="flex" flexDirection="column">
-                      {question?.evaluationQuestionAnswers?.map((answer, index) => (
-                        <Box
-                          w="100%"
-                          p={4}
-                          key={answer.name}
-                          cursor="pointer"
-                          my="5px"
-                          border="1px solid"
-                          borderColor="gray.200"
-                          borderRadius="5px"
-                          _hover={{
-                            transition: 'all .25s ease-in-out',
-                            background: 'yellow.600',
-                            color: 'white',
-                          }}
-                          color={answers[questionIndex] === answer.value ? 'white' : 'black'}
-                          bg={answers[questionIndex] === answer.value ? 'yellow.600' : 'white'}
-                          onClick={() => handleAnswerValues(questionIndex, answer.value)}
-                          dangerouslySetInnerHTML={{ __html: answer.name }}
-                        />
-                      ))}
-                    </AccordionPanel>
-                  </AccordionItem>
-                ),
-              )}
-            </Accordion>
-            <Button
-              mt="20px"
-              colorScheme="white"
-              fontSize="0.95em"
-              onClick={handleChartModal}
-              w="100%"
-              bg="yellow.600"
-              variant="solid"
-              disabled={answers.length < questions.length}
-            >
-              {t('submit')}
-            </Button>
-            <Modal isOpen={isOpen} onClose={onClose} isCentered size="5xl">
-              <ModalOverlay />
-              <ModalContent w="95%">
-                <ModalCloseButton />
-                <ModalBody>
-                  <EvaluationBarChart
-                    evaluationTitle={evaluation.name}
-                    data={answers}
-                    questionNames={questions}
-                    info={info}
-                  />
-                </ModalBody>
-              </ModalContent>
-            </Modal>
-          </Box>
-        )}
+        {evaluation.type === EType.FIXED && <EvaluationFixedData evaluationQuestions={evaluation.evaluationQuestions} />}
         {evaluation.type === EType.DYNAMIC && (
           <Box>
             <Input
