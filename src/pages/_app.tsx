@@ -30,7 +30,7 @@ const EdumateApp = ({ Component, pageProps, messages }: MyProps) => {
       router.events.off('routeChangeStart', () => setIsLoading(false));
       router.events.off('routeChangeComplete', () => setIsLoading(false));
     };
-  }, []);
+  }, [router.events]);
 
   return (
     <NextIntlProvider messages={{ ...messages, ...pageProps.messages }}>

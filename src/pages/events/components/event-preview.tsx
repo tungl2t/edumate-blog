@@ -48,7 +48,7 @@ const EventPreview = ({ event }: Props) => {
           my="0.25em"
         >
           <ExternalLinkIcon mr="0.5em" color="blue.800" />
-          <a href={detailLink} target="_blank">
+          <a href={detailLink} target="_blank" rel="noreferrer">
             {t('detail')}
           </a>
         </Box>
