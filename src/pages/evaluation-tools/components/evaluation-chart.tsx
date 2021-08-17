@@ -24,8 +24,8 @@ const EvaluationChart = ({ chartType, data, dataName }: Props) => {
         {
           label: 'Evaluation Result',
           data: data,
-          backgroundColor: ['#B7791F'],
-          borderColor: ['#B7791F'],
+          backgroundColor: ['rgba(183,121,31,0.5)'],
+          borderColor: ['rgba(183,121,31,1)'],
           borderWidth: 1,
           fill: true,
         },
