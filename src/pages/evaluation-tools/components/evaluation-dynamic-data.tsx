@@ -101,6 +101,7 @@ const EvaluationDynamicData = ({ evaluationDomains }: Props) => {
   const handleChartModal = () => {
     const currentTime = format(Date.now(), 'dd/MM/yyyy - hh:mm a');
     const info = [
+      teacher ? `${t('teacher')}: ${teacher}` : '',
       noOfAdults ? `${t('noOfAdults')}: ${noOfAdults}` : '',
       observer ? `${t('observer')}: ${observer}` : '',
       noOfChildren ? `${t('noOfChildren')}: ${noOfChildren}` : '',
