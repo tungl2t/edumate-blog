@@ -27,16 +27,6 @@
     "title": "Products",
     "desc": "edumate academic planner is the first Vietnamese language planner for students, teachers and those working in the education industry. Do you already own a book?"
   },
-  "AboutUs": {
-    "title": "About Us",
-    "desc": "edumate devotes itself to the development of schools and teachers with educational know-how from Finland.",
-    "companyName": "Company Name",
-    "businessId": "Business ID",
-    "address": "Address",
-    "city": "City",
-    "country": "Country",
-    "home": "Room 303, Floor 3, CTSC Building, 1 Ba Trieu, Hoan Kiem, Hanoi"
-  },
   "EvaluationTool": {
     "title": "Evaluation Tool",
     "desc": "",

@@ -12,21 +12,23 @@ type EvaluationType = {
   evaluationPath: string;
   evaluationQuestions: EvaluationQuestionType[];
   evaluationDomains: EvaluationDomainType[];
-  type: ETypes;
+  type: EvaluationTypes;
 };
 
 export default EvaluationType;
 
-export enum ChartType {
+export enum EChartType {
   POLAR = 'Polar',
   RADAR = 'Radar',
+  LINE = 'Line',
+  BAR = 'Bar',
 }
 
-export type ChartTypes = ChartType.POLAR | ChartType.RADAR;
+export type ChartTypes = EChartType.POLAR | EChartType.RADAR | EChartType.BAR | EChartType.LINE;
 
-export enum EType {
+export enum EEvaluationType {
   DYNAMIC = 'Dynamic',
   FIXED = 'Fixed',
 }
 
-export type ETypes = EType.DYNAMIC | EType.FIXED;
+export type EvaluationTypes = EEvaluationType.DYNAMIC | EEvaluationType.FIXED;

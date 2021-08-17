@@ -1,24 +1,24 @@
 import { fetchAPI } from './api';
 
-export async function getCompanies(locale: string) {
+export async function getCompaniesByType(locale: string, companyType: string) {
   const data = await fetchAPI(
     `
-    query Companies($locale: String){
-      companies(sort: "id:asc", locale: $locale) {
-        name
-        businessId
+    query Companies($locale: String, $where: JSON){
+      companies(sort: "id:asc", locale: $locale, where: $where) {
         address
-        city
-        country
-        coverImage {
-          url
-        }
+        facebook
+        linkedIn
+        email
+        phone
       }
     }
   `,
     {
       variables: {
         locale,
+        where: {
+          companyType,
+        },
       },
     },
   );
