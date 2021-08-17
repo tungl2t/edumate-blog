@@ -52,7 +52,7 @@ const EvaluationDynamicData = ({ evaluationDomains }: Props) => {
   const [domainLengths, setDomainLengths] = useState<number[]>([]);
   const [domainNames, setDomainNames] = useState<string[]>([]);
   const [finalDomainAverage, setFinalDomainAverage] = useState<number[]>([]);
-  const [isValidForm, setIsValidForm] = useState<boolean>(true);
+  const [isValidForm, setIsValidForm] = useState<boolean>(false);
 
   useEffect(() => {
     const initValue = evaluationDomains.map((domain) => [
