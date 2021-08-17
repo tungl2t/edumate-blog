@@ -44,8 +44,8 @@ const EvaluationDynamicData = ({ evaluationDomains }: Props) => {
   const [noOfAdults, setNoOfAdults] = useState<string>('');
   const [noOfChildren, setNoOfChildren] = useState<string>('');
   const [info, setInfo] = useState<Array<string>>([]);
-  const [firstCycle, setFirstCycle] = useState<number[][][]>([[[]]]);
-  const [secondCycle, setSecondCycle] = useState<number[][][]>([[[]]]);
+  const [firstCycle, setFirstCycle] = useState<number[][][]>([]);
+  const [secondCycle, setSecondCycle] = useState<number[][][]>([]);
   const [finalDimensionsAverage, setFinalDimensionsAverage] = useState<number[]>([]);
   const [dimensionNames, setDimensionNames] = useState<string[]>([]);
   const [dimensionSigns, setDimensionSigns] = useState<number[]>([]);
@@ -83,16 +83,20 @@ const EvaluationDynamicData = ({ evaluationDomains }: Props) => {
     domainIndex: number,
     dimensionIndex: number,
     subDimensionIndex: number,
-    value: number,
+    value: string,
     isFirstCycle = true,
   ) => {
+    const intValue = value ? parseInt(value, 10) : 0;
     const tmpArray = isFirstCycle ? cloneDeep(firstCycle) : cloneDeep(secondCycle);
-    tmpArray[domainIndex][dimensionIndex][subDimensionIndex] = value;
+    tmpArray[domainIndex][dimensionIndex][subDimensionIndex] = intValue > 7 ? 7 : intValue;
     isFirstCycle ? setFirstCycle(tmpArray) : setSecondCycle(tmpArray);
+  };
+
+  useEffect(() => {
     const tmp = flattenDeep(firstCycle.concat(secondCycle));
     const isInValid = tmp.some((v) => v === 0);
     setIsValidForm(!isInValid);
-  };
+  }, [firstCycle, secondCycle]);
 
   const handleChartModal = () => {
     const currentTime = format(Date.now(), 'dd/MM/yyyy - hh:mm a');
@@ -210,13 +214,14 @@ const EvaluationDynamicData = ({ evaluationDomains }: Props) => {
                               min={subDimension.minValue}
                               max={subDimension.maxValue}
                               step={1}
-                              errorBorderColor="yellow.600"
+                              clampValueOnBlur={false}
+                              errorBorderColor="red.400"
                               onChange={(value) => {
                                 handleValueOfEachCycle(
                                   domainIndex,
                                   dimensionIndex,
                                   subDimensionIndex,
-                                  value ? parseInt(value, 10) : 0,
+                                  value,
                                 );
                               }}
                             >
@@ -239,13 +244,14 @@ const EvaluationDynamicData = ({ evaluationDomains }: Props) => {
                               min={subDimension.minValue}
                               max={subDimension.maxValue}
                               step={1}
-                              errorBorderColor="yellow.600"
+                              clampValueOnBlur={false}
+                              errorBorderColor="red.400"
                               onChange={(value) => {
                                 handleValueOfEachCycle(
                                   domainIndex,
                                   dimensionIndex,
                                   subDimensionIndex,
-                                  value ? parseInt(value, 10) : 0,
+                                  value,
                                   false,
                                 );
                               }}
