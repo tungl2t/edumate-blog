@@ -7,22 +7,17 @@ import {
   AccordionItem,
   AccordionPanel,
   Box,
-  Button,
   Circle,
   Input,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalOverlay,
   Text,
-  useDisclosure,
 } from '@chakra-ui/react';
-
-import EvaluationQuestionType from '@/types/evaluation-question.type';
-import EvaluationBarChart from './evaluation-bar-chart';
 import { compact } from 'lodash-es';
 import { format } from 'date-fns';
+
+import { EChartType } from '@/types/evaluation.type';
+import EvaluationQuestionType from '@/types/evaluation-question.type';
+import EvaluationModal from './evaluation-modal';
+import EvaluationChart from './evaluation-chart';
 
 type Props = {
   evaluationQuestions: EvaluationQuestionType[];
@@ -33,11 +28,10 @@ const EvaluationFixedData = ({ evaluationQuestions }: Props) => {
   const [teacher, setTeacher] = useState<string>('');
   const [clazz, setClazz] = useState<string>('');
   const [subject, setSubject] = useState<string>('');
-  const [answers, setAnswers] = useState<Array<number>>([]);
-  const [questions, setQuestions] = useState<Array<string>>([]);
+  const [answers, setAnswers] = useState<number[]>([]);
+  const [questions, setQuestions] = useState<string[]>([]);
   const [accordionItemIndex, setAccordionItemIndex] = useState<number>(-1);
-  const [info, setInfo] = useState<Array<string>>([]);
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [info, setInfo] = useState<string[]>([]);
 
   useEffect(() => {
     setQuestions(evaluationQuestions?.map((q) => q.name));
@@ -59,7 +53,6 @@ const EvaluationFixedData = ({ evaluationQuestions }: Props) => {
       `${t('time')}: ${currentTime}`,
     ];
     setInfo(compact(info));
-    onOpen();
   };
 
   return (
@@ -93,13 +86,13 @@ const EvaluationFixedData = ({ evaluationQuestions }: Props) => {
               display="flex"
               justifyContent="space-between"
             >
-              <Box display="flex">
+              <Box display="flex" justifyContent="center" alignItems="center">
                 <Circle size="40px" bg="yellow.600">
                   <Text fontWeight="bold" color="#fff" fontSize="0.75rem">
                     {questionIndex + 1}
                   </Text>
                 </Circle>
-                <Text ml="1rem" fontWeight="600">
+                <Text ml="1rem" fontWeight="600" textAlign="left">
                   {question.name}
                 </Text>
               </Box>
@@ -131,27 +124,13 @@ const EvaluationFixedData = ({ evaluationQuestions }: Props) => {
           </AccordionItem>
         ))}
       </Accordion>
-      <Button
-        mt="20px"
-        colorScheme="white"
-        fontSize="0.95em"
-        onClick={handleChartModal}
-        w="100%"
-        bg="yellow.600"
-        variant="solid"
-        disabled={answers.length < questions.length}
+      <EvaluationModal
+        isValidData={answers.length === questions.length}
+        handleData={handleChartModal}
+        info={info}
       >
-        {t('submit')}
-      </Button>
-      <Modal isOpen={isOpen} onClose={onClose} isCentered size="5xl">
-        <ModalOverlay />
-        <ModalContent w="95%">
-          <ModalCloseButton />
-          <ModalBody>
-            <EvaluationBarChart data={answers} questionNames={questions} info={info} />
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+        <EvaluationChart data={answers} dataName={questions} chartType={EChartType.BAR} />
+      </EvaluationModal>
     </Box>
   );
 };
