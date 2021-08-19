@@ -1,37 +1,19 @@
 import { ReactNode } from 'react';
-import {
-  AspectRatio,
-  Box,
-  Flex,
-  Heading,
-  Img,
-  Modal,
-  ModalContent,
-  ModalOverlay,
-  Text,
-  Tooltip,
-  useDisclosure,
-} from '@chakra-ui/react';
+import { AspectRatio, Box, Flex, Heading, Img } from '@chakra-ui/react';
 import { Icon } from '@chakra-ui/icons';
-import { BsBoxArrowInRight, BsThreeDots } from 'react-icons/bs';
+import { BsBoxArrowInRight } from 'react-icons/bs';
 
 import { EdumateLink } from '@/components/edumate-link';
-import {
-  AiOutlineFacebook,
-  AiOutlineLink,
-  AiOutlineLinkedin,
-  AiOutlinePhone,
-} from 'react-icons/ai';
+import ShareSocial from '@/components/share-social';
 
 type Props = {
   title: string;
-  href: string;
+  path: string;
   imageUrl: string;
   children?: ReactNode;
 };
 
-const Preview = ({ title, href, imageUrl, children }: Props) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+const Preview = ({ title, path, imageUrl, children }: Props) => {
   return (
     <Flex
       direction={{ base: 'column', md: 'row' }}
@@ -43,11 +25,11 @@ const Preview = ({ title, href, imageUrl, children }: Props) => {
       my="1em"
       w={{ base: '95vw', lg: '960px' }}
     >
-      <EdumateLink href={href}>
+      <EdumateLink path={path}>
         <AspectRatio
           ratio={4 / 3}
           flex={{ base: '100%', md: '40%' }}
-          cursor={href ? 'pointer' : ''}
+          cursor={path ? 'pointer' : ''}
         >
           <Img src={imageUrl} alt={title} />
         </AspectRatio>
@@ -60,49 +42,17 @@ const Preview = ({ title, href, imageUrl, children }: Props) => {
         justifyContent="center"
         p={{ base: '1.25em', sm: '1.5em' }}
       >
-        <Box position={'absolute'} top="0.5em" right="1em" zIndex={1}>
-          <Tooltip label="Share post!" aria-label="A tooltip" shouldWrapChildren>
-            <Icon
-              as={BsThreeDots}
-              w={5}
-              h={5}
-              color="gray.500"
-              zIndex={2}
-              onClick={onOpen}
-              cursor="pointer"
-            />
-          </Tooltip>
-        </Box>
-        <Modal isOpen={isOpen} onClose={onClose} isCentered>
-          <ModalOverlay />
-          <ModalContent w="150px">
-            <Flex direction="row" justifyContent="space-around" alignItems="center" p={2}>
-              <a
-                href={`https://www.facebook.com/sharer.php?u=${process.env.NEXT_PUBLIC_EDUMATE_URL}${href}`}
-                rel="noreferrer"
-                target="_blank"
-              >
-                <Icon as={AiOutlineFacebook} mr="0.5em" w={8} h={8} color="gray.600" />
-              </a>
-              <a href="" rel="noreferrer" target="_blank">
-                <Icon as={AiOutlineLinkedin} mr="0.5em" w={8} h={8} color="gray.600" />
-              </a>
-              <a href="" rel="noreferrer" target="_blank">
-                <Icon as={AiOutlineLink} mr="0.5em" w={8} h={8} color="gray.600" />
-              </a>
-            </Flex>
-          </ModalContent>
-        </Modal>
-        <EdumateLink href={href}>
+        {path && <ShareSocial path={path} />}
+        <EdumateLink path={path}>
           <Flex
             direction="row"
             justifyContent="start"
             alignItems="center"
             mb="5px"
-            cursor={href ? 'pointer' : ''}
+            cursor={path ? 'pointer' : ''}
           >
             <Heading fontSize={{ base: '1.25em' }} color="blue.800" mt={{ base: '10px', '2md': 0 }}>
-              {title} {href && <Icon as={BsBoxArrowInRight} color="gray.500" ml="5px" />}
+              {title} {path && <Icon as={BsBoxArrowInRight} color="gray.500" ml="5px" />}
             </Heading>
           </Flex>
         </EdumateLink>

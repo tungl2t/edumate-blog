@@ -49,5 +49,8 @@
     "h": "Hours",
     "m": "Minutes",
     "s": "Seconds"
+  },
+  "Shared": {
+    "title": "Share post"
   }
 }

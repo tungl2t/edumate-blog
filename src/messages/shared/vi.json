@@ -49,5 +49,8 @@
     "h": "Giờ",
     "m": "Phút",
     "s": "Giây"
+  },
+  "Shared": {
+    "title": "Share post"
   }
 }

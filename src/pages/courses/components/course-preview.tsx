@@ -9,9 +9,9 @@ type Props = {
 
 const CoursePreview = ({ course }: Props) => {
   const { coursePath, coverImage, title, excerpt } = course;
-  const href = coursePath ? `/courses/${coursePath}` : '';
+  const path = coursePath ? `/courses/${coursePath}` : '';
   return (
-    <Preview title={title} href={href} imageUrl={coverImage.url}>
+    <Preview title={title} path={path} imageUrl={coverImage.url}>
       <Text fontSize={{ base: '0.95em', sm: '1em' }} color="gray.600">
         {excerpt}
       </Text>
