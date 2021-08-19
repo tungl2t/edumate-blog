@@ -38,6 +38,10 @@ const ShareSocial = ({ path }: Props) => {
     navigator.clipboard.writeText(link);
   };
 
+  const openPopupWindow = (isFb = true) => {
+    window.open(isFb ? fbLink : linkedInLink, 'myWindow', 'width=500,height=500');
+  };
+
   const onCloseModal = () => {
     setCopiedLink('');
     onClose();
@@ -73,30 +77,30 @@ const ShareSocial = ({ path }: Props) => {
         <ModalContent w="150px">
           <Flex direction="row" justifyContent="space-around" alignItems="center" p={2}>
             <Tooltip hasArrow label={t('facebook')} closeOnClick={false} shouldWrapChildren>
-              <a href={fbLink} rel="noreferrer" target="_blank">
-                <Icon
-                  as={AiOutlineFacebook}
-                  w={8}
-                  h={8}
-                  color="gray.400"
-                  _hover={{
-                    color: 'gray.600',
-                  }}
-                />
-              </a>
+              <Icon
+                as={AiOutlineFacebook}
+                w={8}
+                h={8}
+                color="gray.400"
+                cursor="pointer"
+                onClick={() => openPopupWindow()}
+                _hover={{
+                  color: 'gray.600',
+                }}
+              />
             </Tooltip>
             <Tooltip hasArrow label={t('linkedIn')} closeOnClick={false} shouldWrapChildren>
-              <a href={linkedInLink} rel="noreferrer" target="_blank">
-                <Icon
-                  as={AiOutlineLinkedin}
-                  w={8}
-                  h={8}
-                  color="gray.400"
-                  _hover={{
-                    color: 'gray.600',
-                  }}
-                />
-              </a>
+              <Icon
+                as={AiOutlineLinkedin}
+                w={8}
+                h={8}
+                color="gray.400"
+                cursor="pointer"
+                onClick={() => openPopupWindow(false)}
+                _hover={{
+                  color: 'gray.600',
+                }}
+              />
             </Tooltip>
             <Tooltip
               hasArrow
@@ -110,10 +114,10 @@ const ShareSocial = ({ path }: Props) => {
                 h={8}
                 color="gray.400"
                 cursor="pointer"
+                onClick={onCopyLink}
                 _hover={{
                   color: 'gray.600',
                 }}
-                onClick={onCopyLink}
               />
             </Tooltip>
           </Flex>
