@@ -1,3 +1,5 @@
+import { useTranslations } from 'next-intl';
+import { useEffect, useState } from 'react';
 import {
   Box,
   Flex,
@@ -10,8 +12,6 @@ import {
 import { Icon } from '@chakra-ui/icons';
 import { BsThreeDots } from 'react-icons/bs';
 import { AiOutlineFacebook, AiOutlineLink, AiOutlineLinkedin } from 'react-icons/ai';
-import { useTranslations } from 'next-intl';
-import { useEffect, useState } from 'react';
 
 type Props = {
   path: string;
