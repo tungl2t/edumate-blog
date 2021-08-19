@@ -49,5 +49,12 @@
     "h": "Giờ",
     "m": "Phút",
     "s": "Giây"
+  },
+  "Shared": {
+    "title": "Chia sẻ",
+    "facebook": "Chia sẻ lên Facebook",
+    "linkedIn": "Chia sẻ lên LinkedIn",
+    "copy": "Sao chép liên kết",
+    "copied": "Đã sao chép liên kết"
   }
 }

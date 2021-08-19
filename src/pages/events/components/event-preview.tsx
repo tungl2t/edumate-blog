@@ -15,9 +15,9 @@ const EventPreview = ({ event }: Props) => {
   const { eventPath, coverImage, title, startDate, location, detailLink } = event;
   const t = useTranslations('Events');
   const date = parseISO(startDate);
-  const href = eventPath ? `/events/${eventPath}` : '';
+  const path = eventPath ? `/events/${eventPath}` : '';
   return (
-    <Preview title={title} href={href} imageUrl={coverImage.url}>
+    <Preview title={title} path={path} imageUrl={coverImage.url}>
       <Timer day={startDate} />
       <Box
         fontSize={{ base: '0.95em', sm: '1em' }}

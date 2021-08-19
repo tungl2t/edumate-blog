@@ -74,7 +74,14 @@ const EvaluationModal = ({ isValidData, handleData, children, info }: Props) => 
       >
         {t('submit')}
       </Button>
-      <Modal isOpen={isOpen} onClose={onClose} isCentered size="5xl">
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        isCentered
+        size="5xl"
+        autoFocus={false}
+        returnFocusOnClose={false}
+      >
         <ModalOverlay />
         <ModalContent w="95%">
           <ModalCloseButton />

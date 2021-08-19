@@ -10,9 +10,9 @@ type Props = {
 
 const PostPreview = ({ post }: Props) => {
   const { slug, coverImage, title, excerpt } = post;
-  const href = `/blog/${slug}`;
+  const path = `/blog/${slug}`;
   return (
-    <Preview title={title} href={href} imageUrl={coverImage.url}>
+    <Preview title={title} path={path} imageUrl={coverImage.url}>
       <Text fontSize="12px" color="gray.500" position="absolute" top="0.5em">
         <DateFormatter dateString={post.date} />
       </Text>

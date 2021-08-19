@@ -1,7 +1,10 @@
 import { ReactNode } from 'react';
-import { Box } from '@chakra-ui/react';
-import HeadingArticle from '@/components/heading-article';
+import { useRouter } from 'next/router';
 import Error from 'next/error';
+import { Box } from '@chakra-ui/react';
+
+import ShareSocial from '@/components/share-social';
+import HeadingArticle from '@/components/heading-article';
 
 type Props = {
   title: string;
@@ -10,9 +13,12 @@ type Props = {
 };
 
 const WrapperArticle = ({ title, htmlContent, children }: Props) => {
+  const router = useRouter();
+
   if (!htmlContent) {
-    return <Error statusCode={404}/>;
+    return <Error statusCode={404} />;
   }
+
   return (
     <Box
       w={{ base: '95%', lg: '960px' }}
@@ -20,7 +26,9 @@ const WrapperArticle = ({ title, htmlContent, children }: Props) => {
       p={{ base: '1em', sm: '2em', md: '5em' }}
       border="1px solid"
       borderColor="gray.200"
+      position="relative"
     >
+      <ShareSocial path={router.asPath} />
       <article>
         <HeadingArticle heading={title} />
         <Box

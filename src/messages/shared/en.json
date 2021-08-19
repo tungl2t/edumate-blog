@@ -49,5 +49,12 @@
     "h": "Hours",
     "m": "Minutes",
     "s": "Seconds"
+  },
+  "Shared": {
+    "title": "Share post",
+    "facebook": "Share via Facebook",
+    "linkedIn": "Share via LinkedIn",
+    "copy": "Copy",
+    "copied": "Copied"
   }
 }
