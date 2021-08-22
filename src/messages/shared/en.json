@@ -56,5 +56,9 @@
     "linkedIn": "Share via LinkedIn",
     "copy": "Copy",
     "copied": "Copied"
+  },
+  "Footer": {
+    "title": "Subscribe to get the latest news and update",
+    "submit": "Submit"
   }
 }

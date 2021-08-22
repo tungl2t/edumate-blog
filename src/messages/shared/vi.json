@@ -56,5 +56,9 @@
     "linkedIn": "Chia sẻ lên LinkedIn",
     "copy": "Sao chép liên kết",
     "copied": "Đã sao chép liên kết"
+  },
+  "Footer": {
+    "title": "Đăng ký để nhận những tin tức mới nhất",
+    "submit": "Gửi"
   }
 }
