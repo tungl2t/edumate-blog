@@ -21,13 +21,14 @@ const Index = ({ homes }: Props) => {
         title={t('title')}
         description={t('desc')}
         url="https://edumate.vn"
-        imageUrl="https://edumate.vn/edumate.png"
+        imageUrl="/edumate.png"
       />
       <Box position="relative" w="100%" h="calc(100vh - 60px)">
         <Img
           src="/images/home.jpeg"
           w="100%"
           h="100%"
+          alt={t('title') as string}
           position="absolute"
           top={0}
           right={0}
