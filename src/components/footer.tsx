@@ -14,11 +14,26 @@ import footerStyles from '@/styles/footer.module.sass';
 import { getCompaniesByType } from '@/lib/api';
 import CompanyType, { ECompanyType } from '@/types/company.type';
 import { useTranslations } from 'next-intl';
+import { createSubscriber } from '@/lib/api/subscriber.api';
 
 const Footer = () => {
   const t = useTranslations('Footer');
   const [companyInfo, setCompanyInfo] = useState<CompanyType>();
+  const [email, setEmail] = useState('');
   const { locale } = useRouter();
+
+  const [results, setResults] = useState([]);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const createSubscriberApi = async (subscriberEmail: string) => {
+    try {
+      const response = await createSubscriber(subscriberEmail);
+      setResults(response);
+    } catch (err) {
+      console.log(err);
+      setErrorMessage('Something went wrong');
+    }
+  };
 
   useEffect(() => {
     const currentLocale = locale === 'en' ? 'en' : 'vi';
@@ -29,9 +44,7 @@ const Footer = () => {
     fetchData(currentLocale);
   }, [locale]);
 
-  useEffect(() => {
-
-  })
+  useEffect(() => {});
 
   return (
     <footer className={footerStyles.footer}>
@@ -63,11 +76,18 @@ const Footer = () => {
             color="blue.800"
             variant="outline"
             placeholder="Email"
-            my="10px"
             w={{ base: '100%', lg: '50%' }}
             mx={{ base: 0, lg: '5px' }}
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
           />
-          <Button variant="outline" my="10px" color="blue.800" w={{ base: '100%', lg: '10%' }}>
+          <Button
+            variant="outline"
+            my="10px"
+            color="blue.800"
+            w={{ base: '100%', lg: '10%' }}
+            onClick={() => createSubscriberApi(email)}
+          >
             {t('submit')}
           </Button>
         </Flex>

@@ -1,7 +1,7 @@
 import { fetchAPI } from '@/lib/api/api';
 
 export async function createSubscriber(email: string | undefined) {
-  const data = await fetchAPI(
+  return await fetchAPI(
     `
         mutation CreateSubscriber($email: String!){
           createSubscriber(input: { data: {email: $email} }) {
@@ -18,5 +18,4 @@ export async function createSubscriber(email: string | undefined) {
       },
     },
   );
-  return data?.subscriber?.id;
 }
