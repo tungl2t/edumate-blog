@@ -27,7 +27,7 @@ const EvaluationFixedData = ({ evaluationQuestions }: Props) => {
   const t = useTranslations('EvaluationTool');
   const [teacher, setTeacher] = useState<string>('');
   const [clazz, setClazz] = useState<string>('');
-  const [subject, setSubject] = useState<string>('');
+  const [project, setProject] = useState<string>('');
   const [answers, setAnswers] = useState<number[]>([]);
   const [questions, setQuestions] = useState<string[]>([]);
   const [accordionItemIndex, setAccordionItemIndex] = useState<number>(-1);
@@ -49,7 +49,7 @@ const EvaluationFixedData = ({ evaluationQuestions }: Props) => {
     const info = [
       teacher ? `${t('teacher')}: ${teacher}` : '',
       clazz ? `${t('class')}: ${clazz}` : '',
-      subject ? `${t('subject')}: ${subject}` : '',
+      project ? `${t('project')}: ${project}` : '',
       `${t('time')}: ${currentTime}`,
     ];
     setInfo(compact(info));
@@ -72,9 +72,9 @@ const EvaluationFixedData = ({ evaluationQuestions }: Props) => {
       <Input
         mb="15px"
         variant="flushed"
-        placeholder={t('subject') as string}
-        value={subject}
-        onChange={(event) => setSubject(event.target.value)}
+        placeholder={t('project') as string}
+        value={project}
+        onChange={(event) => setProject(event.target.value)}
       />
       <Accordion allowToggle index={accordionItemIndex}>
         {evaluationQuestions?.map((question: EvaluationQuestionType, questionIndex: number) => (
