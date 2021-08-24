@@ -25,13 +25,32 @@ const Footer = () => {
   const [results, setResults] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
 
+  const validateEmail = (e: string) => {
+    const pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    return pattern.test(e);
+  };
+
+  useEffect(() => {
+    if (email) {
+      setErrorMessage('');
+    }
+  }, [email]);
+
   const createSubscriberApi = async (subscriberEmail: string) => {
+    if (!email) {
+      return;
+    }
+    const isValidEmail = validateEmail(email);
+    if (!isValidEmail) {
+      setErrorMessage('inValidEmail');
+      return;
+    }
     try {
       const response = await createSubscriber(subscriberEmail);
       setResults(response);
+      setErrorMessage('');
     } catch (err) {
-      console.log(err);
-      setErrorMessage('Something went wrong');
+      setErrorMessage('existedEmail');
     }
   };
 
@@ -43,8 +62,6 @@ const Footer = () => {
     };
     fetchData(currentLocale);
   }, [locale]);
-
-  useEffect(() => {});
 
   return (
     <footer className={footerStyles.footer}>
@@ -72,20 +89,29 @@ const Footer = () => {
           >
             {t('title')}
           </Text>
-          <Input
-            color="blue.800"
-            variant="outline"
-            placeholder="Email"
-            w={{ base: '100%', lg: '50%' }}
-            mx={{ base: 0, lg: '5px' }}
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-          />
+          <Box w={{ base: '100%', lg: '50%' }} mx={{ base: 0, lg: '5px' }}>
+            <Input
+              color="blue.800"
+              variant="outline"
+              w="100%"
+              placeholder="Email"
+              isInvalid={!!errorMessage}
+              errorBorderColor="yellow.600"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+            />
+            {errorMessage && (
+              <Text fontSize="12px" color="yellow.600" fontStyle="italic">
+                {t(errorMessage)}
+              </Text>
+            )}
+          </Box>
           <Button
             variant="outline"
             my="10px"
             color="blue.800"
             w={{ base: '100%', lg: '10%' }}
+            disabled={!email}
             onClick={() => createSubscriberApi(email)}
           >
             {t('submit')}

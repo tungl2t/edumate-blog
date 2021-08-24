@@ -59,6 +59,8 @@
   },
   "Footer": {
     "title": "Subscribe to get the latest news and update",
-    "submit": "Submit"
+    "submit": "Submit",
+    "inValidEmail": "Email is invalid",
+    "existedEmail": "Email is existed"
   }
 }
