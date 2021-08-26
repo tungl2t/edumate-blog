@@ -37,6 +37,7 @@
     "noOfChildren": "No. of children",
     "class": "Class",
     "subject": "Subject",
+    "project": "Project name",
     "time": "Time",
     "submit": "Submit",
     "subDimensions": "Sub Dimensions",

@@ -37,6 +37,7 @@
     "noOfChildren": "Số lượng học sinh",
     "class": "Lớp",
     "subject": "Môn học",
+    "project": "Tên dự án",
     "time": "Thời gian",
     "submit": "Đánh giá",
     "subDimensions": "Tiêu chí",
