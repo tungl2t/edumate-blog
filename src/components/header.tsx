@@ -55,7 +55,7 @@ const Header = () => {
         top="0"
         left="0"
         width="100%"
-        boxShadow="0 2px 4px -1px #0003, 0 4px 5px 0 #00000024, 0 1px 10px 0 #0000001f"
+        boxShadow="dark-lg"
         zIndex={2}
       >
         <Flex

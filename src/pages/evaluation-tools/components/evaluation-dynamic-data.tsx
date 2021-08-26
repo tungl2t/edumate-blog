@@ -216,7 +216,7 @@ const EvaluationDynamicData = ({ evaluationDomains }: Props) => {
                               max={subDimension.maxValue}
                               step={1}
                               clampValueOnBlur={false}
-                              errorBorderColor="red.400"
+                              errorBorderColor="yellow.600"
                               onChange={(value) => {
                                 handleValueOfEachCycle(
                                   domainIndex,
@@ -246,7 +246,7 @@ const EvaluationDynamicData = ({ evaluationDomains }: Props) => {
                               max={subDimension.maxValue}
                               step={1}
                               clampValueOnBlur={false}
-                              errorBorderColor="red.400"
+                              errorBorderColor="yellow.600"
                               onChange={(value) => {
                                 handleValueOfEachCycle(
                                   domainIndex,

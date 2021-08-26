@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { Box, Button, Flex, Input, Text } from '@chakra-ui/react';
-import { Icon } from '@chakra-ui/icons';
+import { useTranslations } from 'next-intl';
+import { Box, Button, Collapse, Flex, Input, Text, Tooltip, useDisclosure } from '@chakra-ui/react';
+import { Icon, SmallCloseIcon } from '@chakra-ui/icons';
 import {
   AiOutlineFacebook,
   AiOutlineLinkedin,
@@ -13,17 +14,17 @@ import { GoLocation } from 'react-icons/go';
 import footerStyles from '@/styles/footer.module.sass';
 import { getCompaniesByType } from '@/lib/api';
 import CompanyType, { ECompanyType } from '@/types/company.type';
-import { useTranslations } from 'next-intl';
 import { createSubscriber } from '@/lib/api/subscriber.api';
 
 const Footer = () => {
   const t = useTranslations('Footer');
   const [companyInfo, setCompanyInfo] = useState<CompanyType>();
   const [email, setEmail] = useState('');
+  const [result, setResult] = useState('');
+  const [hasError, setHasError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { locale } = useRouter();
-
-  const [results, setResults] = useState([]);
-  const [errorMessage, setErrorMessage] = useState('');
+  const { isOpen, onToggle } = useDisclosure();
 
   const validateEmail = (e: string) => {
     const pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -32,7 +33,7 @@ const Footer = () => {
 
   useEffect(() => {
     if (email) {
-      setErrorMessage('');
+      setHasError(false);
     }
   }, [email]);
 
@@ -42,15 +43,18 @@ const Footer = () => {
     }
     const isValidEmail = validateEmail(email);
     if (!isValidEmail) {
-      setErrorMessage('inValidEmail');
+      setHasError(true);
       return;
     }
     try {
-      const response = await createSubscriber(subscriberEmail);
-      setResults(response);
-      setErrorMessage('');
-    } catch (err) {
-      setErrorMessage('existedEmail');
+      setIsLoading(true);
+      await createSubscriber(subscriberEmail.trim());
+    } catch (e) {
+    } finally {
+      setResult('done');
+      setHasError(false);
+      setIsLoading(false);
+      onToggle();
     }
   };
 
@@ -65,19 +69,15 @@ const Footer = () => {
 
   return (
     <footer className={footerStyles.footer}>
-      <Box
-        height={{ base: 'auto', lg: '70px' }}
-        display="flex"
-        justifyContent="center"
-        boxShadow="0 2px 4px -1px #0003, 0 4px 5px 0 #00000024, 0 1px 10px 0 #0000001f"
-      >
-        <Flex
-          w={{ base: '95%', lg: '960px' }}
-          direction={{ base: 'column', lg: 'row' }}
-          m="auto"
-          align={{ base: 'start', lg: 'center' }}
-          justifyContent="space-between"
-          p="5px 0"
+      <Collapse in={isOpen} animateOpacity>
+        <Box
+          height={{ base: 'auto', lg: '65px' }}
+          display={'flex'}
+          justifyContent="center"
+          alignItems="center"
+          boxShadow="dark-lg"
+          px={10}
+          position="relative"
         >
           <Text
             color="blue.800"
@@ -87,43 +87,85 @@ const Footer = () => {
             my="10px"
             align="center"
           >
-            {t('title')}
+            {t('thankForSubscribing')}
           </Text>
-          <Box w={{ base: '100%', lg: '50%' }} mx={{ base: 0, lg: '5px' }}>
-            <Input
-              color="blue.800"
-              variant="outline"
-              w="100%"
-              placeholder="Email"
-              isInvalid={!!errorMessage}
-              errorBorderColor="yellow.600"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-            />
-            {errorMessage && (
-              <Text fontSize="12px" color="yellow.600" fontStyle="italic">
-                {t(errorMessage)}
-              </Text>
-            )}
-          </Box>
-          <Button
-            variant="outline"
-            my="10px"
-            color="blue.800"
-            w={{ base: '100%', lg: '10%' }}
-            disabled={!email}
-            onClick={() => createSubscriberApi(email)}
+          <SmallCloseIcon
+            w={5}
+            h={5}
+            onClick={onToggle}
+            cursor="pointer"
+            color="gray.500"
+            position="absolute"
+            right="10%"
+            top="calc(50% - 10px)"
+          />
+        </Box>
+      </Collapse>
+      {!result && (
+        <Box
+          height={{ base: 'auto', lg: '65px' }}
+          display={'flex'}
+          justifyContent="center"
+          boxShadow="dark-lg"
+        >
+          <Flex
+            w={{ base: '95%', lg: '960px' }}
+            direction={{ base: 'column', lg: 'row' }}
+            m="auto"
+            align={{ base: 'start', lg: 'center' }}
+            justifyContent="space-between"
+            p="5px 0"
           >
-            {t('submit')}
-          </Button>
-        </Flex>
-      </Box>
+            <Text
+              color="blue.800"
+              fontSize={{ base: 16, sm: 18 }}
+              fontWeight={700}
+              w={{ base: '100%', lg: '40%' }}
+              my="10px"
+              align="center"
+            >
+              {t('title')}
+            </Text>
+            <Box w={{ base: '100%', lg: '50%' }} mx={{ base: 0, lg: '5px' }}>
+              <Tooltip
+                hasArrow
+                label={t('inValidEmail')}
+                aria-label="A tooltip"
+                isDisabled={!hasError}
+              >
+                <Input
+                  color="blue.800"
+                  variant="outline"
+                  w="100%"
+                  placeholder="Email"
+                  isInvalid={hasError}
+                  errorBorderColor="yellow.600"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                />
+              </Tooltip>
+            </Box>
+            <Button
+              isLoading={isLoading}
+              loadingText={t('submitting') as string}
+              variant="outline"
+              my="10px"
+              color="blue.800"
+              w={{ base: '100%', lg: '10%' }}
+              disabled={!email}
+              onClick={() => createSubscriberApi(email)}
+            >
+              {t('submit')}
+            </Button>
+          </Flex>
+        </Box>
+      )}
       {companyInfo && (
         <Box
           height={{ base: 'auto', lg: '60px' }}
           background="black"
           width="100%"
-          boxShadow="0 2px 4px -1px #0003, 0 4px 5px 0 #00000024, 0 1px 10px 0 #0000001f"
+          boxShadow="dark-lg"
           zIndex={2}
         >
           <Flex

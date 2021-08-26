@@ -35,7 +35,7 @@ const ScrollToTop = () => {
       bottom="75px"
       right="15px"
       background="#B7791F"
-      boxShadow="0 2px 4px -1px #0003, 0 4px 5px 0 #00000024, 0 1px 10px 0 #0000001f"
+      boxShadow="dark-lg"
       w={{ base: 7, lg: 8 }}
       h={{ base: 7, lg: 8 }}
     />

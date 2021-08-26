@@ -61,7 +61,9 @@
   "Footer": {
     "title": "Đăng ký để nhận những tin tức mới nhất",
     "submit": "Gửi",
+    "submitting": "Đang gửi",
     "inValidEmail": "Email không hợp lệ",
-    "existedEmail": "Email đã tồn tại"
+    "existedEmail": "Email đã tồn tại",
+    "thankForSubscribing": "Cảm ơn bạn đã đăng ký"
   }
 }

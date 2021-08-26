@@ -61,7 +61,9 @@
   "Footer": {
     "title": "Subscribe to get the latest news and update",
     "submit": "Submit",
+    "submitting": "Submitting",
     "inValidEmail": "Email is invalid",
-    "existedEmail": "Email is existed"
+    "existedEmail": "Email is existed",
+    "thankForSubscribing": "Thank for subscribing"
   }
 }
