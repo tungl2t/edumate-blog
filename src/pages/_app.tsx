@@ -10,6 +10,7 @@ import Header from '@/components/header';
 import '../styles/globals.sass';
 import theme from '../theme';
 import Footer from '@/components/footer';
+import ScrollToTop from '@/components/scroll-to-top';
 
 interface MyProps extends AppProps {
   messages: any;
@@ -48,6 +49,7 @@ const EdumateApp = ({ Component, pageProps, messages }: MyProps) => {
           />
         )}
         <Component {...pageProps} />
+        <ScrollToTop />
         <Footer />
       </ChakraProvider>
     </NextIntlProvider>

@@ -10,7 +10,6 @@ const Layout = ({ children }: Props) => {
   return (
     <>
       <main>{children}</main>
-      <ScrollToTop />
     </>
   );
 };
