@@ -36,7 +36,7 @@ export async function getEvaluationByPath(evaluationPath: string, locale: string
         }
         evaluationQuestions(sort: "order:asc") {
           name
-          evaluationQuestionAnswers {
+          evaluationQuestionAnswers(sort: "value:asc") {
             name
             value
           }
