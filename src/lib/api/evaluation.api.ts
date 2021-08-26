@@ -34,7 +34,7 @@ export async function getEvaluationByPath(evaluationPath: string, locale: string
         coverImage {
           url
         }
-        evaluationQuestions {
+        evaluationQuestions(sort: "order:asc") {
           name
           evaluationQuestionAnswers {
             name
