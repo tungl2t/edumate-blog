@@ -68,7 +68,7 @@ const Header = () => {
         >
           <NextLink href="/">
             <a>
-              <Img src="/edumate-logo.png" maxH="20px" alt="edumate" />
+              <Img src="/edumate-logo.png" alt="edumate" h="50px" />
             </a>
           </NextLink>
           <Flex

@@ -15,7 +15,7 @@ const theme = extendTheme({
     global: {
       main: {
         marginTop: '60px',
-        minHeight: 'calc(100vh - 120px)',
+        minHeight: 'calc(100vh - 185px)',
         display: 'flex',
         flexDirection: 'column',
       },
