@@ -49,7 +49,7 @@ const Index = ({ homes }: Props) => {
             p={5}
             justifyContent="center"
             alignItems="center"
-            borderRadius="lg"
+            borderRadius="sm"
             mx={2}
           >
             <Heading
