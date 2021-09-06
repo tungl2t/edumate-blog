@@ -25,7 +25,7 @@ const Index = ({ homes }: Props) => {
       />
       <Box position="relative" w="100%" h="calc(100vh - 60px)">
         <Img
-          src="/images/home.jpeg"
+          src="/images/home1.jpg"
           w="100%"
           h="100%"
           alt={t('title') as string}
@@ -42,16 +42,7 @@ const Index = ({ homes }: Props) => {
           w="100%"
           h="100%"
         >
-          <Flex
-            direction="column"
-            boxShadow="xs"
-            background="#ffffffcc"
-            p={5}
-            justifyContent="center"
-            alignItems="center"
-            borderRadius="sm"
-            mx={2}
-          >
+          <Flex direction="column" p={5} justifyContent="center" alignItems="center" mx={2}>
             <Heading
               fontSize={{ base: '1.5em', md: '1.75em' }}
               padding="0 0.5em"
