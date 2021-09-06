@@ -44,9 +44,9 @@ const Index = ({ homes }: Props) => {
         >
           <Flex
             direction="column"
-            boxShadow="base"
+            boxShadow="xs"
             background="#ffffff4d"
-            p={2}
+            p={5}
             justifyContent="center"
             alignItems="center"
             borderRadius="lg"
