@@ -21,7 +21,7 @@ const Index = ({ homes }: Props) => {
         title={t('title')}
         description={t('desc')}
         url="https://edumate.vn"
-        imageUrl="/edumate.png"
+        imageUrl="edumate.png"
       />
       <Box position="relative" w="100%" h="calc(100vh - 60px)">
         <Img
