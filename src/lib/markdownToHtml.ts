@@ -7,5 +7,5 @@ export default async function markdownToHtml(markdown: string) {
     .use(remarkExternalLinks, { target: '_blank' })
     .use(html)
     .process(markdown);
-  return result.toString();
+  return result.toString().replace(/<img src="/gi, `<img src="${process.env.NEXT_PUBLIC_CMS_URL}`);
 }

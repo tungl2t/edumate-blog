@@ -5,6 +5,7 @@ import PostType from '@/types/post.type';
 import MyMeta from '@/components/my-meta';
 import Layout from '@/components/layout';
 import WrapperArticle from '@/components/wrapper-article';
+import {GetStaticPropsContext} from "next";
 
 type Props = {
   postUrl: string;
@@ -27,19 +28,14 @@ const Post = ({ post, postUrl }: Props) => {
 
 export default Post;
 
-type Params = {
-  params: {
-    slug: string;
-  };
-};
-
-export const getServerSideProps = async ({ params }: Params) => {
-  const data = await getPostBySlug(params.slug);
+export const getServerSideProps = async ({ params }: GetStaticPropsContext) => {
+  const path = params?.slug as string;
+  const data = await getPostBySlug(path);
   const post = data.posts[0];
   const content = await markdownToHtml(post?.content ?? '');
   return {
     props: {
-      postUrl: `${process.env.NEXT_PUBLIC_EDUMATE_URL}/${params.slug}`,
+      postUrl: `${process.env.NEXT_PUBLIC_EDUMATE_URL}/${path}`,
       post: {
         ...post,
         coverImage: getFormatImages(post?.coverImage?.url),

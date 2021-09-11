@@ -1,8 +1,9 @@
 import { GetStaticPropsContext } from 'next';
 
-import EventType from '@/types/event.type';
+import { getFormatImages } from '@/lib/helper';
 import { getEventByPath } from '@/lib/api';
 import markdownToHtml from '@/lib/markdownToHtml';
+import EventType from '@/types/event.type';
 import MyMeta from '@/components/my-meta';
 import Layout from '@/components/layout';
 import WrapperArticle from '@/components/wrapper-article';
@@ -27,13 +28,6 @@ const Event = ({ event, eventUrl }: Props) => {
 
 export default Event;
 
-type Params = {
-  locale: string;
-  params: {
-    slug: string;
-  };
-};
-
 export const getServerSideProps = async ({ params, locale }: GetStaticPropsContext) => {
   const path = params?.slug as string;
   const data = await getEventByPath(path, locale);
@@ -44,7 +38,7 @@ export const getServerSideProps = async ({ params, locale }: GetStaticPropsConte
       eventUrl: `${process.env.NEXT_PUBLIC_EDUMATE_URL}/${path}`,
       event: {
         ...event,
-        coverImage: { url: `${process.env.NEXT_PUBLIC_CMS_URL}${event?.coverImage.url ?? ''}` },
+        coverImage: getFormatImages(event?.coverImage?.url),
         content,
       },
     },

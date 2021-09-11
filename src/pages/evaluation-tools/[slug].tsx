@@ -1,6 +1,8 @@
+import { GetStaticPropsContext } from 'next';
 import { Box } from '@chakra-ui/react';
 
 import { getEvaluationByPath } from '@/lib/api';
+import { getFormatImages } from '@/lib/helper';
 import markdownToHtml from '@/lib/markdownToHtml';
 import EvaluationType, { EEvaluationType } from '@/types/evaluation.type';
 import EvaluationQuestionType from '@/types/evaluation-question.type';
@@ -45,15 +47,9 @@ const Evaluation = ({ evaluation, evaluationUrl }: Props) => {
 
 export default Evaluation;
 
-type Params = {
-  locale: string;
-  params: {
-    slug: string;
-  };
-};
-
-export const getServerSideProps = async ({ params, locale }: Params) => {
-  const data = await getEvaluationByPath(params.slug, locale);
+export const getServerSideProps = async ({ params, locale }: GetStaticPropsContext) => {
+  const path = params?.slug as string;
+  const data = await getEvaluationByPath(path, locale);
   const evaluation = data.evaluations[0] as EvaluationType;
   let evaluationQuestions: EvaluationQuestionType[] = [];
   if (evaluation?.evaluationQuestions?.length) {
@@ -72,13 +68,11 @@ export const getServerSideProps = async ({ params, locale }: Params) => {
 
   return {
     props: {
-      evaluationUrl: `${process.env.NEXT_PUBLIC_EDUMATE_URL}/${params.slug}`,
+      evaluationUrl: `${process.env.NEXT_PUBLIC_EDUMATE_URL}/${path}`,
       evaluation: {
         ...evaluation,
         evaluationQuestions,
-        coverImage: {
-          url: `${process.env.NEXT_PUBLIC_CMS_URL}${evaluation?.coverImage.url ?? ''}`,
-        },
+        coverImage: getFormatImages(evaluation?.coverImage?.url),
       },
     },
   };

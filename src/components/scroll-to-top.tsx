@@ -34,7 +34,8 @@ const ScrollToTop = () => {
       position="fixed"
       bottom="75px"
       right="15px"
-      background="#B7791F"
+      background="blue.900"
+      opacity={0.5}
       boxShadow="dark-lg"
       w={{ base: 7, lg: 8 }}
       h={{ base: 7, lg: 8 }}

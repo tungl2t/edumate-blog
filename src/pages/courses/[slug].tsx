@@ -1,16 +1,18 @@
+import { GetStaticPropsContext } from 'next';
 import { useTranslations } from 'next-intl';
 
 import { getCourseByPath } from '@/lib/api';
+import { getFormatImages } from '@/lib/helper';
 import markdownToHtml from '@/lib/markdownToHtml';
 import CourseType from '@/types/course.type';
 import TestimonialType from '@/types/testimonial.type';
 import TrainerType from '@/types/trainer.type';
 import MyMeta from '@/components/my-meta';
 import Layout from '@/components/layout';
-import Testimonial from './components/testimonial';
-import Trainer from './components/trainer';
 import WrapperArticle from '@/components/wrapper-article';
 import HeadingArticle from '@/components/heading-article';
+import Testimonial from './components/testimonial';
+import Trainer from './components/trainer';
 
 type Props = {
   courseUrl: string;
@@ -18,6 +20,7 @@ type Props = {
 };
 
 const Course = ({ course, courseUrl }: Props) => {
+  console.log(course);
   const t = useTranslations('Courses');
   return (
     <Layout>
@@ -43,23 +46,17 @@ const Course = ({ course, courseUrl }: Props) => {
 
 export default Course;
 
-type Params = {
-  locale: string;
-  params: {
-    slug: string;
-  };
-};
-
-export const getServerSideProps = async ({ params, locale }: Params) => {
-  const data = await getCourseByPath(params.slug, locale);
+export const getServerSideProps = async ({ params, locale }: GetStaticPropsContext) => {
+  const path = params?.slug as string;
+  const data = await getCourseByPath(path, locale);
   const course = data.courses[0] as CourseType;
   const content = await markdownToHtml(course?.content ?? '');
   return {
     props: {
-      courseUrl: `${process.env.NEXT_PUBLIC_EDUMATE_URL}/${params.slug}`,
+      courseUrl: `${process.env.NEXT_PUBLIC_EDUMATE_URL}/${path}`,
       course: {
         ...course,
-        coverImage: { url: `${process.env.NEXT_PUBLIC_CMS_URL}${course?.coverImage.url ?? ''}` },
+        coverImage: getFormatImages(course?.coverImage.url),
         content,
         testimonials: await Promise.all(
           (course?.testimonials ?? []).map(async (testimonial: TestimonialType) => {
@@ -67,9 +64,7 @@ export const getServerSideProps = async ({ params, locale }: Params) => {
             return {
               ...testimonial,
               content,
-              picture: {
-                url: `${process.env.NEXT_PUBLIC_CMS_URL}${testimonial.picture.url}`,
-              },
+              picture: getFormatImages(testimonial.picture.url),
             };
           }),
         ),
@@ -79,9 +74,7 @@ export const getServerSideProps = async ({ params, locale }: Params) => {
             return {
               ...trainer,
               content,
-              picture: {
-                url: `${process.env.NEXT_PUBLIC_CMS_URL}${trainer.picture.url}`,
-              },
+              picture: getFormatImages(trainer.picture.url),
             };
           }),
         ),

@@ -4,6 +4,10 @@ type TestimonialType = {
   content: string;
   picture: {
     url: string;
+    small: string;
+    medium: string;
+    large: string;
+    thumbnail: string;
   };
 };
 
