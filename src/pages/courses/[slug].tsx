@@ -20,7 +20,6 @@ type Props = {
 };
 
 const Course = ({ course, courseUrl }: Props) => {
-  console.log(course);
   const t = useTranslations('Courses');
   return (
     <Layout>
