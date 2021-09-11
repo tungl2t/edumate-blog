@@ -22,7 +22,7 @@ const Evaluation = ({ evaluation, evaluationUrl }: Props) => {
         title={evaluation.name}
         description=""
         url={evaluationUrl}
-        imageUrl={evaluation.coverImage.url}
+        imageUrl={evaluation.coverImage.small}
       />
       <Box
         w={{ base: '95%', lg: '960px' }}

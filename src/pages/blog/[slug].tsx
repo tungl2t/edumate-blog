@@ -1,10 +1,9 @@
-import { Box, Heading } from '@chakra-ui/react';
-
-import MyMeta from '@/components/my-meta';
-import Layout from '@/components/layout';
 import { getPostBySlug } from '@/lib/api';
+import { getFormatImages } from '@/lib/helper';
 import markdownToHtml from '@/lib/markdownToHtml';
 import PostType from '@/types/post.type';
+import MyMeta from '@/components/my-meta';
+import Layout from '@/components/layout';
 import WrapperArticle from '@/components/wrapper-article';
 
 type Props = {
@@ -19,7 +18,7 @@ const Post = ({ post, postUrl }: Props) => {
         title={post.title}
         description={post.excerpt}
         url={postUrl}
-        imageUrl={post.coverImage.url}
+        imageUrl={post.coverImage.small}
       />
       <WrapperArticle title={post.title} htmlContent={post.content} />
     </Layout>
@@ -43,7 +42,7 @@ export const getServerSideProps = async ({ params }: Params) => {
       postUrl: `${process.env.NEXT_PUBLIC_EDUMATE_URL}/${params.slug}`,
       post: {
         ...post,
-        coverImage: { url: `${process.env.NEXT_PUBLIC_CMS_URL}${post?.coverImage.url ?? ''}` },
+        coverImage: getFormatImages(post?.coverImage?.url),
         content,
       },
     },

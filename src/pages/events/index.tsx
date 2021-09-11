@@ -1,12 +1,13 @@
 import { GetStaticPropsContext } from 'next';
 import { Flex } from '@chakra-ui/react';
 
+import PageType from '@/types/page.type';
 import { getEvents, getPageByPath } from '@/lib/api';
+import { getFormatImages } from '@/lib/helper';
 import EventType from '@/types/event.type';
 import MyMeta from '@/components/my-meta';
 import Layout from '@/components/layout';
 import EventPreview from './components/event-preview';
-import PageType from '@/types/page.type';
 
 type Props = {
   events: EventType[];
@@ -21,7 +22,7 @@ const Index = ({ events, page }: Props) => {
         title={page.name}
         description={page.description}
         url="/events"
-        imageUrl={page.coverImage.url}
+        imageUrl={page.coverImage.small}
       />
       <Flex flexDirection="column" alignItems="center" justifyContent="center" margin="auto">
         {events.map((event, index) => (
@@ -42,16 +43,12 @@ export const getServerSideProps = async ({ locale }: GetStaticPropsContext) => {
       events: events.map((event: EventType) => {
         return {
           ...event,
-          coverImage: {
-            url: `${process.env.NEXT_PUBLIC_CMS_URL}${event?.coverImage?.url ?? ''}`,
-          },
+          coverImage: getFormatImages(event?.coverImage?.url),
         };
       }),
       page: {
         ...data.pages[0],
-        coverImage: {
-          url: `${process.env.NEXT_PUBLIC_CMS_URL}${data.pages[0]?.coverImage?.url ?? ''}`,
-        },
+        coverImage: getFormatImages(data.pages[0]?.coverImage?.url),
       },
     },
   };

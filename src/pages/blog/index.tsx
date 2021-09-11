@@ -2,6 +2,7 @@ import { GetStaticPropsContext } from 'next';
 import { Flex } from '@chakra-ui/react';
 
 import { getPageByPath, getPosts } from '@/lib/api';
+import { getFormatImages } from '@/lib/helper';
 import PostType from '@/types/post.type';
 import PageType from '@/types/page.type';
 import Layout from '@/components/layout';
@@ -20,7 +21,7 @@ const Index = ({ posts, page }: Props) => {
         title={page.name}
         description={page.description}
         url="/blog"
-        imageUrl={page.coverImage.url}
+        imageUrl={page.coverImage.small}
       />
       <Flex flexDirection="column" alignItems="center" justifyContent="center" margin="auto">
         {posts.map((post) => (
@@ -42,16 +43,12 @@ export const getServerSideProps = async ({ locale }: GetStaticPropsContext) => {
       posts: posts.map((post: PostType) => {
         return {
           ...post,
-          coverImage: {
-            url: `${process.env.NEXT_PUBLIC_CMS_URL}${post?.coverImage?.url ?? ''}`,
-          },
+          coverImage: getFormatImages(post?.coverImage?.url),
         };
       }),
       page: {
         ...page,
-        coverImage: {
-          url: `${process.env.NEXT_PUBLIC_CMS_URL}${page?.coverImage?.url ?? ''}`,
-        },
+        coverImage: getFormatImages(page?.coverImage?.url),
       },
     },
   };

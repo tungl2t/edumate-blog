@@ -3,6 +3,7 @@ import { Flex } from '@chakra-ui/react';
 
 import { getPageByPath, getProducts } from '@/lib/api';
 import markdownToHtml from '@/lib/markdownToHtml';
+import { getFormatImages } from '@/lib/helper';
 import ProductType from '@/types/product.type';
 import PageType from '@/types/page.type';
 import Layout from '@/components/layout';
@@ -20,7 +21,7 @@ const Index = ({ products, page }: Props) => {
         title={page.name}
         description={page.description}
         url="/products"
-        imageUrl={page.coverImage.url}
+        imageUrl={page.coverImage.small}
       />
       <Flex flexDirection="column" alignItems="center" justifyContent="center" margin="auto">
         {products.map((product, index) => (
@@ -44,17 +45,13 @@ export const getServerSideProps = async ({ locale }: GetStaticPropsContext) => {
           return {
             ...product,
             specifications,
-            coverImage: {
-              url: `${process.env.NEXT_PUBLIC_CMS_URL}${product?.coverImage?.url ?? ''}`,
-            },
+            coverImage: getFormatImages(product?.coverImage?.url),
           };
         }),
       ),
       page: {
         ...data.pages[0],
-        coverImage: {
-          url: `${process.env.NEXT_PUBLIC_CMS_URL}${data.pages[0]?.coverImage?.url ?? ''}`,
-        },
+        coverImage: getFormatImages(data.pages[0]?.coverImage?.url),
       },
     },
   };

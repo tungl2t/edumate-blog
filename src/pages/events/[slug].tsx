@@ -1,10 +1,11 @@
+import { GetStaticPropsContext } from 'next';
+
 import EventType from '@/types/event.type';
 import { getEventByPath } from '@/lib/api';
 import markdownToHtml from '@/lib/markdownToHtml';
 import MyMeta from '@/components/my-meta';
 import Layout from '@/components/layout';
 import WrapperArticle from '@/components/wrapper-article';
-import { GetStaticPropsContext } from 'next';
 
 type Props = {
   eventUrl: string;
@@ -17,7 +18,7 @@ const Event = ({ event, eventUrl }: Props) => {
         title={event.title}
         description={event.title}
         url={eventUrl}
-        imageUrl={event.coverImage.url}
+        imageUrl={event.coverImage.small}
       />
       <WrapperArticle title={event.title} htmlContent={event.content} />
     </Layout>

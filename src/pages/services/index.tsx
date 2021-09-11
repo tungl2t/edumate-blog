@@ -21,7 +21,7 @@ const Index = ({ services, page }: Props) => {
         title={page.name}
         description={page.description}
         url="/services"
-        imageUrl={page.coverImage.url}
+        imageUrl={page.coverImage.small}
       />
       <Flex flexDirection="column" alignItems="center" justifyContent="center" margin="auto">
         {services.map((service) => (

@@ -6,6 +6,10 @@ type PostType = {
   date: string;
   coverImage: {
     url: string;
+    small: string;
+    medium: string;
+    large: string;
+    thumbnail: string;
   };
   author: AuthorType;
   excerpt: string;

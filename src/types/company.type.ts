@@ -11,6 +11,10 @@ type CompanyType = {
   companyType: CompanyTypes;
   coverImage: {
     url: string;
+    small: string;
+    medium: string;
+    large: string;
+    thumbnail: string;
   };
 };
 

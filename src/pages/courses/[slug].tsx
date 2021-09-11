@@ -25,7 +25,7 @@ const Course = ({ course, courseUrl }: Props) => {
         title={course.title}
         description={course.excerpt}
         url={courseUrl}
-        imageUrl={course.coverImage.url}
+        imageUrl={course.coverImage.small}
       />
       <WrapperArticle title={course.title} htmlContent={course.content}>
         {course.testimonials.length > 0 && <HeadingArticle heading={t('testimonials')} />}

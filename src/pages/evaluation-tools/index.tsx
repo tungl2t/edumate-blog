@@ -2,6 +2,7 @@ import { GetStaticPropsContext } from 'next';
 import { Flex } from '@chakra-ui/react';
 
 import { getEvaluations, getPageByPath } from '@/lib/api';
+import { getFormatImages } from '@/lib/helper';
 import markdownToHtml from '@/lib/markdownToHtml';
 import EvaluationType from '@/types/evaluation.type';
 import PageType from '@/types/page.type';
@@ -21,7 +22,7 @@ const Index = ({ evaluations, page }: Props) => {
         title={page.name}
         description={page.description}
         url="/evaluation-tools"
-        imageUrl={page.coverImage.url}
+        imageUrl={page.coverImage.small}
       />
       <Flex flexDirection="column" alignItems="center" justifyContent="center" margin="auto">
         {evaluations.map((evaluation, index) => (
@@ -45,17 +46,13 @@ export const getServerSideProps = async ({ locale }: GetStaticPropsContext) => {
           return {
             ...evaluation,
             description,
-            coverImage: {
-              url: `${process.env.NEXT_PUBLIC_CMS_URL}${evaluation?.coverImage?.url ?? ''}`,
-            },
+            coverImage: getFormatImages(evaluation?.coverImage?.url),
           };
         }),
       ),
       page: {
         ...data.pages[0],
-        coverImage: {
-          url: `${process.env.NEXT_PUBLIC_CMS_URL}${data.pages[0]?.coverImage?.url ?? ''}`,
-        },
+        coverImage: getFormatImages(data.pages[0]?.coverImage?.url),
       },
     },
   };

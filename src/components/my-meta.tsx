@@ -8,9 +8,6 @@ type Props = {
 };
 const MyMeta = ({ title, description, imageUrl, url }: Props) => {
   const titleContent = `edumate | ${title}`;
-  const imgUrl = imageUrl.startsWith('http')
-    ? imageUrl
-    : `${process.env.NEXT_PUBLIC_EDUMATE_URL}/${imageUrl}`;
   const realUrl = url.startsWith('http') ? url : `${process.env.NEXT_PUBLIC_EDUMATE_URL}${url}`;
   return (
     <Head>
@@ -19,11 +16,11 @@ const MyMeta = ({ title, description, imageUrl, url }: Props) => {
       <meta name="description" content={description} />
       <meta name="og:title" content={titleContent} />
       <meta name="og:description" content={description} />
-      <meta name="og:image" content={imgUrl} />
+      <meta name="og:image" content={imageUrl} />
       <meta name="og:url" content={realUrl} />
       <meta name="twitter:title" content={titleContent} />
       <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={imgUrl} />
+      <meta name="twitter:image" content={imageUrl} />
       <meta name="twitter:url" content={realUrl} />
     </Head>
   );

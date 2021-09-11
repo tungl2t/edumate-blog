@@ -6,6 +6,10 @@ type EvaluationType = {
   description: string;
   coverImage: {
     url: string;
+    small: string;
+    medium: string;
+    large: string;
+    thumbnail: string;
   };
   slug: string;
   chartType: ChartTypes;

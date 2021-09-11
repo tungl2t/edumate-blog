@@ -2,6 +2,7 @@ import { GetStaticPropsContext } from 'next';
 import { AspectRatio, Box, Flex, Heading, Img } from '@chakra-ui/react';
 
 import { getPageByPath } from '@/lib/api';
+import { getFormatImages } from '@/lib/helper';
 import markdownToHtml from '@/lib/markdownToHtml';
 import PageType from '@/types/page.type';
 import CompanyType from '@/types/company.type';
@@ -19,7 +20,7 @@ const Index = ({ page }: Props) => {
         title={page.name}
         description={page.description}
         url="/about-us"
-        imageUrl={page.coverImage.url}
+        imageUrl={page.coverImage.small}
       />
       <Flex
         direction={{ base: 'column', md: 'row-reverse' }}
@@ -66,9 +67,7 @@ export const getServerSideProps = async ({ locale }: GetStaticPropsContext) => {
       page: {
         ...page,
         content,
-        coverImage: {
-          url: `${process.env.NEXT_PUBLIC_CMS_URL}${page?.coverImage?.url ?? ''}`,
-        },
+        coverImage: getFormatImages(page?.coverImage?.url),
       },
     },
   };

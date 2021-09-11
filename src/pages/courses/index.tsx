@@ -2,6 +2,7 @@ import { GetStaticPropsContext } from 'next';
 import { Flex } from '@chakra-ui/react';
 
 import { getCourses, getPageByPath } from '@/lib/api';
+import { getFormatImages } from '@/lib/helper';
 import CourseType from '@/types/course.type';
 import PageType from '@/types/page.type';
 import Layout from '@/components/layout';
@@ -20,7 +21,7 @@ const Index = ({ courses, page }: Props) => {
         title={page.name}
         description={page.description}
         url="/courses"
-        imageUrl={page.coverImage.url}
+        imageUrl={page.coverImage.small}
       />
       <Flex flexDirection="column" alignItems="center" justifyContent="center" margin="auto">
         {courses.map((course, index) => (
@@ -41,16 +42,12 @@ export const getServerSideProps = async ({ locale }: GetStaticPropsContext) => {
       courses: courses.map((course: CourseType) => {
         return {
           ...course,
-          coverImage: {
-            url: `${process.env.NEXT_PUBLIC_CMS_URL}${course?.coverImage?.url ?? ''}`,
-          },
+          coverImage: getFormatImages(course?.coverImage?.url),
         };
       }),
       page: {
         ...data.pages[0],
-        coverImage: {
-          url: `${process.env.NEXT_PUBLIC_CMS_URL}${data.pages[0]?.coverImage?.url ?? ''}`,
-        },
+        coverImage: getFormatImages(data.pages[0]?.coverImage?.url),
       },
     },
   };

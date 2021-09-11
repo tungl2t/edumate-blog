@@ -3,6 +3,10 @@ type HomeType = {
   content: string;
   coverImage: {
     url: string;
+    small: string;
+    medium: string;
+    large: string;
+    thumbnail: string;
   };
 };
 

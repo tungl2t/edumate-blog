@@ -9,6 +9,10 @@ type CourseType = {
   content: string;
   coverImage: {
     url: string;
+    small: string;
+    medium: string;
+    large: string;
+    thumbnail: string;
   };
   testimonials: TestimonialType[];
   trainers: TrainerType[];
