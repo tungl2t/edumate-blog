@@ -5,3 +5,8 @@ export interface FormatImages {
   large: string;
   thumbnail: string;
 }
+
+export interface WindowSizeType {
+  width: number;
+  height: number;
+}

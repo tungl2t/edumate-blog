@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Box, Square, Text } from '@chakra-ui/react';
 
-import { FormatImages } from '@/types/shared';
+import { FormatImages, WindowSizeType } from '@/types/shared';
 import PageCharacteristicType from '@/types/page-characteristic.type';
 import { getFormatImages } from '@/lib/helper';
+import useWindowSizeHook from '@/hooks/useWindowSize.hook';
 
 const Characteristic = ({ title, link, desc, coverImage }: Partial<PageCharacteristicType>) => {
   const [formatImages, setFormatImages] = useState<FormatImages>();
@@ -12,6 +13,8 @@ const Characteristic = ({ title, link, desc, coverImage }: Partial<PageCharacter
       setFormatImages(getFormatImages(coverImage.url));
     }
   }, [coverImage]);
+
+  const windowSize: WindowSizeType = useWindowSizeHook();
   return (
     <a href={link} target="_blank" rel="noreferrer">
       <Square
@@ -24,9 +27,13 @@ const Characteristic = ({ title, link, desc, coverImage }: Partial<PageCharacter
         boxShadow="xs"
         background="rgb(0 0 0 / 85%)"
         padding={2}
-        mt="1.5em"
-        mx="3"
-        size={320}
+        my="2"
+        mx={{ base: 0, sm: 2 }}
+        size={{
+          base: windowSize.width * 0.92,
+          sm: (windowSize.width * 0.9) / 2,
+          lg: (windowSize.width - 150) / 4,
+        }}
         color="yellow.400"
         _hover={{
           transition: 'all .25s ease-in-out',
