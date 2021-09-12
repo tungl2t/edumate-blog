@@ -19,7 +19,6 @@ type Props = {
 };
 const Index = ({ homes, page }: Props) => {
   const t = useTranslations('Home');
-  console.log(page);
   return (
     <Layout>
       <MyMeta
