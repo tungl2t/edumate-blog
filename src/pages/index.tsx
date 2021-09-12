@@ -78,6 +78,7 @@ const Index = ({ homes, page }: Props) => {
           justifyContent="center"
           alignItems="center"
           width="100%"
+          mt={2}
         >
           {page.characteristics.map((character, characterIndex) => (
             <Characteristic

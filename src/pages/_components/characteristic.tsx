@@ -27,12 +27,13 @@ const Characteristic = ({ title, link, desc, coverImage }: Partial<PageCharacter
         boxShadow="xs"
         background="rgb(0 0 0 / 85%)"
         padding={2}
-        my="2"
+        my={{ base: 2, lg: 3 }}
         mx={{ base: 0, sm: 2 }}
         size={{
           base: windowSize.width * 0.92,
           sm: (windowSize.width * 0.9) / 2,
-          lg: (windowSize.width - 150) / 4,
+          lg: (windowSize.width * 0.9) / 4,
+          xl: (windowSize.width * 0.8) / 4,
         }}
         color="yellow.400"
         _hover={{
