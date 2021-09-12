@@ -1,14 +1,10 @@
+import { FormatImages } from './shared';
+
 type ServiceType = {
   slug: string;
   title: string;
   content: string;
-  coverImage: {
-    url: string;
-    small: string;
-    medium: string;
-    large: string;
-    thumbnail: string;
-  };
+  coverImage: FormatImages;
 };
 
 export default ServiceType;

@@ -18,7 +18,7 @@ const Preview = ({ title, path, imageUrl, children }: Props) => {
     <Flex
       direction={{ base: 'column', md: 'row' }}
       _hover={{
-        boxShadow: '0 2px 4px -1px #0003, 0 4px 5px 0 #00000024, 0 1px 10px 0 #0000001f',
+        boxShadow: 'md',
       }}
       border="1px solid"
       borderColor="gray.200"

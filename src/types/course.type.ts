@@ -1,5 +1,6 @@
 import TestimonialType from './testimonial.type';
 import TrainerType from './trainer.type';
+import { FormatImages } from './shared';
 
 type CourseType = {
   title: string;
@@ -7,13 +8,7 @@ type CourseType = {
   coursePath: string;
   excerpt: string;
   content: string;
-  coverImage: {
-    url: string;
-    small: string;
-    medium: string;
-    large: string;
-    thumbnail: string;
-  };
+  coverImage: FormatImages;
   testimonials: TestimonialType[];
   trainers: TrainerType[];
 };

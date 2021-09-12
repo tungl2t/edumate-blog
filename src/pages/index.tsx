@@ -11,6 +11,7 @@ import PageType from '@/types/page.type';
 import MyMeta from '@/components/my-meta';
 import Layout from '@/components/layout';
 import HomePreview from './_components/home-preview';
+import Characteristic from './_components/characteristic';
 
 type Props = {
   homes: HomeType[];
@@ -18,6 +19,7 @@ type Props = {
 };
 const Index = ({ homes, page }: Props) => {
   const t = useTranslations('Home');
+  console.log(page);
   return (
     <Layout>
       <MyMeta
@@ -70,6 +72,25 @@ const Index = ({ homes, page }: Props) => {
           </Flex>
         </Flex>
       </Box>
+      {!!page.characteristics?.length && (
+        <Flex
+          direction="row"
+          flexWrap="wrap"
+          justifyContent="center"
+          alignItems="center"
+          width="100%"
+        >
+          {page.characteristics.map((character, characterIndex) => (
+            <Characteristic
+              title={character.title}
+              link={character.link}
+              desc={character.desc}
+              coverImage={character.coverImage}
+              key={characterIndex}
+            />
+          ))}
+        </Flex>
+      )}
       <Flex flexDirection="column" alignItems="center" justifyContent="center" margin="auto">
         {homes.map((home, index: number) => (
           <HomePreview home={home} key={index} index={index} />

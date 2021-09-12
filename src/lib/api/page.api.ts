@@ -33,6 +33,15 @@ export async function getPageByPath(path: string, locale: string | undefined) {
         coverImage {
           url
         }
+        characteristics(sort: "order:asc") {
+          title
+          link
+          order
+          desc
+          coverImage {
+            url
+          }
+        }
       }
     }
   `,

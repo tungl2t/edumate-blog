@@ -1,13 +1,9 @@
+import { FormatImages } from './shared';
+
 type TrainerType = {
   name: string;
   content: string;
-  picture: {
-    url: string;
-    small: string;
-    medium: string;
-    large: string;
-    thumbnail: string;
-  };
+  picture: FormatImages;
 };
 
 export default TrainerType;

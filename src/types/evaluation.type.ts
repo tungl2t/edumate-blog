@@ -1,16 +1,11 @@
 import EvaluationQuestionType from '@/types/evaluation-question.type';
 import EvaluationDomainType from '@/types/evaluation-domain.type';
+import { FormatImages } from './shared';
 
 type EvaluationType = {
   name: string;
   description: string;
-  coverImage: {
-    url: string;
-    small: string;
-    medium: string;
-    large: string;
-    thumbnail: string;
-  };
+  coverImage: FormatImages;
   slug: string;
   chartType: ChartTypes;
   evaluationPath: string;

@@ -1,3 +1,5 @@
+import { FormatImages } from './shared';
+
 type CompanyType = {
   name: string;
   businessId: string;
@@ -9,13 +11,7 @@ type CompanyType = {
   facebook: string;
   linkedIn: string;
   companyType: CompanyTypes;
-  coverImage: {
-    url: string;
-    small: string;
-    medium: string;
-    large: string;
-    thumbnail: string;
-  };
+  coverImage: FormatImages;
 };
 
 export default CompanyType;

@@ -1,3 +1,5 @@
+import { FormatImages } from './shared';
+
 type EventType = {
   title: string;
   slug: string;
@@ -7,13 +9,7 @@ type EventType = {
   endDate: string;
   detailLink: string;
   content: string;
-  coverImage: {
-    url: string;
-    small: string;
-    medium: string;
-    large: string;
-    thumbnail: string;
-  };
+  coverImage: FormatImages;
 };
 
 export default EventType;

@@ -1,16 +1,11 @@
 import AuthorType from './author.type';
+import { FormatImages } from './shared';
 
 type PostType = {
   slug: string;
   title: string;
   date: string;
-  coverImage: {
-    url: string;
-    small: string;
-    medium: string;
-    large: string;
-    thumbnail: string;
-  };
+  coverImage: FormatImages;
   author: AuthorType;
   excerpt: string;
   content: string;

@@ -1,13 +1,9 @@
+import { FormatImages } from './shared';
+
 type ProductType = {
   name: string;
   specifications: string;
-  coverImage: {
-    url: string;
-    small: string;
-    medium: string;
-    large: string;
-    thumbnail: string;
-  };
+  coverImage: FormatImages;
   productCategory: {
     name: string;
   };
