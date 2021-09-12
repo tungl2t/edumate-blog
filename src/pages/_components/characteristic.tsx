@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { Box, Square, Text } from '@chakra-ui/react';
 
@@ -25,7 +26,7 @@ const Characteristic = ({ title, link, desc, coverImage }: Partial<PageCharacter
         alignItems="center"
         textAlign="center"
         boxShadow="xs"
-        background="rgb(0 0 0 / 85%)"
+        background="#000000bf"
         padding={2}
         my={{ base: 2, lg: 3 }}
         mx={{ base: 0, sm: 2 }}
@@ -42,16 +43,18 @@ const Characteristic = ({ title, link, desc, coverImage }: Partial<PageCharacter
           background: 'black',
         }}
       >
-        <Box
-          position="absolute"
-          top={0}
-          left={0}
-          w="100%"
-          h="100%"
-          backgroundImage={formatImages?.url}
-          backgroundSize="cover"
-          opacity={0.2}
-        />
+        <Box position="absolute" top={0} left={0} w="100%" h="100%" opacity={0.2}>
+          {formatImages && (
+            <Image
+              src={formatImages.url}
+              layout="fill"
+              objectFit="cover"
+              alt={title}
+              placeholder="blur"
+              blurDataURL={formatImages.small}
+            />
+          )}
+        </Box>
         <Box position="relative">
           <Text fontSize="1.25rem" fontWeight={700}>
             {title}

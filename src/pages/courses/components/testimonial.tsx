@@ -1,17 +1,23 @@
+import Image from 'next/image';
+import { Box, Center, Text } from '@chakra-ui/react';
+
 import TestimonialType from '@/types/testimonial.type';
-import { Box, Img, Text } from '@chakra-ui/react';
 
 const Testimonial = ({ testimonial }: { testimonial: TestimonialType }) => {
   return (
     <>
-      <Img
-        src={testimonial.picture.url}
-        borderRadius="full"
-        objectFit="cover"
-        alt={testimonial.name}
-        boxSize="250px"
-        m="auto"
-      />
+      <Center>
+        <Image
+          src={testimonial.picture.url}
+          objectFit="cover"
+          className="rounded-full"
+          alt={testimonial.name}
+          width={250}
+          height={250}
+          blurDataURL={testimonial.picture.small}
+          placeholder="blur"
+        />
+      </Center>
       <Text textAlign="center" color="blue.800" fontSize="1.35em" fontWeight="600">
         {testimonial.name}
       </Text>

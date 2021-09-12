@@ -17,7 +17,7 @@ const EventPreview = ({ event }: Props) => {
   const date = parseISO(startDate);
   const path = eventPath ? `/events/${eventPath}` : '';
   return (
-    <Preview title={title} path={path} imageUrl={coverImage.url}>
+    <Preview title={title} path={path} formatImages={coverImage}>
       <Timer day={startDate} />
       <Box
         fontSize={{ base: '0.95em', sm: '1em' }}

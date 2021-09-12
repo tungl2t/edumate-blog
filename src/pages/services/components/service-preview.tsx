@@ -10,7 +10,7 @@ type Props = {
 const ServicePreview = ({ service }: Props) => {
   const { coverImage, title, content } = service;
   return (
-    <Preview title={title} path="" imageUrl={coverImage.url}>
+    <Preview title={title} path="" formatImages={coverImage}>
       <Box
         fontSize={{ base: '0.95em', sm: '1em' }}
         color="gray.600"

@@ -11,7 +11,7 @@ const CoursePreview = ({ course }: Props) => {
   const { coursePath, coverImage, title, excerpt } = course;
   const path = coursePath ? `/courses/${coursePath}` : '';
   return (
-    <Preview title={title} path={path} imageUrl={coverImage.url}>
+    <Preview title={title} path={path} formatImages={coverImage}>
       <Text fontSize={{ base: '0.95em', sm: '1em' }} color="gray.600">
         {excerpt}
       </Text>

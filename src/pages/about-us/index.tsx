@@ -1,5 +1,6 @@
 import { GetStaticPropsContext } from 'next';
-import { AspectRatio, Box, Flex, Heading, Img } from '@chakra-ui/react';
+import Image from 'next/image';
+import { AspectRatio, Box, Flex, Heading } from '@chakra-ui/react';
 
 import { getPageByPath } from '@/lib/api';
 import { getFormatImages } from '@/lib/helper';
@@ -30,7 +31,14 @@ const Index = ({ page }: Props) => {
         borderColor="gray.200"
       >
         <AspectRatio ratio={{ base: 4 / 3, md: 3 / 4 }} flex={{ base: '100%', md: '40%' }}>
-          <Img src={page.coverImage.url} alt={page.name} />
+          <Image
+            src={page.coverImage.url}
+            alt={page.name}
+            objectFit="cover"
+            layout="fill"
+            placeholder="blur"
+            blurDataURL={page.coverImage.small}
+          />
         </AspectRatio>
 
         <Box

@@ -1,19 +1,21 @@
+import Image from 'next/image';
 import { ReactNode } from 'react';
-import { AspectRatio, Box, Flex, Heading, Img } from '@chakra-ui/react';
+import { AspectRatio, Box, Flex, Heading } from '@chakra-ui/react';
 import { Icon } from '@chakra-ui/icons';
 import { BsBoxArrowInRight } from 'react-icons/bs';
 
 import { EdumateLink } from '@/components/edumate-link';
 import ShareSocial from '@/components/share-social';
+import { FormatImages } from '@/types/shared';
 
 type Props = {
   title: string;
   path: string;
-  imageUrl: string;
+  formatImages: FormatImages;
   children?: ReactNode;
 };
 
-const Preview = ({ title, path, imageUrl, children }: Props) => {
+const Preview = ({ title, path, formatImages, children }: Props) => {
   return (
     <Flex
       direction={{ base: 'column', md: 'row' }}
@@ -31,7 +33,14 @@ const Preview = ({ title, path, imageUrl, children }: Props) => {
           flex={{ base: '100%', md: '40%' }}
           cursor={path ? 'pointer' : ''}
         >
-          <Img src={imageUrl} alt={title} />
+          <Image
+            src={formatImages.url}
+            alt={title}
+            layout="fill"
+            objectFit="cover"
+            placeholder="blur"
+            blurDataURL={formatImages.small}
+          />
         </AspectRatio>
       </EdumateLink>
       <Box

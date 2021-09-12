@@ -12,7 +12,7 @@ type Props = {
 const ProductPreview = ({ product }: Props) => {
   const { name, specifications, coverImage, productCategory } = product;
   return (
-    <Preview title={name} path="" imageUrl={coverImage.url}>
+    <Preview title={name} path="" formatImages={coverImage}>
       <Box fontSize="1em" color="blue.800" display="flex" alignItems="center" my="0.25em">
         <Icon as={MdLabelOutline} mr="0.5em" color="blue.800" />
         {productCategory.name}

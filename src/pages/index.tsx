@@ -1,7 +1,8 @@
 import { GetStaticPropsContext } from 'next';
+import Image from 'next/image';
 import NextLink from 'next/link';
 import { useTranslations } from 'next-intl';
-import { Box, Button, Flex, Heading, Img } from '@chakra-ui/react';
+import { Box, Button, Flex, Heading } from '@chakra-ui/react';
 
 import { getHomeContent, getPageByPath } from '@/lib/api';
 import markdownToHtml from '@/lib/markdownToHtml';
@@ -28,16 +29,16 @@ const Index = ({ homes, page }: Props) => {
         imageUrl={page.coverImage.small}
       />
       <Box position="relative" w="100%" h="calc(100vh - 60px)">
-        <Img
-          src={page.coverImage.url}
-          w="100%"
-          h="100%"
-          alt={page.name}
-          position="absolute"
-          top={0}
-          right={0}
-          objectFit="cover"
-        />
+        <Box position="absolute" top={0} right={0} w="100%" h="100%">
+          <Image
+            src={page.coverImage.url}
+            alt={page.name}
+            objectFit="cover"
+            layout="fill"
+            blurDataURL={page.coverImage.small}
+            placeholder="blur"
+          />
+        </Box>
         <Flex
           flexDirection="column"
           justifyContent="center"

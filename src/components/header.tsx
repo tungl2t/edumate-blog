@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import NextLink from 'next/link';
-import { Box, Flex, Img, useMediaQuery, useOutsideClick } from '@chakra-ui/react';
+import { useEffect, useRef, useState } from 'react';
+import { Box, Flex, useMediaQuery, useOutsideClick } from '@chakra-ui/react';
 
 import headerStyles from '@/styles/header.module.sass';
 import { getPages } from '@/lib/api';
@@ -67,9 +68,11 @@ const Header = () => {
           justify="space-between"
         >
           <NextLink href="/">
-            <a>
-              <Img src="/edumate-logo.png" alt="edumate" h="50px" />
-            </a>
+            <Box>
+              <a>
+                <Image src="/edumate-logo.png" alt="edumate" height={50} width={150} />
+              </a>
+            </Box>
           </NextLink>
           <Flex
             direction="row"
@@ -96,10 +99,12 @@ const Header = () => {
               ))}
             {asPath !== '/blog' && (
               <NextLink href={asPath} locale={otherLocale} scroll={false}>
-                <a>
-                  {' '}
-                  <Img src={localeIcon} ml="1em" w="35px" h="35px" alt="language" />
-                </a>
+                <Box ml={2} mt={2}>
+                  <a>
+                    {' '}
+                    <Image src={localeIcon} alt="language" width={35} height={35} />
+                  </a>
+                </Box>
               </NextLink>
             )}
           </Flex>
@@ -169,19 +174,20 @@ const Header = () => {
               ))}
             {asPath !== '/blog' && (
               <NextLink href={asPath} locale={otherLocale} scroll={false}>
-                <a>
-                  {' '}
-                  <Img
-                    src={localeIcon}
-                    w="50px"
-                    h="50px"
-                    my="0.5em"
-                    alt="language"
-                    onClick={() => {
-                      setIsOpenSideBar(false);
-                    }}
-                  />
-                </a>
+                <Box my="0.5em">
+                  <a>
+                    {' '}
+                    <Image
+                      src={localeIcon}
+                      alt="language"
+                      width={50}
+                      height={50}
+                      onClick={() => {
+                        setIsOpenSideBar(false);
+                      }}
+                    />
+                  </a>
+                </Box>
               </NextLink>
             )}
           </Flex>

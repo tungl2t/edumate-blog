@@ -1,17 +1,23 @@
+import Image from 'next/image';
+import { Box, Center, Text } from '@chakra-ui/react';
+
 import TrainerType from '@/types/trainer.type';
-import { Box, Img, Text } from '@chakra-ui/react';
 
 const Trainer = ({ trainer }: { trainer: TrainerType }) => {
   return (
     <>
-      <Img
-        src={trainer.picture.url}
-        borderRadius="full"
-        objectFit="cover"
-        alt={trainer.name}
-        boxSize="250px"
-        m="auto"
-      />
+      <Center>
+        <Image
+          src={trainer.picture.url}
+          objectFit="cover"
+          alt={trainer.name}
+          className="rounded-full"
+          width={250}
+          height={250}
+          placeholder="blur"
+          blurDataURL={trainer.picture.small}
+        />
+      </Center>
       <Text textAlign="center" color="blue.800" fontSize="1.35em" fontWeight="600">
         {trainer.name}
       </Text>

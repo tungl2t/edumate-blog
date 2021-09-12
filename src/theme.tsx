@@ -82,6 +82,9 @@ const theme = extendTheme({
           },
         },
       },
+      '.rounded-full': {
+        borderRadius: '9999px',
+      },
     },
   },
   colors: {

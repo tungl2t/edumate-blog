@@ -11,7 +11,7 @@ const EvaluationPreview = ({ evaluation }: Props) => {
   const { evaluationPath, coverImage, name, description } = evaluation;
   const path = evaluationPath ? `/evaluation-tools/${evaluationPath}` : '';
   return (
-    <Preview title={name} path={path} imageUrl={coverImage.url}>
+    <Preview title={name} path={path} formatImages={coverImage}>
       <Box
         fontSize={{ base: '0.95em', sm: '1em' }}
         color="gray.600"

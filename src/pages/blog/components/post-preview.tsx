@@ -12,7 +12,7 @@ const PostPreview = ({ post }: Props) => {
   const { slug, coverImage, title, excerpt } = post;
   const path = `/blog/${slug}`;
   return (
-    <Preview title={title} path={path} imageUrl={coverImage.url}>
+    <Preview title={title} path={path} formatImages={coverImage}>
       <Text fontSize="12px" color="gray.500" position="absolute" top="0.5em">
         <DateFormatter dateString={post.date} />
       </Text>
