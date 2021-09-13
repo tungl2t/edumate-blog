@@ -14,7 +14,7 @@ const Testimonial = ({ testimonial }: { testimonial: TestimonialType }) => {
           alt={testimonial.name}
           width={250}
           height={250}
-          blurDataURL={testimonial.picture.small}
+          blurDataURL={testimonial.picture.thumbnail}
           placeholder="blur"
         />
       </Center>

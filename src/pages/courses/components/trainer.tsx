@@ -15,7 +15,7 @@ const Trainer = ({ trainer }: { trainer: TrainerType }) => {
           width={250}
           height={250}
           placeholder="blur"
-          blurDataURL={trainer.picture.small}
+          blurDataURL={trainer.picture.thumbnail}
         />
       </Center>
       <Text textAlign="center" color="blue.800" fontSize="1.35em" fontWeight="600">
