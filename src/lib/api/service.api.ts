@@ -4,7 +4,7 @@ export async function getServices(locale: string | undefined) {
   const data = await fetchAPI(
     `
     query Services($locale: String){
-      services(locale: $locale) {
+      services(sort: "order:desc", locale: $locale) {
         title
         slug
         content
