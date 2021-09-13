@@ -25,7 +25,7 @@ const HomePreview = ({ home, index, children }: Props) => {
           alt={home.title}
           objectFit="cover"
           layout="fill"
-          placeholder={home.coverImage.small ? 'blur' : 'empty'}
+          placeholder={'blur'}
           blurDataURL={home.coverImage.small}
         />
       </AspectRatio>

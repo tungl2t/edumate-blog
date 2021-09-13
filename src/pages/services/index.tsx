@@ -3,6 +3,7 @@ import { Flex } from '@chakra-ui/react';
 
 import { getPageByPath, getServices } from '@/lib/api';
 import markdownToHtml from '@/lib/markdownToHtml';
+import { getFormatImages } from '@/lib/helper';
 import ServiceType from '@/types/service.type';
 import PageType from '@/types/page.type';
 import Layout from '@/components/layout';
@@ -45,17 +46,13 @@ export const getServerSideProps = async ({ locale }: GetStaticPropsContext) => {
           return {
             ...service,
             content,
-            coverImage: {
-              url: `${process.env.NEXT_PUBLIC_CMS_URL}${service?.coverImage?.url ?? ''}`,
-            },
+            coverImage: getFormatImages(service?.coverImage?.url),
           };
         }),
       ),
       page: {
         ...data.pages[0],
-        coverImage: {
-          url: `${process.env.NEXT_PUBLIC_CMS_URL}${data.pages[0]?.coverImage?.url ?? ''}`,
-        },
+        coverImage: getFormatImages(data.pages[0]?.coverImage?.url),
       },
     },
   };
