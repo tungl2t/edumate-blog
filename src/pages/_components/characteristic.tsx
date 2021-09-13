@@ -31,10 +31,10 @@ const Characteristic = ({ title, link, desc, coverImage }: Partial<PageCharacter
         my={{ base: 2, lg: 3 }}
         mx={{ base: 0, sm: 2 }}
         size={{
-          base: windowSize.width * 0.92,
-          sm: (windowSize.width * 0.9) / 2,
-          lg: (windowSize.width * 0.9) / 4,
-          xl: (windowSize.width * 0.8) / 4,
+          base: windowSize.width * 0.92 || 320,
+          sm: (windowSize.width * 0.9) / 2 || 500,
+          lg: (windowSize.width * 0.9) / 4 || 400,
+          xl: (windowSize.width * 0.8) / 4 || 290, // base: 320, sm: 500, md: 350, '2md': 400, xl: 290
         }}
         color="yellow.400"
         _hover={{

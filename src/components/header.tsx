@@ -68,7 +68,7 @@ const Header = () => {
           justify="space-between"
         >
           <NextLink href="/">
-            <Box>
+            <Box cursor="pointer">
               <a>
                 <Image src="/edumate-logo.png" alt="edumate" height={50} width={150} />
               </a>

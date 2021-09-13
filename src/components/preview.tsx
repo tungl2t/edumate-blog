@@ -38,7 +38,7 @@ const Preview = ({ title, path, formatImages, children }: Props) => {
             alt={title}
             layout="fill"
             objectFit="cover"
-            placeholder="blur"
+            placeholder={formatImages.small ? 'blur' : 'empty'}
             blurDataURL={formatImages.small}
           />
         </AspectRatio>
