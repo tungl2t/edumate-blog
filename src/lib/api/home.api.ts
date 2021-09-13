@@ -4,7 +4,7 @@ export async function getHomeContent(locale: string | undefined) {
   const data = await fetchAPI(
     `
     query Homes($locale: String){
-      homes(locale: $locale) {
+      homes(sort: "order:asc", locale: $locale) {
         title
         content
         coverImage {
