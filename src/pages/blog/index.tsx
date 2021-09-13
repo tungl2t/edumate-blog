@@ -36,7 +36,7 @@ export default Index;
 
 export const getServerSideProps = async ({ locale }: GetStaticPropsContext) => {
   const posts = (await getPosts()) || [];
-  const data = await getPageByPath('/services', locale);
+  const data = await getPageByPath('/blog', locale);
   const page = data.pages[0];
   return {
     props: {
