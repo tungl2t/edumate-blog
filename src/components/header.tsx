@@ -99,7 +99,7 @@ const Header = () => {
               ))}
             {asPath !== '/blog' && (
               <NextLink href={asPath} locale={otherLocale} scroll={false}>
-                <Box ml={2} mt={2}>
+                <Box ml={2} mt={2} cursor="pointer">
                   <a>
                     {' '}
                     <Image src={localeIcon} alt="language" width={35} height={35} />
@@ -174,7 +174,7 @@ const Header = () => {
               ))}
             {asPath !== '/blog' && (
               <NextLink href={asPath} locale={otherLocale} scroll={false}>
-                <Box my="0.5em">
+                <Box my="0.5em" cursor="pointer">
                   <a>
                     {' '}
                     <Image
