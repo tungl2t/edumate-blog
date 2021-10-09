@@ -29,6 +29,7 @@ export async function getEvaluationByPath(evaluationPath: string, locale: string
     `
     query EvaluationByPath($where: JSON,  $locale: String){
       evaluations(where: $where, locale: $locale) {
+        id
         name
         type
         coverImage {
@@ -50,6 +51,21 @@ export async function getEvaluationByPath(evaluationPath: string, locale: string
                     name
                     minValue
                     maxValue
+                }
+            }
+        }
+        evaluationDigitalSkills(sort: "order:asc") {
+            id
+            name
+            desc
+            digitalSkillQuestions(sort: "order:asc") {
+                id
+                name
+                desc
+                digitalSkillQuestionAnswers(sort: "value:asc") {
+                    id
+                    name
+                    value
                 }
             }
         }
