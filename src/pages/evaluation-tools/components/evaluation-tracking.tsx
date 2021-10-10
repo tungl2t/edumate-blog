@@ -15,7 +15,7 @@ import {
 import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import { registerEvaluationUser, verifyVerificationCode } from '@/lib/api/evaluation-user.api';
-import { findByEvaluationId } from '@/lib/api';
+import { createUserEvaluationTracking, findByEvaluationId } from '@/lib/api';
 
 const ACCESS_TOKEN = 'access_token';
 const USER_INFO = 'user_info';
@@ -57,12 +57,23 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
     }
   }, [email]);
 
-  const handleAnswerValues = (
+  const handleAnswerValues = async (
     answerId: number,
     digitalSkillQuestionId: number,
     digitalSkillId: number,
   ) => {
-    console.log(evaluationId, answerId, digitalSkillQuestionId, digitalSkillId);
+    if (!token) {
+      return;
+    }
+    try {
+      const data = await createUserEvaluationTracking(
+        token,
+        evaluationId,
+        digitalSkillId,
+        digitalSkillQuestionId,
+        answerId,
+      );
+    } catch (e) {}
   };
 
   const createEvaluationUser = async (evaluationUserEmail: string) => {
