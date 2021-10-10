@@ -5,7 +5,6 @@ import { Icon } from '@chakra-ui/icons';
 import { BsBoxArrowInRight } from 'react-icons/bs';
 
 import { EdumateLink } from '@/components/edumate-link';
-import ShareSocial from '@/components/share-social';
 import { FormatImages } from '@/types/shared';
 
 type Props = {
@@ -51,7 +50,7 @@ const Preview = ({ title, path, formatImages, children }: Props) => {
         justifyContent="center"
         p={{ base: '1.25em', sm: '1.5em' }}
       >
-        {path && <ShareSocial path={path} />}
+        {/*{path && <ShareSocial path={path} />}*/}
         <EdumateLink path={path}>
           <Flex
             direction="row"

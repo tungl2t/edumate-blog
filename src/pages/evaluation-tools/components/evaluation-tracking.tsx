@@ -14,6 +14,7 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
+import { registerEvaluationUser } from '@/lib/api/evaluation-user.api';
 
 type Props = {
   evaluationId: number;
@@ -22,6 +23,8 @@ type Props = {
 const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) => {
   const [token, setToken] = useState<string | undefined>('');
   const [email, setEmail] = useState<string>('');
+  const [userEvaluationId, setUserEvaluationId] = useState<number | undefined>(undefined);
+  const [isLoading, setIsLoading] = useState(false);
   const [verificationCode, setVerificationCode] = useState<string>('');
   const [hasVerificationCode, setHasVerificationCode] = useState<boolean>(false);
   const [hasError, setHasError] = useState(false);
@@ -55,13 +58,21 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
       setHasError(true);
       return;
     }
+    if (isLoading) {
+      setIsLoading(false);
+      return;
+    }
     try {
-      // await createSubscriber(evaluationUserEmail.trim());
-    } catch (e) {
-    } finally {
-      setHasError(false);
+      setIsLoading(true);
+      const data = (await registerEvaluationUser(evaluationUserEmail.trim())) as any;
+      setUserEvaluationId(data.userEvaluationId);
       setHasVerificationCode(true);
       setVerificationStep(1);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setIsLoading(false);
+      setHasError(false);
     }
   };
 
@@ -219,12 +230,14 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
                   />
                 </Tooltip>
                 <Button
+                  isLoading={isLoading}
+                  loadingText="Đang gửi"
                   variant="outline"
                   mt="10px"
                   color="blue.800"
                   w="100%"
                   fontSize="0.9rem"
-                  disabled={!email}
+                  disabled={!email || isLoading}
                   onClick={() => createEvaluationUser(email)}
                 >
                   Gửi mã xác nhận
