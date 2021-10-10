@@ -7,3 +7,5 @@ export * from './home.api';
 export * from './product.api';
 export * from './service.api';
 export * from './page.api';
+export * from './evaluation-user.api';
+export * from './user-evaluation-tracking.api';

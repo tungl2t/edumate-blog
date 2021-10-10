@@ -6,3 +6,11 @@ export const registerEvaluationUser = async (email: string) => {
   });
   return response.data;
 };
+
+export const verifyVerificationCode = async (userId: number, verificationCode: number) => {
+  const path = `/evaluation-users/${userId}/verify`;
+  const response = await edumate.post(path, {
+    verificationCode,
+  });
+  return response.data;
+};

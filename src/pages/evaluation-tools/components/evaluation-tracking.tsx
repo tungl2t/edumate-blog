@@ -14,7 +14,11 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
-import { registerEvaluationUser } from '@/lib/api/evaluation-user.api';
+import { registerEvaluationUser, verifyVerificationCode } from '@/lib/api/evaluation-user.api';
+import { findByEvaluationId } from '@/lib/api';
+
+const ACCESS_TOKEN = 'access_token';
+const USER_INFO = 'user_info';
 
 type Props = {
   evaluationId: number;
@@ -24,6 +28,7 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
   const [token, setToken] = useState<string | undefined>('');
   const [email, setEmail] = useState<string>('');
   const [userEvaluationId, setUserEvaluationId] = useState<number | undefined>(undefined);
+  const [userEvaluation, setUserEvaluation] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [verificationCode, setVerificationCode] = useState<string>('');
   const [hasVerificationCode, setHasVerificationCode] = useState<boolean>(false);
@@ -31,9 +36,20 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
   const [verificationStep, setVerificationStep] = useState<number>(0);
 
   useEffect(() => {
-    const token = Cookies.get('token');
+    const token = Cookies.get(ACCESS_TOKEN);
+    const userInfo = Cookies.get(USER_INFO);
     setToken(token);
+    setUserEvaluation(userInfo);
   }, []);
+
+  useEffect(() => {
+    if (token && evaluationId) {
+      const fetchData = async () => {
+        const data = await findByEvaluationId(token, evaluationId);
+      };
+      fetchData();
+    }
+  }, [token, evaluationId]);
 
   useEffect(() => {
     if (email) {
@@ -73,6 +89,33 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
     } finally {
       setIsLoading(false);
       setHasError(false);
+    }
+  };
+
+  const verifyCode = async (verificationCode: string) => {
+    const intVerificationCode = parseInt(verificationCode, 10);
+    if (!intVerificationCode) {
+      return;
+    }
+    if (isLoading) {
+      setIsLoading(false);
+      return;
+    }
+    if (!userEvaluationId) {
+      return;
+    }
+    try {
+      setIsLoading(true);
+      const data = (await verifyVerificationCode(userEvaluationId, intVerificationCode)) as any;
+      const { accessToken, userInfo } = data;
+      Cookies.set(ACCESS_TOKEN, accessToken, { expires: 1 });
+      Cookies.set(USER_INFO, userInfo, { expires: 1 });
+      setToken(accessToken);
+      setUserEvaluation(userInfo);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -275,12 +318,15 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
                   onChange={(event) => setVerificationCode(event.target.value)}
                 />
                 <Button
+                  isLoading={isLoading}
+                  loadingText="Đang xác nhận"
                   variant="outline"
                   mt="10px"
                   color="blue.800"
                   w="100%"
                   fontSize="0.9rem"
-                  disabled={!verificationCode}
+                  disabled={!verificationCode || isLoading}
+                  onClick={() => verifyCode(verificationCode)}
                 >
                   Xác nhận
                 </Button>
