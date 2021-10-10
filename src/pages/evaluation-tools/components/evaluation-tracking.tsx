@@ -34,12 +34,20 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
   const [hasVerificationCode, setHasVerificationCode] = useState<boolean>(false);
   const [hasError, setHasError] = useState(false);
   const [verificationStep, setVerificationStep] = useState<number>(0);
-
+  const [questionAnswers, setQuestionAnswers] = useState<number[][][]>([]);
+  const [digitalSkillIds, setDigitalSkillIds] = useState<number[]>([]);
   useEffect(() => {
     const token = Cookies.get(ACCESS_TOKEN);
     const userInfo = Cookies.get(USER_INFO);
     setToken(token);
     setUserEvaluation(userInfo);
+    const initQuestionAnswer = evaluationDigitalSkills.map((digitalSkill) =>
+      digitalSkill.digitalSkillQuestions.map((question) => [parseInt(question.id, 10), 0]),
+    );
+    setQuestionAnswers(initQuestionAnswer);
+    setDigitalSkillIds(
+      evaluationDigitalSkills.map((digitalSkillIds) => parseInt(digitalSkillIds.id, 10)),
+    );
   }, []);
 
   useEffect(() => {
@@ -217,9 +225,9 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
                                 }}
                                 onClick={() =>
                                   handleAnswerValues(
-                                    answer.id,
-                                    digitalSkillQuestion.id,
-                                    digitalSkill.id,
+                                    parseInt(answer.id, 10),
+                                    parseInt(digitalSkillQuestion.id, 10),
+                                    parseInt(digitalSkill.id, 10),
                                   )
                                 }
                                 dangerouslySetInnerHTML={{ __html: answer.name }}

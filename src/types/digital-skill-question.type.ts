@@ -1,7 +1,7 @@
 import DigitalSkillQuestionAnswerType from '@/types/digital-skill-question-answer.type';
 
 type DigitalSkillQuestionType = {
-  id: number;
+  id: string;
   name: string;
   order: number;
   desc: string;

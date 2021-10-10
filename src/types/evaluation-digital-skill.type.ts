@@ -1,7 +1,7 @@
 import DigitalSkillQuestionType from '@/types/digital-skill-question.type';
 
 type EvaluationDigitalSkillType = {
-  id: number;
+  id: string;
   name: string;
   order: number;
   desc: string;
