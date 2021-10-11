@@ -185,7 +185,7 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
     setIsDisabledVerificationButton(false);
   };
 
-  const createEvaluationUser = async (evaluationUserEmail: string) => {
+  const createEvaluationUser = async () => {
     if (!email) {
       return;
     }
@@ -200,7 +200,7 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
     }
     try {
       setIsLoading(true);
-      const data = (await registerEvaluationUser(evaluationUserEmail.trim())) as any;
+      const data = (await registerEvaluationUser(email.trim().toLowerCase())) as any;
       setUserEvaluationId(data.userEvaluationId);
       setHasVerificationCode(true);
       setVerificationStep(1);
@@ -453,7 +453,7 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
                   w="100%"
                   fontSize="0.9rem"
                   disabled={!email || isLoading}
-                  onClick={() => createEvaluationUser(email)}
+                  onClick={() => createEvaluationUser()}
                 >
                   Gửi mã xác nhận
                 </Button>
