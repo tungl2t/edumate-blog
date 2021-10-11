@@ -289,7 +289,16 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
                         <AccordionItem key={digitalSkillQuestion.name}>
                           <AccordionButton display="flex" justifyContent="space-between" p={1}>
                             <Box display="flex" justifyContent="center" alignItems="center">
-                              <Circle size="25px" bg="yellow.600">
+                              <Circle
+                                size="25px"
+                                bg={
+                                  groupAnswerValues[digitalSkillIndex][
+                                    digitalSkillQuestionIndex
+                                  ] === 0
+                                    ? 'yellow.300'
+                                    : 'yellow.600'
+                                }
+                              >
                                 <Text fontWeight="bold" color="#fff" fontSize="0.6rem" pt="2px">
                                   {digitalSkillQuestionIndex + 1}
                                 </Text>
