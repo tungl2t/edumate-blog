@@ -46,6 +46,9 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
   const [digitalSkillValues, setDigitalSkillValues] = useState<Array<number>>([]);
   const [digitalSkillMaxValues, setDigitalSkillMaxValues] = useState<Array<number>>([]);
   const [digitalSkillDataColors, setDigitalSkillDataColors] = useState<Array<string>>([]);
+  const [verificationButtonLabel, setVerificationButtonLabel] = useState<string>('Xác nhận');
+  const [isDisabledVerificationButton, setIsDisabledVerificationButton] = useState<boolean>(false);
+  const [numberOfAttempt, setNumberOfAttempt] = useState(0);
 
   useEffect(() => {
     const apiKey = Cookies.get(X_API_KEY);
@@ -125,7 +128,7 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
             setGroupAnswerValues(tmpGroupValues);
           }
         } catch (e) {
-          removeUserState();
+          resetState();
         }
       };
       fetchData();
@@ -164,17 +167,20 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
       tmpAnswerIds[digitalSkillIndex][digitalSkillQuestionIndex] = answerId;
       setGroupAnswerIds(tmpAnswerIds);
     } catch (e) {
-      removeUserState();
+      resetState();
     }
   };
 
-  const removeUserState = () => {
+  const resetState = () => {
     Cookies.remove(X_API_KEY);
     setXAPIKey('');
     setEmail('');
     setVerificationCode('');
     setHasVerificationCode(false);
     setVerificationStep(0);
+    setNumberOfAttempt(0);
+    setVerificationButtonLabel('Xác nhận');
+    setIsDisabledVerificationButton(false);
   };
 
   const createEvaluationUser = async (evaluationUserEmail: string) => {
@@ -209,6 +215,9 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
     if (!intVerificationCode) {
       return;
     }
+    if (isDisabledVerificationButton) {
+      return;
+    }
     if (isLoading) {
       setIsLoading(false);
       return;
@@ -223,11 +232,18 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
       Cookies.set(X_API_KEY, accessToken, { expires: 1 });
       setXAPIKey(accessToken);
     } catch (e) {
-      console.log(e);
+      setNumberOfAttempt(numberOfAttempt + 1);
+      setVerificationButtonLabel('Mã xác nhận không chính xác, vui lòng nhập lại!');
+      setIsDisabledVerificationButton(true);
     } finally {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    setVerificationButtonLabel('Xác nhận');
+    setIsDisabledVerificationButton(false);
+  }, [verificationCode]);
 
   const validateEmail = (e: string) => {
     const pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -370,8 +386,8 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
         </>
       ) : (
         <Box
-          w={{ base: '100%' }}
-          minH="30vh"
+          w="100%"
+          p={{ base: 0, sm: 3 }}
           mx={{ base: 0, lg: '5px' }}
           display="flex"
           flexDirection="column"
@@ -379,10 +395,10 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
           justifyContent="center"
           boxShadow={{ base: 'none', sm: 'xs' }}
         >
-          <Accordion allowToggle index={verificationStep}>
+          <Accordion allowToggle index={verificationStep} w={{ base: '100%', sm: '80%' }}>
             <AccordionItem isDisabled={hasVerificationCode}>
               <AccordionButton display="flex" justifyContent="space-between" p={1} cursor="auto">
-                <Box display="flex" alignItems="center" w={{ base: '100%', sm: '600px' }}>
+                <Box display="flex" alignItems="center" w={{ base: '100%', lg: '600px' }}>
                   <Circle size="35px" bg="yellow.600">
                     <Text fontWeight="bold" color="#fff" fontSize="0.75rem" pt="2px">
                       1
@@ -435,7 +451,7 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
 
             <AccordionItem isDisabled={!hasVerificationCode}>
               <AccordionButton display="flex" justifyContent="space-between" p={1} cursor="auto">
-                <Box display="flex" alignItems="center" w={{ base: '100%', sm: '600px' }}>
+                <Box display="flex" alignItems="center" w={{ base: '100%', lg: '600px' }}>
                   <Circle size="35px" bg="yellow.600">
                     <Text fontWeight="bold" color="#fff" fontSize="0.75rem" pt="2px">
                       2
@@ -449,7 +465,7 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
                     fontSize={{ base: '0.9rem', sm: '1rem' }}
                     fontFamily="Gilroy-Medium, sans-serif"
                   >
-                    Vui lòng nhập mã xác nhận được gửi đến địa chỉ mail của bạn
+                    Vui lòng nhập mã xác nhận được gửi đến địa chỉ email của bạn
                   </Text>
                 </Box>
               </AccordionButton>
@@ -470,11 +486,27 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
                   color="blue.800"
                   w="100%"
                   fontSize="0.9rem"
-                  disabled={!verificationCode || isLoading}
+                  disabled={!verificationCode || isLoading || isDisabledVerificationButton}
                   onClick={() => verifyCode(verificationCode)}
+                  style={{
+                    whiteSpace: 'normal',
+                    wordWrap: 'break-word',
+                  }}
                 >
-                  Xác nhận
+                  {verificationButtonLabel}
                 </Button>
+                {numberOfAttempt >= 2 && (
+                  <Button
+                    variant="outline"
+                    mt="10px"
+                    color="blue.800"
+                    w="100%"
+                    fontSize="0.9rem"
+                    onClick={() => resetState()}
+                  >
+                    Nhập lại email
+                  </Button>
+                )}
               </AccordionPanel>
             </AccordionItem>
           </Accordion>
