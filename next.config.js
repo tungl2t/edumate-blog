@@ -8,7 +8,7 @@ module.exports = withPWA({
     runtimeCaching,
   },
   images: {
-    domains: ['cms.edumate.vn'],
+    domains: ['cms.edumate.vn', 'localhost'],
   },
   i18n: {
     locales: ['en', 'vi'],

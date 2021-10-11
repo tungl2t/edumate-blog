@@ -1,4 +1,4 @@
-import EvaluationDigitalSkillType from '@/types/evaluation-digital-skill.type';
+import { useEffect, useState } from 'react';
 import {
   Accordion,
   AccordionButton,
@@ -12,13 +12,14 @@ import {
   Text,
   Tooltip,
 } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { cloneDeep, flatMapDeep, uniqBy } from 'lodash-es';
 import Cookies from 'js-cookie';
+
 import { registerEvaluationUser, verifyVerificationCode } from '@/lib/api/evaluation-user.api';
 import { createUserEvaluationTracking, findByEvaluationId } from '@/lib/api';
+import EvaluationDigitalSkillType from '@/types/evaluation-digital-skill.type';
 
 const ACCESS_TOKEN = 'access_token';
-const USER_INFO = 'user_info';
 
 type Props = {
   evaluationId: number;
@@ -28,32 +29,76 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
   const [token, setToken] = useState<string | undefined>('');
   const [email, setEmail] = useState<string>('');
   const [userEvaluationId, setUserEvaluationId] = useState<number | undefined>(undefined);
-  const [userEvaluation, setUserEvaluation] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [verificationCode, setVerificationCode] = useState<string>('');
   const [hasVerificationCode, setHasVerificationCode] = useState<boolean>(false);
   const [hasError, setHasError] = useState(false);
   const [verificationStep, setVerificationStep] = useState<number>(0);
-  const [questionAnswers, setQuestionAnswers] = useState<number[][][]>([]);
+  const [groupQuestionIds, setGroupQuestionIds] = useState<number[][]>([]);
+  const [groupAnswerValues, setGroupAnswerValues] = useState<number[][]>([]);
+  const [groupAnswerIds, setGroupAnswerIds] = useState<number[][]>([]);
   const [digitalSkillIds, setDigitalSkillIds] = useState<number[]>([]);
+  const [answers, setAnswers] = useState<Array<{ id: number; value: number }>>([]);
+
   useEffect(() => {
     const token = Cookies.get(ACCESS_TOKEN);
-    const userInfo = Cookies.get(USER_INFO);
     setToken(token);
-    setUserEvaluation(userInfo);
-    const initQuestionAnswer = evaluationDigitalSkills.map((digitalSkill) =>
-      digitalSkill.digitalSkillQuestions.map((question) => [parseInt(question.id, 10), 0]),
+    const initGroupAnswerData = evaluationDigitalSkills.map((digitalSkill) =>
+      digitalSkill.digitalSkillQuestions.map((question) => 0),
     );
-    setQuestionAnswers(initQuestionAnswer);
-    setDigitalSkillIds(
-      evaluationDigitalSkills.map((digitalSkillIds) => parseInt(digitalSkillIds.id, 10)),
+    const initGroupQuestionData = evaluationDigitalSkills.map((digitalSkill) =>
+      digitalSkill.digitalSkillQuestions.map((question) => parseInt(question.id, 10)),
     );
+    const initDigitalSkillIds = evaluationDigitalSkills.map((digitalSkillIds) =>
+      parseInt(digitalSkillIds.id, 10),
+    );
+    const answerData = evaluationDigitalSkills.map((digitalSkill) =>
+      digitalSkill.digitalSkillQuestions.map((question) =>
+        question.digitalSkillQuestionAnswers.map((answer) => {
+          return {
+            id: parseInt(answer.id, 10),
+            value: answer.value,
+          };
+        }),
+      ),
+    );
+    const flatAnswerData = flatMapDeep(answerData);
+    const uniqAnswerData = uniqBy(flatAnswerData, 'id');
+    setAnswers(uniqAnswerData);
+    setGroupAnswerIds(initGroupAnswerData);
+    setGroupAnswerValues(initGroupAnswerData);
+    setGroupQuestionIds(initGroupQuestionData);
+    setDigitalSkillIds(initDigitalSkillIds);
   }, []);
 
   useEffect(() => {
     if (token && evaluationId) {
       const fetchData = async () => {
-        const data = await findByEvaluationId(token, evaluationId);
+        try {
+          const data = (await findByEvaluationId(token, evaluationId)) as Array<{
+            digitalSkillId: number;
+            evaluationAnswerId: number;
+            evaluationQuestionId: number;
+          }>;
+          if (data && data.length) {
+            const tmpAnswerIds = cloneDeep(groupAnswerIds);
+            const tmpGroupValues = cloneDeep(groupAnswerValues);
+            data.forEach((item) => {
+              const { digitalSkillId, evaluationQuestionId, evaluationAnswerId } = item;
+              const digitalSkillIndex = digitalSkillIds.findIndex((id) => id === digitalSkillId);
+              const digitalSkillQuestionIndex = groupQuestionIds[digitalSkillIndex].findIndex(
+                (id) => id === evaluationQuestionId,
+              );
+              tmpAnswerIds[digitalSkillIndex][digitalSkillQuestionIndex] = evaluationAnswerId;
+              tmpGroupValues[digitalSkillIndex][digitalSkillQuestionIndex] =
+                answers.find((i) => i.id === evaluationAnswerId)?.value ?? 0;
+            });
+            setGroupAnswerIds(tmpAnswerIds);
+            setGroupAnswerValues(tmpGroupValues);
+          }
+        } catch (e) {
+          removeUserState();
+        }
       };
       fetchData();
     }
@@ -65,23 +110,43 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
     }
   }, [email]);
 
-  const handleAnswerValues = async (
+  const handleAnswer = async (
     answerId: number,
     digitalSkillQuestionId: number,
     digitalSkillId: number,
+    answerValue: number,
+    digitalSkillIndex: number,
+    digitalSkillQuestionIndex: number,
   ) => {
     if (!token) {
       return;
     }
     try {
-      const data = await createUserEvaluationTracking(
+      await createUserEvaluationTracking(
         token,
         evaluationId,
         digitalSkillId,
         digitalSkillQuestionId,
         answerId,
       );
-    } catch (e) {}
+      const tmpGroupValues = cloneDeep(groupAnswerValues);
+      tmpGroupValues[digitalSkillIndex][digitalSkillQuestionIndex] = answerValue;
+      setGroupAnswerValues(tmpGroupValues);
+      const tmpAnswerIds = cloneDeep(groupAnswerIds);
+      tmpAnswerIds[digitalSkillIndex][digitalSkillQuestionIndex] = answerId;
+      setGroupAnswerIds(tmpAnswerIds);
+    } catch (e) {
+      removeUserState();
+    }
+  };
+
+  const removeUserState = () => {
+    Cookies.remove(ACCESS_TOKEN);
+    setToken('');
+    setEmail('');
+    setVerificationCode('');
+    setHasVerificationCode(false);
+    setVerificationStep(0);
   };
 
   const createEvaluationUser = async (evaluationUserEmail: string) => {
@@ -128,9 +193,7 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
       const data = (await verifyVerificationCode(userEvaluationId, intVerificationCode)) as any;
       const { accessToken, userInfo } = data;
       Cookies.set(ACCESS_TOKEN, accessToken, { expires: 1 });
-      Cookies.set(USER_INFO, userInfo, { expires: 1 });
       setToken(accessToken);
-      setUserEvaluation(userInfo);
     } catch (e) {
       console.log(e);
     } finally {
@@ -157,6 +220,7 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
                   fontWeight="600"
                   pt="5px"
                   fontFamily="Gilroy-Medium, sans-serif"
+                  textAlign="left"
                 >
                   {digitalSkill.name} ({digitalSkill?.digitalSkillQuestions?.length}/
                   {digitalSkill?.digitalSkillQuestions?.length})
@@ -223,11 +287,28 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
                                   background: 'yellow.600',
                                   color: 'white',
                                 }}
+                                color={
+                                  groupAnswerValues[digitalSkillIndex][
+                                    digitalSkillQuestionIndex
+                                  ] === answer.value
+                                    ? 'white'
+                                    : 'black'
+                                }
+                                bg={
+                                  groupAnswerValues[digitalSkillIndex][
+                                    digitalSkillQuestionIndex
+                                  ] === answer.value
+                                    ? 'yellow.600'
+                                    : 'white'
+                                }
                                 onClick={() =>
-                                  handleAnswerValues(
+                                  handleAnswer(
                                     parseInt(answer.id, 10),
                                     parseInt(digitalSkillQuestion.id, 10),
                                     parseInt(digitalSkill.id, 10),
+                                    answer.value,
+                                    digitalSkillIndex,
+                                    digitalSkillQuestionIndex,
                                   )
                                 }
                                 dangerouslySetInnerHTML={{ __html: answer.name }}
