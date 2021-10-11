@@ -59,6 +59,7 @@ export async function getEvaluationByPath(evaluationPath: string, locale: string
             id
             name
             desc
+            dataColor
             digitalSkillQuestions(sort: "order:asc") {
                 id
                 name

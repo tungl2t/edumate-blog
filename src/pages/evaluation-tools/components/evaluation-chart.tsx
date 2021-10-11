@@ -1,4 +1,4 @@
-import { Bar, Line, Radar } from 'react-chartjs-2';
+import { Bar, Line, PolarArea, Radar } from 'react-chartjs-2';
 import { Box } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { ChartTypes, EChartType } from '@/types/evaluation.type';
@@ -7,9 +7,10 @@ type Props = {
   data: number[];
   dataName: string[];
   chartType: ChartTypes;
+  dataColor?: string[];
 };
 
-const EvaluationChart = ({ chartType, data, dataName }: Props) => {
+const EvaluationChart = ({ chartType, data, dataName, dataColor }: Props) => {
   const [chartWidth, setChartWidth] = useState<number>(960);
 
   useEffect(() => {
@@ -136,6 +137,39 @@ const EvaluationChart = ({ chartType, data, dataName }: Props) => {
                 min: 0,
                 ticks: {
                   stepSize: 1,
+                },
+              },
+            }}
+          />
+        );
+      case EChartType.POLAR:
+        const dataSet = {
+          labels: dataName,
+          datasets: [
+            {
+              label: 'Kết quả đánh giá',
+              data: data,
+              backgroundColor: dataColor,
+            },
+          ],
+        };
+        return (
+          <PolarArea
+            data={dataSet}
+            height={500}
+            width={chartWidth}
+            options={{
+              ...defaultOption,
+              elements: {
+                line: {
+                  borderWidth: 3,
+                },
+              },
+              scale: {
+                max: 100,
+                min: 0,
+                ticks: {
+                  stepSize: 25,
                 },
               },
             }}

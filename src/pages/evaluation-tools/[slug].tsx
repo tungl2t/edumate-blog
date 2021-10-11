@@ -66,7 +66,7 @@ export const getServerSideProps = async ({ params, locale }: GetStaticPropsConte
   const path = params?.slug as string;
   const data = await getEvaluationByPath(path, locale);
   const evaluation = data.evaluations[0] as EvaluationType;
-  const description = await markdownToHtml(evaluation.description);
+  const description = await markdownToHtml(evaluation?.description ?? '');
   let evaluationQuestions: EvaluationQuestionType[] = [];
   let evaluationDigitalSkills: EvaluationDigitalSkillType[] = [];
   if (evaluation?.evaluationQuestions?.length) {

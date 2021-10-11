@@ -23,9 +23,10 @@ type Props = {
   handleData: Function;
   children: ReactNode;
   info: string[];
+  buttonLabel?: string;
 };
 
-const EvaluationModal = ({ isValidData, handleData, children, info }: Props) => {
+const EvaluationModal = ({ isValidData, handleData, children, info, buttonLabel }: Props) => {
   const t = useTranslations('EvaluationTool');
   const ref = useRef<HTMLDivElement>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -72,7 +73,7 @@ const EvaluationModal = ({ isValidData, handleData, children, info }: Props) => 
         }}
         disabled={!isValidData}
       >
-        {t('submit')}
+        {buttonLabel ? buttonLabel : t('submit')}
       </Button>
       <Modal
         isOpen={isOpen}

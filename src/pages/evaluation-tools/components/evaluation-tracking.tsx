@@ -45,22 +45,28 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
   const [digitalSkillLabels, setDigitalSkillLabels] = useState<Array<string>>([]);
   const [digitalSkillValues, setDigitalSkillValues] = useState<Array<number>>([]);
   const [digitalSkillMaxValues, setDigitalSkillMaxValues] = useState<Array<number>>([]);
+  const [digitalSkillDataColors, setDigitalSkillDataColors] = useState<Array<string>>([]);
 
   useEffect(() => {
     const token = Cookies.get(ACCESS_TOKEN);
     setToken(token);
-    const initGroupAnswerData = evaluationDigitalSkills.map((digitalSkill) =>
+    const initialGroupAnswerData = evaluationDigitalSkills.map((digitalSkill) =>
       digitalSkill.digitalSkillQuestions.map((question) => 0),
     );
-    const initGroupQuestionData = evaluationDigitalSkills.map((digitalSkill) =>
+    const initialGroupQuestionData = evaluationDigitalSkills.map((digitalSkill) =>
       digitalSkill.digitalSkillQuestions.map((question) => parseInt(question.id, 10)),
     );
-    const initDigitalSkillIds = evaluationDigitalSkills.map((digitalSkillIds) =>
+    const initialDigitalSkillIds = evaluationDigitalSkills.map((digitalSkillIds) =>
       parseInt(digitalSkillIds.id, 10),
     );
-    const initDigitalSkillLabels = evaluationDigitalSkills.map((digitalSkill) => digitalSkill.name);
-    const initDigitalSkillMaxValues = evaluationDigitalSkills.map(
+    const initialDigitalSkillLabels = evaluationDigitalSkills.map(
+      (digitalSkill) => digitalSkill.name,
+    );
+    const initialDigitalSkillMaxValues = evaluationDigitalSkills.map(
       (digitalSkill) => digitalSkill.digitalSkillQuestions.length * 4,
+    );
+    const initialDigitalSkillDataColors = evaluationDigitalSkills.map(
+      (digitalSkill) => digitalSkill.dataColor,
     );
     const answerData = evaluationDigitalSkills.map((digitalSkill) =>
       digitalSkill.digitalSkillQuestions.map((question) =>
@@ -75,17 +81,20 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
     const flatAnswerData = flatMapDeep(answerData);
     const uniqAnswerData = uniqBy(flatAnswerData, 'id');
     setAnswers(uniqAnswerData);
-    setDigitalSkillLabels(initDigitalSkillLabels);
-    setDigitalSkillMaxValues(initDigitalSkillMaxValues);
-    setGroupAnswerIds(initGroupAnswerData);
-    setGroupAnswerValues(initGroupAnswerData);
-    setGroupQuestionIds(initGroupQuestionData);
-    setDigitalSkillIds(initDigitalSkillIds);
+    setDigitalSkillLabels(initialDigitalSkillLabels);
+    setDigitalSkillMaxValues(initialDigitalSkillMaxValues);
+    setDigitalSkillDataColors(initialDigitalSkillDataColors);
+    setGroupAnswerIds(initialGroupAnswerData);
+    setGroupAnswerValues(initialGroupAnswerData);
+    setGroupQuestionIds(initialGroupQuestionData);
+    setDigitalSkillIds(initialDigitalSkillIds);
   }, []);
 
   useEffect(() => {
     if (groupAnswerValues.length) {
-      const digitalSkillCurrentValues = groupAnswerValues.map((item) => sum(item));
+      const digitalSkillCurrentValues = groupAnswerValues.map((item) =>
+        Math.floor((sum(item) / (item.length * 4)) * 100),
+      );
       setDigitalSkillValues(digitalSkillCurrentValues);
     }
   }, [groupAnswerValues]);
@@ -345,11 +354,17 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
               </AccordionItem>
             ))}
           </Accordion>
-          <EvaluationModal handleData={() => {}} isValidData={true} info={[]}>
+          <EvaluationModal
+            handleData={() => {}}
+            isValidData={true}
+            info={[]}
+            buttonLabel={'Xem kết quả'}
+          >
             <EvaluationChart
               data={digitalSkillValues}
               dataName={digitalSkillLabels}
-              chartType={EChartType.LINE}
+              dataColor={digitalSkillDataColors}
+              chartType={EChartType.POLAR}
             />
           </EvaluationModal>
         </>
