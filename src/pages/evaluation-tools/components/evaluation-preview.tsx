@@ -16,6 +16,7 @@ const EvaluationPreview = ({ evaluation }: Props) => {
         fontSize={{ base: '0.95em', sm: '1em' }}
         color="gray.600"
         dangerouslySetInnerHTML={{ __html: description }}
+        noOfLines={9}
       />
     </Preview>
   );

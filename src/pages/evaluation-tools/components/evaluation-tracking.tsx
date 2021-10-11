@@ -12,12 +12,15 @@ import {
   Text,
   Tooltip,
 } from '@chakra-ui/react';
-import { cloneDeep, flatMapDeep, uniqBy } from 'lodash-es';
+import { cloneDeep, flatMapDeep, sum, uniqBy } from 'lodash-es';
 import Cookies from 'js-cookie';
 
 import { registerEvaluationUser, verifyVerificationCode } from '@/lib/api/evaluation-user.api';
 import { createUserEvaluationTracking, findByEvaluationId } from '@/lib/api';
 import EvaluationDigitalSkillType from '@/types/evaluation-digital-skill.type';
+import EvaluationChart from './evaluation-chart';
+import { EChartType } from '@/types/evaluation.type';
+import EvaluationModal from './evaluation-modal';
 
 const ACCESS_TOKEN = 'access_token';
 
@@ -39,6 +42,9 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
   const [groupAnswerIds, setGroupAnswerIds] = useState<number[][]>([]);
   const [digitalSkillIds, setDigitalSkillIds] = useState<number[]>([]);
   const [answers, setAnswers] = useState<Array<{ id: number; value: number }>>([]);
+  const [digitalSkillLabels, setDigitalSkillLabels] = useState<Array<string>>([]);
+  const [digitalSkillValues, setDigitalSkillValues] = useState<Array<number>>([]);
+  const [digitalSkillMaxValues, setDigitalSkillMaxValues] = useState<Array<number>>([]);
 
   useEffect(() => {
     const token = Cookies.get(ACCESS_TOKEN);
@@ -51,6 +57,10 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
     );
     const initDigitalSkillIds = evaluationDigitalSkills.map((digitalSkillIds) =>
       parseInt(digitalSkillIds.id, 10),
+    );
+    const initDigitalSkillLabels = evaluationDigitalSkills.map((digitalSkill) => digitalSkill.name);
+    const initDigitalSkillMaxValues = evaluationDigitalSkills.map(
+      (digitalSkill) => digitalSkill.digitalSkillQuestions.length * 4,
     );
     const answerData = evaluationDigitalSkills.map((digitalSkill) =>
       digitalSkill.digitalSkillQuestions.map((question) =>
@@ -65,11 +75,20 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
     const flatAnswerData = flatMapDeep(answerData);
     const uniqAnswerData = uniqBy(flatAnswerData, 'id');
     setAnswers(uniqAnswerData);
+    setDigitalSkillLabels(initDigitalSkillLabels);
+    setDigitalSkillMaxValues(initDigitalSkillMaxValues);
     setGroupAnswerIds(initGroupAnswerData);
     setGroupAnswerValues(initGroupAnswerData);
     setGroupQuestionIds(initGroupQuestionData);
     setDigitalSkillIds(initDigitalSkillIds);
   }, []);
+
+  useEffect(() => {
+    if (groupAnswerValues.length) {
+      const digitalSkillCurrentValues = groupAnswerValues.map((item) => sum(item));
+      setDigitalSkillValues(digitalSkillCurrentValues);
+    }
+  }, [groupAnswerValues]);
 
   useEffect(() => {
     if (token && evaluationId) {
@@ -209,135 +228,146 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
   return (
     <>
       {token ? (
-        <Accordion allowToggle>
-          {evaluationDigitalSkills?.map((digitalSkill, digitalSkillIndex) => (
-            <AccordionItem key={digitalSkill.name}>
-              <AccordionButton display="flex" justifyContent="space-between" py={0} px={1}>
-                <Text
-                  textTransform="uppercase"
-                  fontSize={{ base: '1rem', sm: '1.15rem' }}
-                  color="blue.800"
-                  fontWeight="600"
-                  pt="5px"
-                  fontFamily="Gilroy-Medium, sans-serif"
-                  textAlign="left"
-                >
-                  {digitalSkill.name} ({digitalSkill?.digitalSkillQuestions?.length}/
-                  {digitalSkill?.digitalSkillQuestions?.length})
-                </Text>
-                <AccordionIcon />
-              </AccordionButton>
-              <AccordionPanel p={1}>
-                <Box
-                  fontSize={{ base: '0.85rem', sm: '0.95rem' }}
-                  color="blue.800"
-                  textAlign="justify"
-                  mb={3}
-                  dangerouslySetInnerHTML={{ __html: digitalSkill.desc }}
-                />
-                <Accordion allowToggle>
-                  {digitalSkill?.digitalSkillQuestions.map(
-                    (digitalSkillQuestion, digitalSkillQuestionIndex) => (
-                      <AccordionItem key={digitalSkillQuestion.name}>
-                        <AccordionButton display="flex" justifyContent="space-between" p={1}>
-                          <Box display="flex" justifyContent="center" alignItems="center">
-                            <Circle size="25px" bg="yellow.600">
-                              <Text fontWeight="bold" color="#fff" fontSize="0.6rem" pt="2px">
-                                {digitalSkillQuestionIndex + 1}
-                              </Text>
-                            </Circle>
-                            <Text
-                              textAlign="left"
-                              ml={2}
-                              pt="3px"
-                              fontWeight="600"
-                              fontSize={{ base: '0.85rem', sm: '0.9rem' }}
-                              fontFamily="Gilroy-Medium, sans-serif"
-                            >
-                              {digitalSkillQuestion.name}
-                            </Text>
-                          </Box>
-                          <AccordionIcon />
-                        </AccordionButton>
-                        <AccordionPanel p={1} pl={2}>
-                          <Box
-                            fontSize={{ base: '0.75rem', sm: '0.8rem' }}
-                            color="gray.600"
-                            fontStyle="italic"
-                            textAlign="justify"
-                            mb={3}
-                            dangerouslySetInnerHTML={{ __html: digitalSkillQuestion.desc }}
-                          />
-
-                          {digitalSkillQuestion?.digitalSkillQuestionAnswers?.map(
-                            (answer, index) => (
-                              <Box
-                                w="100%"
-                                p={2}
-                                key={answer.name}
-                                cursor="pointer"
-                                my="5px"
-                                border="1px solid"
-                                borderColor="gray.200"
-                                borderRadius="5px"
-                                fontSize={{ base: '0.8rem', sm: '0.9rem' }}
+        <>
+          <Accordion allowToggle>
+            {evaluationDigitalSkills?.map((digitalSkill, digitalSkillIndex) => (
+              <AccordionItem key={digitalSkill.name}>
+                <AccordionButton display="flex" justifyContent="space-between" py={0} px={1}>
+                  <Text
+                    textTransform="uppercase"
+                    fontSize={{ base: '1rem', sm: '1.15rem' }}
+                    color="blue.800"
+                    fontWeight="600"
+                    pt="5px"
+                    fontFamily="Gilroy-Medium, sans-serif"
+                    textAlign="left"
+                  >
+                    {digitalSkill.name} (
+                    {groupAnswerValues[digitalSkillIndex].filter((item) => !!item).length}/
+                    {digitalSkill?.digitalSkillQuestions?.length})
+                  </Text>
+                  <AccordionIcon />
+                </AccordionButton>
+                <AccordionPanel p={1}>
+                  <Box
+                    fontSize={{ base: '0.85rem', sm: '0.95rem' }}
+                    color="blue.800"
+                    textAlign="justify"
+                    mb={3}
+                    dangerouslySetInnerHTML={{ __html: digitalSkill.desc }}
+                  />
+                  <Accordion allowToggle>
+                    {digitalSkill?.digitalSkillQuestions.map(
+                      (digitalSkillQuestion, digitalSkillQuestionIndex) => (
+                        <AccordionItem key={digitalSkillQuestion.name}>
+                          <AccordionButton display="flex" justifyContent="space-between" p={1}>
+                            <Box display="flex" justifyContent="center" alignItems="center">
+                              <Circle size="25px" bg="yellow.600">
+                                <Text fontWeight="bold" color="#fff" fontSize="0.6rem" pt="2px">
+                                  {digitalSkillQuestionIndex + 1}
+                                </Text>
+                              </Circle>
+                              <Text
+                                textAlign="left"
+                                ml={2}
+                                pt="3px"
+                                fontWeight="600"
+                                fontSize={{ base: '0.85rem', sm: '0.9rem' }}
                                 fontFamily="Gilroy-Medium, sans-serif"
-                                _hover={{
-                                  transition: 'all .25s ease-in-out',
-                                  background: 'yellow.600',
-                                  color: 'white',
-                                }}
-                                color={
-                                  groupAnswerValues[digitalSkillIndex][
-                                    digitalSkillQuestionIndex
-                                  ] === answer.value
-                                    ? 'white'
-                                    : 'black'
-                                }
-                                bg={
-                                  groupAnswerValues[digitalSkillIndex][
-                                    digitalSkillQuestionIndex
-                                  ] === answer.value
-                                    ? 'yellow.600'
-                                    : 'white'
-                                }
-                                onClick={() =>
-                                  handleAnswer(
-                                    parseInt(answer.id, 10),
-                                    parseInt(digitalSkillQuestion.id, 10),
-                                    parseInt(digitalSkill.id, 10),
-                                    answer.value,
-                                    digitalSkillIndex,
-                                    digitalSkillQuestionIndex,
-                                  )
-                                }
-                                dangerouslySetInnerHTML={{ __html: answer.name }}
-                              />
-                            ),
-                          )}
-                        </AccordionPanel>
-                      </AccordionItem>
-                    ),
-                  )}
-                </Accordion>
-              </AccordionPanel>
-            </AccordionItem>
-          ))}
-        </Accordion>
+                              >
+                                {digitalSkillQuestion.name}
+                              </Text>
+                            </Box>
+                            <AccordionIcon />
+                          </AccordionButton>
+                          <AccordionPanel p={1} pl={2}>
+                            <Box
+                              fontSize={{ base: '0.75rem', sm: '0.8rem' }}
+                              color="gray.600"
+                              fontStyle="italic"
+                              textAlign="justify"
+                              mb={3}
+                              dangerouslySetInnerHTML={{ __html: digitalSkillQuestion.desc }}
+                            />
+
+                            {digitalSkillQuestion?.digitalSkillQuestionAnswers?.map(
+                              (answer, index) => (
+                                <Box
+                                  w="100%"
+                                  p={2}
+                                  key={answer.name}
+                                  cursor="pointer"
+                                  my="5px"
+                                  border="1px solid"
+                                  borderColor="gray.200"
+                                  borderRadius="5px"
+                                  fontSize={{ base: '0.8rem', sm: '0.9rem' }}
+                                  fontFamily="Gilroy-Medium, sans-serif"
+                                  _hover={{
+                                    transition: 'all .25s ease-in-out',
+                                    background: 'yellow.600',
+                                    color: 'white',
+                                  }}
+                                  color={
+                                    groupAnswerValues[digitalSkillIndex][
+                                      digitalSkillQuestionIndex
+                                    ] === answer.value
+                                      ? 'white'
+                                      : 'black'
+                                  }
+                                  bg={
+                                    groupAnswerValues[digitalSkillIndex][
+                                      digitalSkillQuestionIndex
+                                    ] === answer.value
+                                      ? 'yellow.600'
+                                      : 'white'
+                                  }
+                                  onClick={() =>
+                                    handleAnswer(
+                                      parseInt(answer.id, 10),
+                                      parseInt(digitalSkillQuestion.id, 10),
+                                      parseInt(digitalSkill.id, 10),
+                                      answer.value,
+                                      digitalSkillIndex,
+                                      digitalSkillQuestionIndex,
+                                    )
+                                  }
+                                  dangerouslySetInnerHTML={{ __html: answer.name }}
+                                />
+                              ),
+                            )}
+                          </AccordionPanel>
+                        </AccordionItem>
+                      ),
+                    )}
+                  </Accordion>
+                </AccordionPanel>
+              </AccordionItem>
+            ))}
+          </Accordion>
+          <EvaluationModal handleData={() => {}} isValidData={true} info={[]}>
+            <EvaluationChart
+              data={digitalSkillValues}
+              dataName={digitalSkillLabels}
+              chartType={EChartType.LINE}
+            />
+          </EvaluationModal>
+        </>
       ) : (
         <Box
           w={{ base: '100%' }}
-          minH="50vh"
+          minH="30vh"
           mx={{ base: 0, lg: '5px' }}
           display="flex"
           flexDirection="column"
           alignItems="center"
           justifyContent="center"
+          boxShadow={{ base: 'none', sm: 'xs' }}
         >
           <Accordion allowToggle index={verificationStep}>
             <AccordionItem isDisabled={hasVerificationCode}>
               <AccordionButton display="flex" justifyContent="space-between" p={1} cursor="auto">
-                <Box display="flex" alignItems="center" w={{ base: '100%', sm: '550px' }}>
+                <Box display="flex" alignItems="center" w={{ base: '100%', sm: '600px' }}>
                   <Circle size="35px" bg="yellow.600">
                     <Text fontWeight="bold" color="#fff" fontSize="0.75rem" pt="2px">
                       1
@@ -390,7 +420,7 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
 
             <AccordionItem isDisabled={!hasVerificationCode}>
               <AccordionButton display="flex" justifyContent="space-between" p={1} cursor="auto">
-                <Box display="flex" alignItems="center" w={{ base: '100%', sm: '550px' }}>
+                <Box display="flex" alignItems="center" w={{ base: '100%', sm: '600px' }}>
                   <Circle size="35px" bg="yellow.600">
                     <Text fontWeight="bold" color="#fff" fontSize="0.75rem" pt="2px">
                       2

@@ -31,6 +31,7 @@ export async function getEvaluationByPath(evaluationPath: string, locale: string
       evaluations(where: $where, locale: $locale) {
         id
         name
+        description
         type
         coverImage {
           url

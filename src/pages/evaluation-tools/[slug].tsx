@@ -37,6 +37,12 @@ const Evaluation = ({ evaluation, evaluationUrl }: Props) => {
         borderColor="gray.200"
       >
         <HeadingArticle heading={evaluation.name} />
+        <Box
+          className="content"
+          fontSize={{ base: '0.9rem', sm: '1rem' }}
+          mb="2em"
+          dangerouslySetInnerHTML={{ __html: evaluation.description }}
+        />
         {evaluation.type === EEvaluationType.FIXED && (
           <EvaluationFixedData evaluationQuestions={evaluation.evaluationQuestions} />
         )}
@@ -60,6 +66,7 @@ export const getServerSideProps = async ({ params, locale }: GetStaticPropsConte
   const path = params?.slug as string;
   const data = await getEvaluationByPath(path, locale);
   const evaluation = data.evaluations[0] as EvaluationType;
+  const description = await markdownToHtml(evaluation.description);
   let evaluationQuestions: EvaluationQuestionType[] = [];
   let evaluationDigitalSkills: EvaluationDigitalSkillType[] = [];
   if (evaluation?.evaluationQuestions?.length) {
@@ -96,6 +103,7 @@ export const getServerSideProps = async ({ params, locale }: GetStaticPropsConte
       evaluationUrl: `${process.env.NEXT_PUBLIC_EDUMATE_URL}/${path}`,
       evaluation: {
         ...evaluation,
+        description,
         evaluationQuestions,
         evaluationDigitalSkills,
         coverImage: getFormatImages(evaluation?.coverImage?.url),
