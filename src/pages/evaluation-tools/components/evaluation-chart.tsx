@@ -2,6 +2,7 @@ import { Bar, Line, PolarArea, Radar } from 'react-chartjs-2';
 import { Box } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { ChartTypes, EChartType } from '@/types/evaluation.type';
+import { zip } from 'lodash-es';
 
 type Props = {
   data: number[];
@@ -12,10 +13,12 @@ type Props = {
 
 const EvaluationChart = ({ chartType, data, dataName, dataColor }: Props) => {
   const [chartWidth, setChartWidth] = useState<number>(960);
+  const [legendPosition, setLegendPosition] = useState<string>('left');
 
   useEffect(() => {
     const windowInnerWidth = window.innerWidth;
     setChartWidth(windowInnerWidth > 960 ? 960 : windowInnerWidth * 0.95);
+    setLegendPosition(windowInnerWidth > 960 ? 'left' : 'top');
   }, []);
 
   const renderChart = () => {
@@ -143,8 +146,22 @@ const EvaluationChart = ({ chartType, data, dataName, dataColor }: Props) => {
           />
         );
       case EChartType.POLAR:
+        const valueLevels = data.map((item) => {
+          if (item < 37.5) {
+            return 'Cơ bản';
+          }
+          if (item < 62.5) {
+            return 'Khá tốt';
+          }
+          if (item < 87.5) {
+            return 'Tốt';
+          }
+          return 'Thành thạo';
+        });
+        const dataNameWithValues = zip(dataName, data).map((item) => item.join(' : '));
+        const labels = zip(dataNameWithValues, valueLevels).map((item) => item.join(' - '));
         const dataSet = {
-          labels: dataName,
+          labels: labels,
           datasets: [
             {
               label: 'Kết quả đánh giá',
@@ -160,9 +177,15 @@ const EvaluationChart = ({ chartType, data, dataName, dataColor }: Props) => {
             width={chartWidth}
             options={{
               ...defaultOption,
-              elements: {
-                line: {
-                  borderWidth: 3,
+              plugins: {
+                legend: {
+                  position: legendPosition,
+                  labels: {
+                    usePointStyle: true,
+                  },
+                },
+                tooltip: {
+                  enabled: false,
                 },
               },
               scale: {

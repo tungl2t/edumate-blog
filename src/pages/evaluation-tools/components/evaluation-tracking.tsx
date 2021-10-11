@@ -49,6 +49,7 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
   const [verificationButtonLabel, setVerificationButtonLabel] = useState<string>('Xác nhận');
   const [isDisabledVerificationButton, setIsDisabledVerificationButton] = useState<boolean>(false);
   const [numberOfAttempt, setNumberOfAttempt] = useState(0);
+  const [isValidData, setIsValidData] = useState(false);
 
   useEffect(() => {
     const apiKey = Cookies.get(X_API_KEY);
@@ -99,6 +100,7 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
         Math.floor((sum(item) / (item.length * 4)) * 100),
       );
       setDigitalSkillValues(digitalSkillCurrentValues);
+      setIsValidData(!digitalSkillCurrentValues.some((value) => value < 25));
     }
   }, [groupAnswerValues]);
 
@@ -372,8 +374,8 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
           </Accordion>
           <EvaluationModal
             handleData={() => {}}
-            isValidData={true}
-            info={[]}
+            isValidData={isValidData}
+            info={['Các mức đánh giá:', 'Cơ bản, Khá tốt, Tốt, Thành thạo']}
             buttonLabel={'Xem kết quả'}
           >
             <EvaluationChart

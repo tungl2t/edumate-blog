@@ -90,7 +90,7 @@ const EvaluationModal = ({ isValidData, handleData, children, info, buttonLabel 
             <Box ref={ref}>
               <Box ml={5} mt="10px">
                 {info.map((i) => (
-                  <Text fontSize={{ base: '0.95em', sm: '1em' }} color="gray.600" key={i}>
+                  <Text fontSize={{ base: '0.8em', sm: '0.85em' }} color="gray.600" key={i}>
                     {i}
                   </Text>
                 ))}
