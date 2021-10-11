@@ -22,14 +22,14 @@ import EvaluationChart from './evaluation-chart';
 import { EChartType } from '@/types/evaluation.type';
 import EvaluationModal from './evaluation-modal';
 
-const ACCESS_TOKEN = 'access_token';
+const X_API_KEY = 'x-api-key';
 
 type Props = {
   evaluationId: number;
   evaluationDigitalSkills: EvaluationDigitalSkillType[];
 };
 const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) => {
-  const [token, setToken] = useState<string | undefined>('');
+  const [xAPIKey, setXAPIKey] = useState<string | undefined>('');
   const [email, setEmail] = useState<string>('');
   const [userEvaluationId, setUserEvaluationId] = useState<number | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);
@@ -48,8 +48,8 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
   const [digitalSkillDataColors, setDigitalSkillDataColors] = useState<Array<string>>([]);
 
   useEffect(() => {
-    const token = Cookies.get(ACCESS_TOKEN);
-    setToken(token);
+    const apiKey = Cookies.get(X_API_KEY);
+    setXAPIKey(apiKey);
     const initialGroupAnswerData = evaluationDigitalSkills.map((digitalSkill) =>
       digitalSkill.digitalSkillQuestions.map((question) => 0),
     );
@@ -100,10 +100,10 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
   }, [groupAnswerValues]);
 
   useEffect(() => {
-    if (token && evaluationId) {
+    if (xAPIKey && evaluationId) {
       const fetchData = async () => {
         try {
-          const data = (await findByEvaluationId(token, evaluationId)) as Array<{
+          const data = (await findByEvaluationId(xAPIKey, evaluationId)) as Array<{
             digitalSkillId: number;
             evaluationAnswerId: number;
             evaluationQuestionId: number;
@@ -130,7 +130,7 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
       };
       fetchData();
     }
-  }, [token, evaluationId]);
+  }, [xAPIKey, evaluationId]);
 
   useEffect(() => {
     if (email) {
@@ -146,12 +146,12 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
     digitalSkillIndex: number,
     digitalSkillQuestionIndex: number,
   ) => {
-    if (!token) {
+    if (!xAPIKey) {
       return;
     }
     try {
       await createUserEvaluationTracking(
-        token,
+        xAPIKey,
         evaluationId,
         digitalSkillId,
         digitalSkillQuestionId,
@@ -169,8 +169,8 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
   };
 
   const removeUserState = () => {
-    Cookies.remove(ACCESS_TOKEN);
-    setToken('');
+    Cookies.remove(X_API_KEY);
+    setXAPIKey('');
     setEmail('');
     setVerificationCode('');
     setHasVerificationCode(false);
@@ -220,8 +220,8 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
       setIsLoading(true);
       const data = (await verifyVerificationCode(userEvaluationId, intVerificationCode)) as any;
       const { accessToken, userInfo } = data;
-      Cookies.set(ACCESS_TOKEN, accessToken, { expires: 1 });
-      setToken(accessToken);
+      Cookies.set(X_API_KEY, accessToken, { expires: 1 });
+      setXAPIKey(accessToken);
     } catch (e) {
       console.log(e);
     } finally {
@@ -236,7 +236,7 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
 
   return (
     <>
-      {token ? (
+      {xAPIKey ? (
         <>
           <Accordion allowToggle>
             {evaluationDigitalSkills?.map((digitalSkill, digitalSkillIndex) => (

@@ -13,7 +13,7 @@ export const findByEvaluationId = async (accessToken: string, evaluationId: numb
 };
 
 export const createUserEvaluationTracking = async (
-  accessToken: string,
+  xAPIKey: string,
   evaluationId: number,
   digitalSkillId: number,
   evaluationQuestionId: number,
@@ -29,7 +29,7 @@ export const createUserEvaluationTracking = async (
     },
     {
       headers: {
-        access_token: accessToken,
+        'x-api-key': xAPIKey,
       },
     },
   );
