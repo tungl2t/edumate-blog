@@ -476,7 +476,10 @@ const EvaluationTracking = ({ evaluationId, evaluationDigitalSkills }: Props) =>
                     fontSize={{ base: '0.9rem', sm: '1rem' }}
                     fontFamily="Gilroy-Medium, sans-serif"
                   >
-                    Vui lòng nhập mã xác nhận được gửi đến địa chỉ email của bạn
+                    Vui lòng nhập mã xác nhận được gửi đến địa chỉ email của bạn từ hòm thư{' '}
+                    <a href={`mailto: info@edumate.vn`} rel="noreferrer">
+                      info@edumate.vn
+                    </a>
                   </Text>
                 </Box>
               </AccordionButton>
