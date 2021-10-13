@@ -42,10 +42,10 @@ export const getServerSideProps = async ({ locale }: GetStaticPropsContext) => {
     props: {
       evaluations: await Promise.all(
         evaluations.map(async (evaluation: EvaluationType) => {
-          const description = await markdownToHtml(evaluation.description);
+          const excerpt = await markdownToHtml(evaluation.excerpt);
           return {
             ...evaluation,
-            description,
+            excerpt,
             coverImage: getFormatImages(evaluation?.coverImage?.url),
           };
         }),
