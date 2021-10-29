@@ -4,6 +4,7 @@ type CompanyType = {
   name: string;
   businessId: string;
   address: string;
+  addressMapLink: string;
   city: string;
   country: string;
   phone: string;

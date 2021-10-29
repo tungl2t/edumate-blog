@@ -6,6 +6,7 @@ export async function getCompaniesByType(locale: string, companyType: string) {
     query Companies($locale: String, $where: JSON){
       companies(sort: "id:asc", locale: $locale, where: $where) {
         address
+        addressMapLink
         facebook
         linkedIn
         email

@@ -177,7 +177,7 @@ const Footer = () => {
             justifyContent="space-between"
             p={{ base: '10px', lg: 0 }}
           >
-            <a href="https://goo.gl/maps/BhGWXs9DXQKHfyuk6" rel="noreferrer" target="_blank">
+            <a href={companyInfo.addressMapLink} rel="noreferrer" target="_blank">
               <Icon as={GoLocation} mr="0.5em" w={5} h={5} />
               <Text>{companyInfo.address}</Text>
             </a>
