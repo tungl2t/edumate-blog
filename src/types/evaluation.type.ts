@@ -6,6 +6,7 @@ import { FormatImages } from './shared';
 type EvaluationType = {
   id: number;
   name: string;
+  excerpt: string;
   description: string;
   coverImage: FormatImages;
   slug: string;

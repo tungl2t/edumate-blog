@@ -8,7 +8,7 @@ export async function getEvaluations(locale: string | undefined) {
         name
         evaluationPath
         slug
-        description
+        excerpt
         coverImage {
           url
         }
