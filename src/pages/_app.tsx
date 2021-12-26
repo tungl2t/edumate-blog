@@ -7,10 +7,13 @@ import { ChakraProvider, Progress } from '@chakra-ui/react';
 import smoothScroll from 'smoothscroll-polyfill';
 
 import Header from '@/components/header';
-import '../styles/globals.sass';
-import theme from '../theme';
 import Footer from '@/components/footer';
 import ScrollToTop from '@/components/scroll-to-top';
+import '../styles/globals.sass';
+import theme from '../theme';
+import * as gtag from '../lib/gtag';
+
+const isProduction = process.env.NODE_ENV === 'production';
 
 interface MyProps extends AppProps {
   messages: any;
@@ -21,15 +24,21 @@ const EdumateApp = ({ Component, pageProps, messages }: MyProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    const handleRouteChange = (url: URL) => {
+      /* invoke analytics function only for production */
+      if (isProduction) gtag.pageView(url);
+      setIsLoading(false);
+    };
+
     if (typeof window !== 'undefined') {
       smoothScroll.polyfill();
     }
     router.events.on('routeChangeStart', () => setIsLoading(true));
-    router.events.on('routeChangeComplete', () => setIsLoading(false));
+    router.events.on('routeChangeComplete', handleRouteChange);
 
     return () => {
       router.events.off('routeChangeStart', () => setIsLoading(false));
-      router.events.off('routeChangeComplete', () => setIsLoading(false));
+      router.events.off('routeChangeComplete', handleRouteChange);
     };
   }, [router.events]);
 
